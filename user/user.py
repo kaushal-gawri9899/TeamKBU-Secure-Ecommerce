@@ -83,10 +83,11 @@ Access Token is used for authorizatioton in other methods
 Error handling for empty strings could be added using a simple if conditions but skipped for now
 As suggested in specification, login details are taken as json string
 """
-@user_bp.route("/login", methods=["POST","GET"])
+@user_bp.route("/", methods=["POST","GET"])
 def login():
     if request.method == 'POST':
         try:
+            print(request.form)
             # _json = request.json
             user_email = request.form["email"]
             user_password = request.form["password"]
