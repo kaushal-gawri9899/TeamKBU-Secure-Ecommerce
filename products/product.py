@@ -1,12 +1,12 @@
 """
 Importing the necessary Libraries
 """
-from flask import Flask
+from flask import Flask, render_template
 from flask import Blueprint
 import bcrypt
 from flask_pymongo import PyMongo
-
-from bson.json_util import dumps
+import json
+from bson.json_util import dumps, loads
 
 import bson.errors
 
@@ -106,7 +106,14 @@ A json string containing all the product details is returned
 def getAllItems():
     allItems = config.items.find()
     results = dumps(allItems)
-    return results
+    # print(results[0]['category'])
+    res = json.loads(results)
+    print(type(res))
+    print(res)
+    print(res[0]['category'])
+    numberOfelements = len(res)
+
+    return render_template("products.html", items=res, numberOfelements=numberOfelements )
 
 """
 See Details of Given Product Route : Returns a json string containing details of given product based on product ID
