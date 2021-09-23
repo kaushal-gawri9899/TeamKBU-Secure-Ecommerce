@@ -110,10 +110,12 @@ def getAllItems():
     res = json.loads(results)
     print(type(res))
     print(res)
-    print(res[0]['category'])
+    print(type(res[0]['product_image']))
     numberOfelements = len(res)
+    firstImage = str(res[0]['product_image'])
+    print(firstImage)
 
-    return render_template("products.html", items=res, numberOfelements=numberOfelements )
+    return render_template("product_catalog.html", items=res, numberOfelements=numberOfelements, img=firstImage )
 
 """
 See Details of Given Product Route : Returns a json string containing details of given product based on product ID

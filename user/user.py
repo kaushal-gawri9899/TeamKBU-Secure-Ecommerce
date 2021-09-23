@@ -11,7 +11,7 @@ from bson.json_util import dumps
 
 from bson.objectid import ObjectId
 
-from flask import jsonify, request, render_template
+from flask import jsonify, request, render_template, redirect, url_for
 
 from pymongo import MongoClient
 
@@ -99,7 +99,7 @@ def login():
                     if bcrypt.hashpw(user_password.encode('utf-8'), current_user["password"]) == current_user["password"]:
                         user_access_token = create_access_token(identity=user_email)
                         print(user_access_token)
-                        return render_template("logged_in.html")
+                        return redirect(url_for('product_bp.getAllItems'))
                         # return jsonify(message="Voila! User Successfully Logged In.", access_token=user_access_token, flag=True), 200
             else:
                 return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404

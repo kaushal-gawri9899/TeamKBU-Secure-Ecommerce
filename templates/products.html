@@ -1,52 +1,114 @@
 <h1>All Products</h1>
 <style>
-    body{margin-top:20px;}
-.cart-item-thumb {
-    display: block;
-    width: 10rem
+.card:hover {
+    border-color: #999;
+    box-shadow: 1px 2px #999;
 }
 
-.cart-item-thumb>img {
-    display: block;
-    width: 100%
+.card {
+    margin-bottom: 1em;
 }
 
-.product-card-title>a {
+.price {
+    color: seagreen;
+    font-weight: bold;    
+}
+
+.price:before {
+    content: '$';
+}
+
+.shirt {
+    margin-bottom: 10px;
+    width: 200px;
+}
+
+.stepper-input{
+    display: flex;
+    display: -webkit-flex;
     color: #222;
+    max-width: 120px;
+    margin: 10px auto;
+    text-align: center;
 }
 
-.font-weight-semibold {
-    font-weight: 600 !important;
+header {
+    margin-bottom: 50px;
 }
 
-.product-card-title {
-    display: block;
-    margin-bottom: .75rem;
-    padding-bottom: .875rem;
-    border-bottom: 1px dashed #e2e2e2;
-    font-size: 1rem;
-    font-weight: normal;
+.shirtCart {
+    width: 25px;
 }
 
-.text-muted {
-    color: #888 !important;
+.add {
+    text-transform: uppercase;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: white;
 }
 
-.bg-secondary {
-    background-color: #f7f7f7 !important;
-}
-
-.accordion .accordion-heading {
-    margin-bottom: 0;
-    font-size: 1rem;
+.checkout {
+    text-transform: uppercase;
+    font-size: 0.8em;
     font-weight: bold;
 }
-.font-weight-semibold {
-    font-weight: 600 !important;
+
+.add:hover {
+    background-color: deepskyblue;
+    border-color: deepskyblue;
 }
-.image{
-  height: 240px;
-  width: 240px;
+
+tr {
+    text-align: center;
+}
+
+.modal-header {
+    border-bottom: 0px;
+}
+
+.counter {
+    font-size: 0.6em;
+    margin-left: 1em;
+    font-weight: bold;
+}
+
+
+.increment,
+.decrement{
+        height: 24px;
+        width: 24px;
+        border: 1px solid #222;
+        text-align: center;
+        box-sizing: border-box;
+        border-radius: 50%;
+        text-decoration: none;
+        color: #222;
+        font-size: 24px;
+        line-height: 22px;
+        display: inline-block;
+        cursor: pointer;             
+    }
+
+.decrement:hover, 
+.increment:hover {
+    color: green;  
+}
+
+.decrement:active, 
+.increment:active {    
+    background-color: green; 
+    color: white;  
+}
+
+
+.quantity{
+        height: 24px;
+        width: 48px;
+        text-align: center;
+        margin: 0 12px;
+        border-radius: 2px;
+        border: 1px solid #222;
+        
 }
 </style>
 {% for i in range(numberOfelements) %}
@@ -55,9 +117,10 @@
     <div class="row">
         <div class="col-xl-9 col-md-8">
             <!-- Item-->
+
             <div class="d-sm-flex justify-content-between my-4 pb-4 border-bottom">
                 <div class="media d-block d-sm-flex text-center text-sm-left">
-                    <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><div class="image"><img src="{{url_for('static', filename='testing')}}" alt="Product"></div></a>
+                    <a class="cart-item-thumb mx-auto mr-sm-4" href="/"><div class="image"><img src="{{url_for('static',filename='/img/'+items[i]['product_image'])}}" alt="Product"></div></a>
                     <div class="media-body pt-3">
                         <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a href="#">{{ items[i]['model'] }}</a></h3>
                         <div class="font-size-sm"><span class="text-muted mr-2">Model:</span>{{ items[i]['category'] }}</div>
