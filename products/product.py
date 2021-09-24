@@ -130,7 +130,9 @@ def getItemDetails(pid):
             return jsonify(message="Invalid ID provided", flag=False), 404
 
         result = dumps(item)
-        return render_template("logged_in.html")
+        res = json.loads(result)
+        print(res)
+        return render_template("product_details.html", item=res)
     
     except (ex.BadRequestKeyError, KeyError):
         return internal_error()
