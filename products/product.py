@@ -111,11 +111,12 @@ def getAllItems():
     print(type(res))
     print(res)
     print(type(res[0]['product_image']))
+    print(res[0]['_id']['$oid'])
     numberOfelements = len(res)
     firstImage = str(res[0]['product_image'])
     print(firstImage)
 
-    return render_template("product_catalog.html", items=res, numberOfelements=numberOfelements, img=firstImage )
+    return render_template("new.html", items=res, numberOfelements=numberOfelements, img=firstImage )
 
 """
 See Details of Given Product Route : Returns a json string containing details of given product based on product ID
@@ -129,7 +130,7 @@ def getItemDetails(pid):
             return jsonify(message="Invalid ID provided", flag=False), 404
 
         result = dumps(item)
-        return result
+        return render_template("logged_in.html")
     
     except (ex.BadRequestKeyError, KeyError):
         return internal_error()
