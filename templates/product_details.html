@@ -66,14 +66,41 @@
                 <hr />
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <button href="javascript:void(0);" class="btn btn-success btn-lg">Add to cart</button>
+                        <button type="submit" id="submitButton" class="btn btn-success btn-lg">Add to cart</button>
                     </div>
-                    
+                    <input id="user_id" type="hidden" value="{{ item['_id']['$oid'] }}"/>
+
+                    <input id="firstName" type="hidden" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzMjU4NjUxMywianRpIjoiZmIzNWJjNTktMzg1NC00OTcwLWFjZDYtYmQ2NDNjMjI5MjhiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFsaV90YXJpcTE5MTFASG90bWFpbC5jb20iLCJuYmYiOjE2MzI1ODY1MTMsImV4cCI6MTYzMjU4NzQxM30.lqWVB9v-T3lrUQyP2NWzCQ0rvJ2thFqE_H2dmzoqkUE"/>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    console.log($('#user_id').val())
+    
+    $('#submitButton').on('click',function(){
+    const url = "http://localhost:5000/addToCart/" + $('#user_id').val();
+    $.ajax({
+          url: "http://localhost:5000/addToCart/" + $('#user_id').val(),
+          type: 'POST',
+          data: { 
+                  firstName: $('#firstName').val(),
+                  lastName: $('#lastName').val()
+                },
+          contentType: 'application/json',
+          headers: {
+                    "Authorization": "Bearer " + $('#firstName').val()
+                 },
+          async: false,
+          success: function(response){
+            console.log("success");
+            window.location.href = "http://localhost:5000/cart";
+        }
+            })
+    
+});
+</script>
 
 
 

@@ -1,7 +1,7 @@
 """
 Importing the necessary Libraries
 """
-from flask import Flask
+from flask import Flask, render_template, redirect, url_for
 from flask import Blueprint
 import bcrypt
 from flask_pymongo import PyMongo
@@ -36,7 +36,8 @@ Dictionary is then added to the "items" collection
 Returns a success message
 A decorator is added to add security for the current method, user with only access token provided during login can perform operation
 """
-@cart_bp.route("/addToCart/<oid>", methods=["POST"])
+# TODO ADD SESSION ID, SO IT COULD BE SENT FROM FRONTEND
+@cart_bp.route("/addToCart/<oid>", methods=["POST","GET"])
 @jwt_required()
 def addCart(oid):
     try:
@@ -51,14 +52,19 @@ def addCart(oid):
         price =  data["price"]
         quantity = "2"
         # quantity = request.form['quantity']
-        user_id = "session_id"
-        user_name = "name"
+        user_id = "mickeymouse"
+        user_name = "ali_tariq1911@Hotmail.com"
 
         item_data = dict(category=category, brand=brand, model=model, price=price, quantity=quantity, user_id=user_id, user_name=user_name)
         config.cart.insert_one(item_data)
+        print("DONE")
+        print("hougya")
+        return redirect(url_for('cart_bp.Heello'))
+        # return render_template("logged_in.html")
         return jsonify(message="Item Added Successfully", flag=True), 201
 
     except (ex.BadRequestKeyError, KeyError):
+        print("Hello")
         return internal_error()
     
 @cart_bp.route("/editCart/<oid>", methods=["POST"])
@@ -95,3 +101,16 @@ def deleteCart(oid):
 
     except (ex.BadRequestKeyError, KeyError):
         return internal_error()
+
+@cart_bp.route("/cart", methods=["POST","GET"])
+def getCartDetails():
+
+    data = config.cart.find({ "user_name": "ali_tariq1911@Hotmail.com"})
+    print(data)
+    filter = data
+    result = dumps(data)
+    res = json.loads(result)
+    numberOfelements = len(res)
+    print(res)
+
+    return render_template("cart.html", items=res, numberOfelements=numberOfelements)
