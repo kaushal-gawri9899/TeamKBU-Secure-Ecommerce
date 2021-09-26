@@ -87,10 +87,14 @@ As suggested in specification, login details are taken as json string
 def login():
     if request.method == 'POST':
         try:
-            print(request.form)
-            # _json = request.json
+            # data = request.get_json()
+            # print(data['firstName'], "firstName")
+            # print(request.form, "aaaaa")
+            _json = request.json
             user_email = request.form["email"]
             user_password = request.form["password"]
+            user_token = request.form["token"]
+            print(user_token, "OUR TOKEN IS HERE")
 
             current_user = config.zhiffy.find_one({'email': user_email})
         
@@ -98,7 +102,8 @@ def login():
                 if current_user:
                     if bcrypt.hashpw(user_password.encode('utf-8'), current_user["password"]) == current_user["password"]:
                         user_access_token = create_access_token(identity=user_email)
-                        print(user_access_token)
+                        # print(user_access_token)
+                       
                         return redirect(url_for('product_bp.getAllItems'))
                         # return jsonify(message="Voila! User Successfully Logged In.", access_token=user_access_token, flag=True), 200
             else:

@@ -37,13 +37,160 @@
     <form action="/" method="post">
         <h2 class="text-center">Log in</h2>       
         <div class="form-group">
-            <input type="email" class="form-control" placeholder="Email" name="email" required="required">
+            <input id="email" type="email" class="form-control" placeholder="Email" name="email" required="required">
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" placeholder="Password" name="password" required="required">
+            <input id="password" type="password" class="form-control" placeholder="Password" name="password" required="required">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+            <input type="hidden" id="hello" class="form-control" placeholder="Password" name="token" value="apple" required="required">
+        </div>
+        <script  src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js">
+        </script>
+        <script type=text/javascript>
+
+
+
+            function base64url(source) {
+            
+              // Encode in classical base64
+            
+              encodedSource = CryptoJS.enc.Base64.stringify(source);
+            
+            
+            
+              // Remove padding equal characters
+            
+              encodedSource = encodedSource.replace(/=+$/, '');
+            
+            
+            
+              // Replace characters according to base64url specifications
+            
+              encodedSource = encodedSource.replace(/\+/g, '-');
+            
+              encodedSource = encodedSource.replace(/\//g, '_');
+            
+            
+            
+              return encodedSource;
+            
+            }
+            
+            function CreateToken(){
+            
+            
+            
+            console.log("Hello");
+            
+            var header = {
+            
+            "alg": "HS256",
+            
+            "typ": "JWT"
+            
+            };
+            
+            
+            
+            var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+            
+            var encodedHeader = base64url(stringifiedHeader);
+            
+            
+            
+            var data = {
+            
+            "email": $('#email').val(),
+            
+            "password": $('#password').val()
+            
+            };
+            
+            
+            
+            var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+            
+            var encodedData = base64url(stringifiedData);
+            
+            
+            
+            // var tok = document.getElementById('token');
+            
+            // tok.value = "prabhav";
+            
+            
+            
+            
+            var token = encodedHeader + "." + encodedData;
+            
+            console.log($('#hello').val());
+            
+            document.getElementById('hello').value = token;
+            console.log($('#hello').val());
+            
+            // document.write(token);
+            
+            // console.log(token);
+            
+            }
+            
+            </script>
+        <!-- <script>
+            
+            function mango(){
+                console.log("Hello");
+
+                var header = {
+
+                    "alg": "HS256",
+
+                    "typ": "JWT"
+
+                };
+
+
+
+            var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+
+            var encodedHeader = base64url(stringifiedHeader);
+
+
+
+            var data = {
+
+                "email": $('#email').val(),
+
+                "password": $('#password').val()
+
+            };
+
+
+
+            var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+
+            var encodedData = base64url(stringifiedData);
+            
+            console.log("line84");
+
+
+                var token = encodedHeader + "." + encodedData;
+
+                // var val = "HelloWorld";
+
+                // document.getElementById("token").innerHTML = token;
+
+                // console.log(token);
+
+
+                console.log($('#hello').val());
+                var test = "test";
+                document.getElementById("hello").value = token;
+                console.log($('#hello').val());
+            }
+        </script> -->
+        <div class="form-group">
+            <button id="submitButton" type="submit" onclick="CreateToken()" class="btn btn-primary btn-block">Log in</button>
         </div>
         <div class="clearfix">
         </div>        
@@ -51,6 +198,7 @@
     <p class="text-center"><a href="register">Create an Account</a></p>
 </div>
 </body>
+
 </html>                                		
 <!-- <form action="/login" method="post">
     <div class="container">
