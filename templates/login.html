@@ -60,7 +60,9 @@
             <div class="form-group">
                 <input id="encrypted" type="hidden" name="encrypted">
             </div>
-
+            <div class="form-group">
+                <input id="decrypted" type="hidden" name="decrypted">
+            </div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
             <script src="../static/js/rsa.js"></script>
 
@@ -81,45 +83,49 @@
         }
         function CreateToken(){
         
-        console.log("Hello");
-        var header = {
-        "alg": "HS256",
-        "typ": "JWT"
-        };
+            console.log("Hello");
+            var header = {
+            "alg": "HS256",
+            "typ": "JWT"
+            };
+            
+            var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+            var encodedHeader = base64url(stringifiedHeader);
         
-        var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
-        var encodedHeader = base64url(stringifiedHeader);
+            var data = {
+            "email": $('#email').val(),
+            "password": $('#password').val()
+            };
+            
+            var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+            var encodedData = base64url(stringifiedData);
         
-        var data = {
-        "email": $('#email').val(),
-        "password": $('#password').val()
-        };
+       
         
-        var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
-        var encodedData = base64url(stringifiedData);
-        
-        // var tok = document.getElementById('token');
-        // tok.value = "prabhav";
-        
-        
-        var token = encodedHeader + "." + encodedData;
-        
-        document.getElementById('token').value = token;
- 
-        console.log(token);
+            var token = encodedHeader + "." + encodedData;
+            
+            document.getElementById('token').value = token;
+    
+            console.log(token);
 
-        // RSA_encryption();
-      //  var plaintext = document.getElementById("token").value; 
-                        var pubilc_key = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzdxaei6bt/xIAhYsdFdW62CGTpRX+GXoZkzqvbf5oOxw4wKENjFX7LsqZXxdFfoRxEwH90zZHLHgsNFzXe3JqiRabIDcNZmKS2F0A7+Mwrx6K2fZ5b7E2fSLFbC7FsvL22mN0KNAp35tdADpl4lKqNFuF7NT22ZBp/X3ncod8cDvMb9tl0hiQ1hJv0H8My/31w+F+Cdat/9Ja5d1ztOOYIx1mZ2FD2m2M33/BgGY/BusUKqSk9W91Eh99+tHS5oTvE8CI8g7pvhQteqmVgBbJOa73eQhZfOQJ0aWQ5m2i0NUPcmwvGDzURXTKW+72UKDz671bE7YAch2H+U7UQeawwIDAQAB-----END PUBLIC KEY-----";
-                        
-                      // var public_key = "-----BEGIN PUBLIC KEY-----ABC-----END PUBLIC KEY-----"
-                        var encrypt = new JSEncrypt();
-                        encrypt.setPublicKey(pubilc_key);
-                        var encrypted = encrypt.encrypt(token);
-                        console.log(encrypted);
-                        document.getElementById("encrypted").value = encrypted;
+        
+                var pubilc_key = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB7X1cyesSJ8ddILamicBhkjNMOjffLHK+zfEIIL06Kg1sy4bJRMv99tLv9V00KJM2iIitrD4yQxgxcYBUgZxWlt5qMVs2v5doCV4PVrL3wBMV1Ys7CpZ5QhyWNrtKXMTVSbVDhRIPvhwLqdR3HAVX/v3ESeoOE3ekx7d2W7I0FiV/xXm7kBRz92/NQLX6qrNQQj/RAn4J/5+apKqXnHkMxtwtQV67lZhrVNjenKTWC2YKcldRGgqHopw8UltlKtMfWXmU20/hFraDDhH2BaLyLp1ZiqZnsm6IXRyOIiPWUNFTpOSqWzBor7ZD89cCT8v9ahlZi6ZpeH96Zsz7fw/FtAgMBAAE=-----END PUBLIC KEY-----";
+                
+                // var public_key = "-----BEGIN PUBLIC KEY-----ABC-----END PUBLIC KEY-----"
+                var encrypt = new JSEncrypt();
+                encrypt.setPublicKey(pubilc_key);
+                var encrypted = encrypt.encrypt(token);
+                console.log(encrypted);
+                document.getElementById("encrypted").value = encrypted;
 
-        }
+                var private_key = "-----BEGIN RSA PRIVATE KEY-----MIIEowIBAAKCAQB7X1cyesSJ8ddILamicBhkjNMOjffLHK+zfEIIL06Kg1sy4bJRMv99tLv9V00KJM2iIitrD4yQxgxcYBUgZxWlt5qMVs2v5doCV4PVrL3wBMV1Ys7CpZ5QhyWNrtKXMTVSbVDhRIPvhwLqdR3HAVX/v3ESeoOE3ekx7d2W7I0FiV/xXm7kBRz92/NQLX6qrNQQj/RAn4J/5+apKqXnHkMxtwtQV67lZhrVNjenKTWC2YKcldRGgqHopw8UltlKtMfWXmU20/hFraDDhH2BaLyLp1ZiqZnsm6IXRyOIiPWUNFTpOSqWzBor7ZD89cCT8v9ahlZi6ZpeH96Zsz7fw/FtAgMBAAECggEAacAfjjWNonCaiFQbxBEx136eqysl7AR61u776ugh+rj9w2+S2edM+QOi4FWkw70oRoHjlbGOW8pnbgcuFMhH1fS7lPAS/2OWq8s4Rj/7z3FHkIdRk6dDPOObXQctnEuh2TW6zl1cekTQSwh4rcyHWuFOmvhJI+rTqOiruGKrvsH2cKfGfS9QvKNscdeU4dOsbKSViL5ztSoHfQKVjgMXqVZ1RXHoo9zjtunXONeDA0N9eVjCRjbd5eDy9VPmMba/x2YChevwesSp5RO38XCiMFR35lDzdAjy1ELD2uphyUYxyOZc+kcNYrqzZgsSkZZvuQzhNFLe714gSy288D2CAQKBgQDpL0jaePRyZA2QR38WSJBuZ2JN1kwwc7hlJd9BO65jKfX5+9C6dDDjfPbSAzfLMVtMKyJ0n5Ht0E2rj0YDCv0v196IHrV2QUvhpa/zSagvKxg6RB+bu1fRr5QAXd3q1J+v8hatRd7cscjRj4oX5DCmshuxntMuvOOVkIV3Zjaf9QKBgQCHcYXVlJl2RGfBgY3I4MvDNSsD5yK0BvIzY+VNaFEnEIMrmQiH/kVLq5lhi4XQRoa9fmaiOhyBggGiIAHkS7BeU+2NtbFTr7Sg0B13me2GAi2o3dMCCL3Edb8hkrlZHSpb1klTY0hY68d2lU+xmOVpbiyMHZtmcVg2eS7oqOX4mQKBgQCIaZwCCs5d+QAiTmEfZRXxMFPG2z24/ol5ypz/aW2MH2kBc/nYic5r1pgBpdZG7TnOplFCznKtH7XATlGTyCLzkSJimSxo4KwGdkonVgioh1pmA6JGFWO7jC5VxJPlI7vDTylK9lv42Zx0U7diYKDBc+JVl2dNqTyuK1yYy9fa3QKBgG1xUc+PT6G9DInUAZl766pE4Ak7T1Ng+XyFD9hInqqOMS+dbMNWtu+6LSog73OoSV/9LzmO81HCl0dFzcGHV3AhKScE1dDlfXMkN2tZOhC62eJFvCc8oPqKmnKqeJKFeqDSulVjOCaB/p7Xb5n2DgnvOJfPpK5WkA0URs9BCvKhAoGBAKhnDozKllg9CW4fL+ciTbkvdlD/PU2QgDf4YRKM/lZZPTX4kO0yQGM4bepwezi6vHwOIyz9bU5dx77a8Cepk+Xnf1izRYJjfVC0lkWpsOpdw9DhCXQiVA3IHv6IaPh/6MUgYHwEbzdGzDQY2qLJ7tCuZ4Za2bsTWnLMIL/vwn18-----END RSA PRIVATE KEY-----";
+                var decrypt = new JSEncrypt();
+                decrypt.setPrivateKey(private_key);
+                console.log(decrypt.getPrivateKey());
+                var decrypted = decrypt.decrypt(encrypted);
+                console.log(decrypted);
+                document.getElementById("decrypted").value = decrypted;
+    }
 
         </script>
             <div class="form-group">
