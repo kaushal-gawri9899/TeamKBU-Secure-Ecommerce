@@ -1,221 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bootstrap Simple Login Form</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-<style>
-	.login-form {
-		width: 340px;
-    	margin: 50px auto;
-	}
-    .login-form form {
-    	margin-bottom: 15px;
-        background: #f7f7f7;
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-        padding: 30px;
-    }
-    .login-form h2 {
-        margin: 0 0 15px;
-    }
-    .form-control, .btn {
-        min-height: 38px;
-        border-radius: 2px;
-    }
-    .btn {        
-        font-size: 15px;
-        font-weight: bold;
-    }
-</style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Simple Login Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .login-form {
+            width: 340px;
+            margin: 50px auto;
+        }
+
+        .login-form form {
+            margin-bottom: 15px;
+            background: #f7f7f7;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        .login-form h2 {
+            margin: 0 0 15px;
+        }
+
+        .form-control,
+        .btn {
+            min-height: 38px;
+            border-radius: 2px;
+        }
+
+        .btn {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
-<div class="login-form">
-    <form action="/" method="post">
-        <h2 class="text-center">Log in</h2>       
-        <div class="form-group">
-            <input id="email" type="email" class="form-control" placeholder="Email" name="email" required="required">
-        </div>
-        <div class="form-group">
-            <input id="password" type="password" class="form-control" placeholder="Password" name="password" required="required">
-        </div>
-        <div class="form-group">
-            <input type="hidden" id="hello" class="form-control" placeholder="Password" name="token" value="apple" required="required">
-        </div>
-        <script  src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js">
+    <div class="login-form">
+        <form action="/" method="post">
+
+
+            <h2 class="text-center">Log in</h2>
+            <div class="form-group">
+                <input id="email" type="email" class="form-control" placeholder="Email" name="email"
+                    required="required">
+            </div>
+            <div class="form-group">
+                <input id="password" type="password" class="form-control" placeholder="Password" name="password"
+                    required="required">
+            </div>
+
+            <div class="form-group">
+                <input id="token" type="hidden" name="token">
+            </div>
+            <div class="form-group">
+                <input id="encrypted" type="hidden" name="encrypted">
+            </div>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
+            <script src="../static/js/rsa.js"></script>
+
+            <script type=text/javascript>
+
+        function base64url(source) {
+          // Encode in classical base64
+          encodedSource = CryptoJS.enc.Base64.stringify(source);
+        
+          // Remove padding equal characters
+          encodedSource = encodedSource.replace(/=+$/, '');
+        
+          // Replace characters according to base64url specifications
+          encodedSource = encodedSource.replace(/\+/g, '-');
+          encodedSource = encodedSource.replace(/\//g, '_');
+        
+          return encodedSource;
+        }
+        function CreateToken(){
+        
+        console.log("Hello");
+        var header = {
+        "alg": "HS256",
+        "typ": "JWT"
+        };
+        
+        var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+        var encodedHeader = base64url(stringifiedHeader);
+        
+        var data = {
+        "email": $('#email').val(),
+        "password": $('#password').val()
+        };
+        
+        var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+        var encodedData = base64url(stringifiedData);
+        
+        // var tok = document.getElementById('token');
+        // tok.value = "prabhav";
+        
+        
+        var token = encodedHeader + "." + encodedData;
+        
+        document.getElementById('token').value = token;
+ 
+        console.log(token);
+
+        // RSA_encryption();
+      //  var plaintext = document.getElementById("token").value; 
+                        var pubilc_key = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzdxaei6bt/xIAhYsdFdW62CGTpRX+GXoZkzqvbf5oOxw4wKENjFX7LsqZXxdFfoRxEwH90zZHLHgsNFzXe3JqiRabIDcNZmKS2F0A7+Mwrx6K2fZ5b7E2fSLFbC7FsvL22mN0KNAp35tdADpl4lKqNFuF7NT22ZBp/X3ncod8cDvMb9tl0hiQ1hJv0H8My/31w+F+Cdat/9Ja5d1ztOOYIx1mZ2FD2m2M33/BgGY/BusUKqSk9W91Eh99+tHS5oTvE8CI8g7pvhQteqmVgBbJOa73eQhZfOQJ0aWQ5m2i0NUPcmwvGDzURXTKW+72UKDz671bE7YAch2H+U7UQeawwIDAQAB-----END PUBLIC KEY-----";
+                        
+                      // var public_key = "-----BEGIN PUBLIC KEY-----ABC-----END PUBLIC KEY-----"
+                        var encrypt = new JSEncrypt();
+                        encrypt.setPublicKey(pubilc_key);
+                        var encrypted = encrypt.encrypt(token);
+                        console.log(encrypted);
+                        document.getElementById("encrypted").value = encrypted;
+
+        }
+
         </script>
-        <script type=text/javascript>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" onclick="CreateToken()">Log in</button>
+            </div>
 
+            <div class="clearfix">
+            </div>
 
+        </form>
 
-            function base64url(source) {
-            
-              // Encode in classical base64
-            
-              encodedSource = CryptoJS.enc.Base64.stringify(source);
-            
-            
-            
-              // Remove padding equal characters
-            
-              encodedSource = encodedSource.replace(/=+$/, '');
-            
-            
-            
-              // Replace characters according to base64url specifications
-            
-              encodedSource = encodedSource.replace(/\+/g, '-');
-            
-              encodedSource = encodedSource.replace(/\//g, '_');
-            
-            
-            
-              return encodedSource;
-            
-            }
-            
-            function CreateToken(){
-            
-            
-            
-            console.log("Hello");
-            
-            var header = {
-            
-            "alg": "HS256",
-            
-            "typ": "JWT"
-            
-            };
-            
-            
-            
-            var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
-            
-            var encodedHeader = base64url(stringifiedHeader);
-            
-            
-            
-            var data = {
-            
-            "email": $('#email').val(),
-            
-            "password": $('#password').val()
-            
-            };
-            
-            
-            
-            var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
-            
-            var encodedData = base64url(stringifiedData);
-            
-            
-            
-            // var tok = document.getElementById('token');
-            
-            // tok.value = "prabhav";
-            
-            
-            
-            
-            var token = encodedHeader + "." + encodedData;
-            
-            console.log($('#hello').val());
-            
-            document.getElementById('hello').value = token;
-            console.log($('#hello').val());
-            
-            // document.write(token);
-            
-            // console.log(token);
-            
-            }
-            
-            </script>
-        <!-- <script>
-            
-            function mango(){
-                console.log("Hello");
+        <p class="text-center"><a href="register">Create an Account</a></p>
 
-                var header = {
+    </div>
 
-                    "alg": "HS256",
-
-                    "typ": "JWT"
-
-                };
-
-
-
-            var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
-
-            var encodedHeader = base64url(stringifiedHeader);
-
-
-
-            var data = {
-
-                "email": $('#email').val(),
-
-                "password": $('#password').val()
-
-            };
-
-
-
-            var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
-
-            var encodedData = base64url(stringifiedData);
-            
-            console.log("line84");
-
-
-                var token = encodedHeader + "." + encodedData;
-
-                // var val = "HelloWorld";
-
-                // document.getElementById("token").innerHTML = token;
-
-                // console.log(token);
-
-
-                console.log($('#hello').val());
-                var test = "test";
-                document.getElementById("hello").value = token;
-                console.log($('#hello').val());
-            }
-        </script> -->
-        <div class="form-group">
-            <button id="submitButton" type="submit" onclick="CreateToken()" class="btn btn-primary btn-block">Log in</button>
-        </div>
-        <div class="clearfix">
-        </div>        
-    </form>
-    <p class="text-center"><a href="register">Create an Account</a></p>
-</div>
 </body>
 
-</html>                                		
-<!-- <form action="/login" method="post">
-    <div class="container">
-      <h1>Register</h1>
-      <p>Please fill in this form to create an account.</p>
-      <hr>
-  
-      <label for="email"><b>Email</b></label>
-      <input type="email" placeholder="Enter Email" name="email" id="email" required>
-
-    <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="password" id="psw" required>
-        
-      <button type="submit" class="registerbtn">Login</button>
-  </div>
-  
-    <div class="container signin">
-      <p>Already have an account? <a href="register">Register your Account</a>.</p>
-    </div>
-  </form> -->
+</html>

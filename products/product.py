@@ -110,13 +110,14 @@ def getAllItems():
     res = json.loads(results)
     print(type(res))
     print(res)
-    print(type(res[0]['product_image']))
+   # print(type(res[0]['product_image']))
     print(res[0]['_id']['$oid'])
     numberOfelements = len(res)
-    firstImage = str(res[0]['product_image'])
-    print(firstImage)
+   # firstImage = str(res[0]['product_image'])
+   # print(firstImage)
 
-    return render_template("new.html", items=res, numberOfelements=numberOfelements, img=firstImage )
+    #return render_template("new.html", items=res, numberOfelements=numberOfelements, img=firstImage )
+    return render_template("new.html", items=res, numberOfelements=numberOfelements )
 
 """
 See Details of Given Product Route : Returns a json string containing details of given product based on product ID
