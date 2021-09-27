@@ -10,7 +10,7 @@ from flask_pymongo import PyMongo
 from Crypto.PublicKey import RSA
 import rsa
 from Crypto.Cipher import PKCS1_OAEP
-from Crypto.Signature import PKCS1_v1_5
+from Crypto.Cipher import PKCS1_v1_5
 from Crypto import Random
 from base64 import b64decode
 
@@ -164,11 +164,11 @@ def login():
             decoded_data = base64.b64decode(encrypted.encode())
             keyDER = b64decode(rsa_key)
             keyPub = RSA.importKey(keyDER)
-            decrypter = PKCS1_OAEP.new(keyPub)
-            #sentinel = Random.new().read(256)
-            #decrypted = decrypter.decrypt(encrypted.encode())
+            decrypter = PKCS1_v1_5.new(keyPub)
+            sentinel = Random.new().read(256)
+            decrypted = decrypter.decrypt(encrypted.encode(), sentinel)
 
-            #print(decrypted)
+            print(decrypted)
 
             # keyDER = b64decode(rsa_key)
             # keyPub = RSA.importKey(keyDER)
@@ -178,32 +178,32 @@ def login():
             # # print("\n Cipher: ",cipher)
             # # print(len(encrypted.encode()))
 
-            curr_len = len(encrypted)
-            def_len = 128
-            encrypted_byte = base64.b64decode(encrypted.encode())
+            # curr_len = len(encrypted)
+            # def_len = 128
+            # encrypted_byte = base64.b64decode(encrypted.encode())
 
-            # print("Encrypted byte: ", encrypted_byte)
+            # # print("Encrypted byte: ", encrypted_byte)
 
-            if curr_len < def_len:
-                decrypt_val = decrypter.decrypt(encrypted_byte, 'failure')
-            else:
-                offset = 0
-                res = []
-                while curr_len - offset > 0:
-                    if curr_len-offset > def_len:
-                        print(encrypted_byte[offset: offset+def_len])
-                        res.append(decrypter.decrypt(encrypted_byte[offset: offset + def_len]))
-                    else:
-                        res.append(decrypter.decrypt(encrypted_byte[offset:], 'failure'))
+            # if curr_len < def_len:
+            #     decrypt_val = decrypter.decrypt(encrypted_byte, 'failure')
+            # else:
+            #     offset = 0
+            #     res = []
+            #     while curr_len - offset > 0:
+            #         if curr_len-offset > def_len:
+            #             print(encrypted_byte[offset: offset+def_len])
+            #             res.append(decrypter.decrypt(encrypted_byte[offset: offset + def_len]))
+            #         else:
+            #             res.append(decrypter.decrypt(encrypted_byte[offset:], 'failure'))
                     
-                    offset +=def_len
-                decrypt_val = b''.join(res)
-            decrypted = decrypt_val.decode()
+            #         offset +=def_len
+            #     decrypt_val = b''.join(res)
+            # decrypted = decrypt_val.decode()
 
 
-            #cipher_text = cipher.decrypt(encrypted.encode())
+            # #cipher_text = cipher.decrypt(encrypted.encode())
 
-            print(decrypted)
+            # print(decrypted)
 
 
 
