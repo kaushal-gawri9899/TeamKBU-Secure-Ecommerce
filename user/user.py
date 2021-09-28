@@ -14,12 +14,12 @@ from Crypto.Cipher import PKCS1_OAEP
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto import Random
 from base64 import b64decode
-
+import jwt
 from bson.json_util import dumps
-
+# import session
 from bson.objectid import ObjectId
 
-from flask import jsonify, request, render_template, redirect, url_for
+from flask import jsonify, request, render_template, redirect, url_for, session
 
 from pymongo import MongoClient
 
@@ -118,31 +118,18 @@ As suggested in specification, login details are taken as json string
 def login():
     if request.method == 'POST':
         try:
-            #print(request.args.get)
-            print(request.form)
-            # # _json = request.json
-            # user_email = request.form["email"]
-            # user_password = request.form["password"]
-           
-            # encrypted = request.form["encrypted"]
+
 
             user_email=request.values.get ("email")
             user_password=request.values.get ("password")
             token=request.values.get("token")
-            #current_app.logger.debug ("username:" + username + "\ n" + "password:" + password)
-            #current_app.logger.debug ("username:" + user_email + "\ n" + "password:" + user_password + "\ n" + "token:" + token)
-
-            #decrypt
-            #print(username)
-            # email_ret=decrypt_data (user_email)
-            # password_ret=decrypt_data (user_password)
+            session['token'] = token
+            print(token, "encryptedToken")
             token_ret=decrypt_data (token)
-
-            # print("\nEmail", email_ret.decode())
-            # print("\nPassword", password_ret.decode())
-            print("\nEmail", user_email)
-            print("\nPassword",user_password)
-            print("\nToken", token_ret.decode())
+            # session['token'] = token_ret.decode()
+            # print("\nEmail", user_email)
+            # print("\nPassword",user_password)
+            # print("\nToken", token_ret.decode())
 
             # if email_ret and password_ret:
             #     current_app.logger.debug (email_ret.decode () + "" + password_ret.decode ())
@@ -155,12 +142,20 @@ def login():
                     if bcrypt.hashpw(user_password.encode('utf-8'), current_user["password"]) == current_user["password"]:
                         user_access_token = create_access_token(identity=user_email)
                         #print(user_access_token)
-                        return redirect(url_for('product_bp.getAllItems', token=user_access_token))
+                        print(user_access_token)
+                        # session['token'] = token
+                        ourTokens = {"jwt_token":user_access_token, "user_token":token_ret.decode()}
+                        print("HELLO")
+                        return token_ret.decode()
                         # return jsonify(message="Voila! User Successfully Logged In.", access_token=user_access_token, flag=True), 200
             else:
                 return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
+            return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
+            
+            message = "Invalid Credentials. Please Retry."
 
-            return jsonify(message="Invalid Credentials. Please Retry.", flag=False), 404
+            return render_template("loginUpdate.html", value=message)
+            # return jsonify(message="Invalid Credentials. Please Retry.", flag=False), 404
         
         except (ex.BadRequestKeyError, KeyError):
             return internal_error()

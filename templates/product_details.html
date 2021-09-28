@@ -40,6 +40,7 @@
                 </div>
             </div>
 
+
             <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
                 <h2 class="name">
                     {{ item['model'] }}
@@ -66,40 +67,60 @@
                 <hr />
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <button type="submit" id="submitButton" class="btn btn-success btn-lg">Add to cart</button>
+                        <form action="/addToCart/" method="post">
+                            <input id="token" name="token" type="hidden" value="{{token}}"/>
+                            <input id="oid" type="hidden" name="oid" value="{{ item['_id']['$oid'] }}"/>
+                            <button type="submit" id="submitButton" class="btn btn-success btn-lg">Add to cart</button>
+                        </form>
                     </div>
-                    <input id="user_id" type="hidden" value="{{ item['_id']['$oid'] }}"/>
+                    <!-- <input id="oid" type="hidden" value="{{ item['_id']['$oid'] }}"/> -->
 
-                    <input id="firstName" type="hidden" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzMjU4NjUxMywianRpIjoiZmIzNWJjNTktMzg1NC00OTcwLWFjZDYtYmQ2NDNjMjI5MjhiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFsaV90YXJpcTE5MTFASG90bWFpbC5jb20iLCJuYmYiOjE2MzI1ODY1MTMsImV4cCI6MTYzMjU4NzQxM30.lqWVB9v-T3lrUQyP2NWzCQ0rvJ2thFqE_H2dmzoqkUE"/>
+                    
                 </div>
             </div>
         </div>
     </div>
+    
 </div>
+<script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
+<script src="../static/js/rsa.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
 <script>
-    console.log($('#user_id').val())
+    console.log($('#token').val())
+    console.log($('#oid').val())
+
+    function encryptrequest (data) {
+        console.log("Functrin")
+        publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
+        var encrypt=new JSEncrypt ();
+        encrypt.setPublicKey (publickey);
+        console.log(data);
+        //The data object sent by the ajax request
+        
+        var senddata=new Object ();      
+        senddata['OID'] = encrypt.encrypt(data);
+        var tokenData = $('#token').val();
+        
+        document.getElementById('oid').value = senddata['OID'];
+
+        console.log(senddata['OID']);
+        $.ajax ({
+            url:"http://localhost:5000/addToCart/",        
+            type:"post",       
+            data:senddata,       
+            datatype:"json",        
+            success: function(response){
+                console.log("success");
+            }
+            }
+        );
+      
+    }
+
     
     $('#submitButton').on('click',function(){
-    const url = "http://localhost:5000/addToCart/" + $('#user_id').val();
-    $.ajax({
-          url: "http://localhost:5000/addToCart/" + $('#user_id').val(),
-          type: 'POST',
-          data: { 
-                  firstName: $('#firstName').val(),
-                  lastName: $('#lastName').val()
-                },
-          contentType: 'application/json',
-          headers: {
-                    "Authorization": "Bearer " + $('#firstName').val()
-                 },
-          async: false,
-          success: function(response){
-            console.log("success");
-            window.location.href = "http://localhost:5000/cart";
-        }
-            })
-    
-});
+        encryptrequest($('#oid').val());
+    });
 </script>
 
 

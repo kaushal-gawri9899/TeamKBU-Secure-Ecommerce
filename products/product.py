@@ -1,15 +1,15 @@
 """
 Importing the necessary Libraries
 """
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from flask import Blueprint
 import bcrypt
 from flask_pymongo import PyMongo
 import json
 from bson.json_util import dumps, loads
-
+import jwt
 import bson.errors
-
+from flask_jwt_extended import decode_token
 from bson.objectid import ObjectId
 
 from flask import jsonify, request
@@ -102,38 +102,32 @@ def internal_error_invalid_ID(error=None):
 See All Products Route : Returns a json string which is converted using json.dumps() that converts bson to json
 A json string containing all the product details is returned
 """
-@product_bp.route("/seeAllProducts", methods=["GET"])
+@product_bp.route("/seeAllProducts/", methods=["GET"])
 def getAllItems():
     allItems = config.items.find()
     results = dumps(allItems)
-    # print(results[0]['category'])
     res = json.loads(results)
-    print(type(res))
-    print(res)
-   # print(type(res[0]['product_image']))
+
     print(res[0]['_id']['$oid'])
     numberOfelements = len(res)
-   # firstImage = str(res[0]['product_image'])
-   # print(firstImage)
 
-    #return render_template("new.html", items=res, numberOfelements=numberOfelements, img=firstImage )
     return render_template("new.html", items=res, numberOfelements=numberOfelements )
 
 """
 See Details of Given Product Route : Returns a json string containing details of given product based on product ID
 """
-@product_bp.route("/seeAllProducts/<pid>", methods=["GET"])
+@product_bp.route("/seeAllProducts/<pid>/", methods=["GET"])
 def getItemDetails(pid):
     try:
         item = config.items.find_one({"_id": ObjectId(pid)})
-        
+        print(session['token'])
         if not item:
             return jsonify(message="Invalid ID provided", flag=False), 404
 
         result = dumps(item)
         res = json.loads(result)
-        print(res)
-        return render_template("product_details.html", item=res)
+        # print(res)
+        return render_template("product_details.html", item=res, token=session['token'])
     
     except (ex.BadRequestKeyError, KeyError):
         return internal_error()

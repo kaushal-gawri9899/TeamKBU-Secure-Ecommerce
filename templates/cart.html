@@ -193,7 +193,7 @@ button:focus {
                 <div class="book"> <img src="https://i.imgur.com/Oj1iQUX.jpg" class="book-img"> </div>
                 <div class="my-auto flex-column d-flex pad-left">
                     <h6 class="mob-text">{{ items[i]['brand'] }}
-                   
+                        
                 </div>
             </div>
         </div>
@@ -201,6 +201,10 @@ button:focus {
             <div class="row text-right">
                 <div class="col-4">
                     <p class="mob-text">{{ items[i]['model'] }}</p>
+                    <form action="/deleteCart/" method="post">
+                        <input id="oid" type="hidden" name="oid" value="{{ items[i]['_id']['$oid'] }}"/>
+                        <button id="submitButton" type="submit" id="Delete" class="btn btn-danger btn-lg">Delete</button>
+                    </form>
                 </div>
                 <div class="col-4">
                     <div class="row d-flex justify-content-end px-3">
@@ -215,6 +219,79 @@ button:focus {
         </div>
     </div>
     {% endfor %}
+<script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
+<script src="../static/js/rsa.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
+<script>
+    console.log($('#token').val())
+    console.log($('#oid').val())
+
+    function encryptrequest (data) {
+      console.log("Functrin")
+      publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
+      var encrypt=new JSEncrypt ();
+      encrypt.setPublicKey (publickey);
+      console.log(data);
+
+      //The data object sent by the ajax request
+      var senddata=new Object ();
+      
+      
+      //Assign the data array to the ajax object
+      
+      senddata['OID'] = encrypt.encrypt(data);
+      document.getElementById('oid').value = senddata['OID'];
+      console.log(senddata['OID']);
+      $.ajax ({
+        url:"http://localhost:5000/deleteCart/",        
+        type:"post",       
+        data:senddata,       
+          datatype:"json",        
+          success: function(response){
+            console.log("success");
+            // console.log(response['jwt_token']);
+            window.location.href = "http://localhost:5000/cart/";
+          }
+          //contenttype:"application/json;charset=utf-8",        success:function (data) {
+        }
+      );
+      
+    }
+
+    
+    $('#submitButton').on('click',function(){
+
+        
+        encryptrequest($('#oid').val());
+    // console.log(encryptedOID['OID']);
+    // $.ajax({
+    //       url: "http://localhost:5000/addToCart/" + encryptedOID['OID'],
+    //       type: 'POST',
+    //       data: { 
+    //             firstName: "HELLO",
+    //             lastName: "yellow"
+    //             },
+    //     //   contentType: 'application/json',
+    //       headers: {
+    //                 "Authorization": "Bearer " + $('#token').val()
+    //              },
+    //       async: false,
+    //       success: function(response){
+    //         console.log("success");
+    //         window.location.href = "http://localhost:5000/cart";
+    //     },
+        // error: function(jqXhr, json, errorThrown){// this are default for ajax errors 
+        // var errors = jqXhr.responseJSON;
+        // var errorsHtml = '';
+        // console.log(errors);
+        // $.each(errors['errors'], function (index, value) {
+        //     errorsHtml += '<ul class="list-group"><li class="list-group-item alert alert-danger">' + value + '</li></ul>';
+        // })}
+
+            });
+    
+// });
+</script>
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
