@@ -1386,13 +1386,13 @@ function pkcs1pad2(s,n) {
   ba[--n] = 0;
   var rng = new SecureRandom();
   var x = new Array();
-  // while(n > 2) { // random non-zero pad
-  //   x[0] = 0;
-  //   while(x[0] == 0) rng.nextBytes(x);
-  //   ba[--n] = x[0];
-  // }
-  // ba[--n] = 2;
-  // ba[--n] = 0;
+  while(n > 2) { // random non-zero pad
+    x[0] = 0;
+    while(x[0] == 0) rng.nextBytes(x);
+    ba[--n] = x[0];
+  }
+  ba[--n] = 2;
+  ba[--n] = 0;
   return new BigInteger(ba);
 }
 
