@@ -82,25 +82,24 @@
         }
         function CreateToken(){
         
-        console.log("Hello");
-        var header = {
-        "alg": "HS256",
-        "typ": "JWT"
-        };
+            console.log("Hello");
+            var header = {
+            "alg": "HS256",
+            "typ": "JWT"
+            };
+            
+            var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+            var encodedHeader = base64url(stringifiedHeader);
         
-        var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
-        var encodedHeader = base64url(stringifiedHeader);
+            var data = {
+            "email": $('#email').val(),
+            "password": $('#password').val()
+            };
+            
+            var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+            var encodedData = base64url(stringifiedData);
         
-        var data = {
-        "email": $('#email').val(),
-        "password": $('#password').val()
-        };
-        
-        var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
-        var encodedData = base64url(stringifiedData);
-        
-        // var tok = document.getElementById('token');
-        // tok.value = "prabhav";
+       
         
         
         var token = encodedHeader + "." + encodedData;

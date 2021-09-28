@@ -9,6 +9,7 @@ import pymongo.errors
 from flask_pymongo import PyMongo
 from Crypto.PublicKey import RSA
 import rsa
+from Crypto.Hash import SHA
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto import Random
