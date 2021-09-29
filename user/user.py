@@ -44,9 +44,9 @@ curr_dir=os.path.dirname (os.path.realpath (__file__))
 
 def decrypt_data (inputdata, code="123456"):
   #urldecode
-  data=parse.unquote (inputdata)
+  data=parse.unquote(inputdata)
   #base64decode
-  data=base64.b64decode (data)
+  data=base64.b64decode(data)
   private_key=RSA.importKey (
     open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
   )
@@ -86,7 +86,7 @@ def register():
                     user_access_token = create_access_token(identity=user_email)
 
                     # return jsonify(message="Voila! User Registration Successful.", access_token=user_access_token, flag=True), 201
-                    return render_template("login.html")
+                    return render_template("loginUpdate.html")
                 else:
                     return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
         
@@ -126,13 +126,15 @@ def login():
             user_password=request.values.get ("password")
             token=request.values.get("token")
             session['token'] = token
-            token_ret=decrypt_data (token)
+            print(token)
+            token_ret=decrypt_data(token)
             current_user = config.zhiffy.find_one({'email': user_email})
         
             if user_email and user_password:
                 if current_user:
                     if bcrypt.hashpw(user_password.encode('utf-8'), current_user["password"]) == current_user["password"]:
                         user_access_token = create_access_token(identity=user_email)
+                        print(user_access_token)
                         ourTokens = {"jwt_token":user_access_token, "user_token":token_ret.decode()}
                         return token_ret.decode()
             else:

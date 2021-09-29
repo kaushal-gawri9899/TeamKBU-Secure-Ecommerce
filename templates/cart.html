@@ -167,6 +167,121 @@ button:focus {
 }</style>
                                 </head>
                                 <body oncontextmenu='return false' class='snippet-body'>
+                                    <script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
+<script src="../static/js/rsa.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
+<script>
+    console.log($('#oid').val())
+    console.log($('#oid_edit').val())
+    console.log($('#quantity').val())
+
+    function encryptrequest (data) {
+      console.log("Functrin")
+      publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
+      var encrypt=new JSEncrypt ();
+      encrypt.setPublicKey (publickey);
+      console.log(data);
+
+      //The data object sent by the ajax request
+      var senddata=new Object ();
+      
+      
+      //Assign the data array to the ajax object
+      
+      senddata['OID'] = encrypt.encrypt(data);
+      document.getElementById('oid').value = senddata['OID'];
+      console.log(senddata['OID']);
+      $.ajax ({
+        url:"http://localhost:5000/deleteCart/",        
+        type:"post",       
+        data:senddata,       
+          datatype:"json",        
+          success: function(response){
+            console.log("success");
+            // console.log(response['jwt_token']);
+            window.location.href = "http://localhost:5000/cart/";
+          }
+          //contenttype:"application/json;charset=utf-8",        success:function (data) {
+        }
+      );
+      
+    }
+
+    function encryptrequestForUpdate(data) {
+      publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
+      var encrypt=new JSEncrypt ();
+      encrypt.setPublicKey(publickey);
+      console.log(data);
+
+      //The data object sent by the ajax request
+      var senddata=new Object ();
+      
+      
+      //Assign the data array to the ajax object
+      console.log(data)
+      senddata['oid_edit'] = encrypt.encrypt(data);
+      console.log(senddata['oid_edit'])
+      document.getElementById('oid_edit').value = senddata['oid_edit'];
+
+      $.ajax ({
+        url:"http://localhost:5000/editCart/",        
+        type:"post",       
+        data:senddata,       
+          datatype:"json",        
+          success: function(response){
+            console.log("success");
+            window.location.href = "http://localhost:5000/cart/";
+          }
+        }
+      );
+      
+    }
+
+    
+    $('#submitButton').on('click',function(){
+
+        
+        encryptrequest($('#oid').val());
+   
+
+    });
+
+
+    $('#updateButton').on('click', function(){
+        // var $like_container = $(e.delegateTarget);
+        // var $like_button = $(e.currentTarget);
+        // var $vote_value = $like_container.find('[data-role=vote_value]');
+        console.log("here")
+        var link_id = $like_button.data("linkset_id");
+        console.log(link_id)
+        // $.get('/uplink/', {linkset_id: link_id}, function(uplink_response){
+        //     $vote_value.html(uplink_response);
+        //     $like_button.hide();
+        // });
+    });
+
+    
+    function update(){
+        
+        console.log("HELLO")
+        let getHearts = document.querySelectorAll('.btn')
+        console.log(getHearts)
+       
+        getHearts.forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                console.log("dd", e.target.id)
+            });
+        })
+
+        
+        var link_id = $('#oid_edit').val()
+        
+        encryptrequestForUpdate($('#oid').val());
+
+
+    };
+
+</script>
                                 <div class="container px-4 py-5 mx-auto">
     <div class="row d-flex justify-content-center">
         <div class="col-5">
@@ -210,8 +325,9 @@ button:focus {
                     <div class="row d-flex justify-content-end px-3">
                         <p class="mb-0" id="cnt2">{{ items[i]['quantity'] }}</p>
                         {{ items[i]['_id']['$oid'] }}
-                        <form action="/editCart/" method="post">
-                            <input id="oid_edit" type="hidden" name="oid_edit" value="{{ items[i]['_id']['$oid'] }}"/>
+                        <form >
+                            <input id="index" type="hidden" name="index" value={{i}} />}
+                            <input id="oid_edit" type="hidden" name="oid_edit" value="{{items[1]['_id']['$oid']}}"/>
                             <label for="quantity">Quantity:</label>
                             <select name="quantity" id="quantity">
                                 <option value="1">1</option>
@@ -220,7 +336,7 @@ button:focus {
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                             </select>
-                            <button id="updateButton" onclick="update()" type="submit" class="btn btn-primary btn-lg">Update Quantity</button>
+                            <button id="{{items[i]['_id']['$oid']}}" onclick="update()"  type="button"  class="btn btn-primary">Update Quantity</button>
                         </form>
                     </div>
                 </div>
@@ -231,94 +347,6 @@ button:focus {
         </div>
     </div>
     {% endfor %}
-<script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
-<script src="../static/js/rsa.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
-<script>
-    console.log($('#oid').val())
-    console.log($('#oid_edit').val())
-    console.log($('#quantity').val())
-
-    function encryptrequest (data) {
-      console.log("Functrin")
-      publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
-      var encrypt=new JSEncrypt ();
-      encrypt.setPublicKey (publickey);
-      console.log(data);
-
-      //The data object sent by the ajax request
-      var senddata=new Object ();
-      
-      
-      //Assign the data array to the ajax object
-      
-      senddata['OID'] = encrypt.encrypt(data);
-      document.getElementById('oid').value = senddata['OID'];
-      console.log(senddata['OID']);
-    //   $.ajax ({
-    //     url:"http://localhost:5000/deleteCart/",        
-    //     type:"post",       
-    //     data:senddata,       
-    //       datatype:"json",        
-    //       success: function(response){
-    //         console.log("success");
-    //         // console.log(response['jwt_token']);
-    //         window.location.href = "http://localhost:5000/cart/";
-    //       }
-    //       //contenttype:"application/json;charset=utf-8",        success:function (data) {
-    //     }
-    //   );
-      
-    }
-
-    function encryptrequestForUpdate(data) {
-      publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
-      var encrypt=new JSEncrypt ();
-      encrypt.setPublicKey (publickey);
-      console.log(data);
-
-      //The data object sent by the ajax request
-      var senddata=new Object ();
-      
-      
-      //Assign the data array to the ajax object
-      console.log(data)
-      senddata['OID'] = encrypt.encrypt(data);
-      console.log(senddata['OID'])
-      document.getElementById('oid_edit').value = senddata['OID'];
-
-    //   $.ajax ({
-    //     url:"http://localhost:5000/editCart/",        
-    //     type:"post",       
-    //     data:senddata,       
-    //       datatype:"json",        
-    //       success: function(response){
-    //         console.log("success");
-    //         window.location.href = "http://localhost:5000/cart/";
-    //       }
-    //     }
-    //   );
-      
-    }
-
-    
-    $('#submitButton').on('click',function(){
-
-        
-        encryptrequest($('#oid').val());
-   
-
-    });
-    
-    function update(){
-
-        console.log("HELLO")
-        encryptrequestForUpdate($('#oid_edit').val());
-
-
-    };
-
-</script>
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
