@@ -5,6 +5,8 @@ from flask import Flask
 import base64
 from flask import Blueprint
 import bcrypt
+import json
+
 import pymongo.errors
 from flask_pymongo import PyMongo
 from Crypto.PublicKey import RSA
@@ -18,7 +20,6 @@ import jwt
 from bson.json_util import dumps
 # import session
 from bson.objectid import ObjectId
-
 from flask import jsonify, request, render_template, redirect, url_for, session
 
 from pymongo import MongoClient
@@ -116,6 +117,7 @@ As suggested in specification, login details are taken as json string
 """
 @user_bp.route("/", methods=["POST","GET"])
 def login():
+    session['token'] = None
     if request.method == 'POST':
         try:
 
@@ -124,30 +126,15 @@ def login():
             user_password=request.values.get ("password")
             token=request.values.get("token")
             session['token'] = token
-            print(token, "encryptedToken")
             token_ret=decrypt_data (token)
-            # session['token'] = token_ret.decode()
-            # print("\nEmail", user_email)
-            # print("\nPassword",user_password)
-            # print("\nToken", token_ret.decode())
-
-            # if email_ret and password_ret:
-            #     current_app.logger.debug (email_ret.decode () + "" + password_ret.decode ())
-            
-
             current_user = config.zhiffy.find_one({'email': user_email})
         
             if user_email and user_password:
                 if current_user:
                     if bcrypt.hashpw(user_password.encode('utf-8'), current_user["password"]) == current_user["password"]:
                         user_access_token = create_access_token(identity=user_email)
-                        #print(user_access_token)
-                        print(user_access_token)
-                        # session['token'] = token
                         ourTokens = {"jwt_token":user_access_token, "user_token":token_ret.decode()}
-                        print("HELLO")
                         return token_ret.decode()
-                        # return jsonify(message="Voila! User Successfully Logged In.", access_token=user_access_token, flag=True), 200
             else:
                 return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
             return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404

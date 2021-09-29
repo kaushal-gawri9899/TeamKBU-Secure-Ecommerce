@@ -3,6 +3,7 @@ Importing the necessary Libraries
 """
 from flask import Flask, render_template, redirect, url_for
 from flask import Blueprint
+from flask.globals import session
 import bcrypt
 from flask_pymongo import PyMongo
 import jwt
@@ -15,12 +16,8 @@ import os
 from flask import jsonify, request
 import base64
 from urllib import parse
-
-
 from pymongo import MongoClient
-
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
-
 import config
 import werkzeug.exceptions as ex
 from Crypto.PublicKey import RSA
@@ -45,6 +42,27 @@ A decorator is added to add security for the current method, user with only acce
 """
 curr_dir=os.path.dirname (os.path.realpath (__file__))
 
+def returnEmail(getNewToken):
+    decrypted_Token = decrypt_data(getNewToken)
+    getNewToken = decrypted_Token.decode() + ".appleMango"
+    decoded = jwt.decode(getNewToken, options={"verify_signature":False})
+    return decoded['email']
+
+def userExists():
+    if session['token'] == None:
+        return False
+
+    user_email = returnEmail(session['token'])
+
+    current_user = config.zhiffy.find_one({'email': user_email})
+    result = dumps(current_user)
+    res = json.loads(result)
+
+    if res:
+        return True
+
+    return False
+
 def decrypt_data(inputdata, code="123456"):
   #urldecode
   data=parse.unquote (inputdata)
@@ -61,40 +79,32 @@ def decrypt_data(inputdata, code="123456"):
   ret=cipher_rsa.decrypt (data, "none")
   return ret
 
-# TODO ADD SESSION ID, SO IT COULD BE SENT FROM FRONTEND
 @cart_bp.route("/addToCart/", methods=["POST","GET"])
-# @jwt_required()
 def addCart():
     try:
         """
         Using Json body
         """
+
+        if not userExists():
+            return redirect(url_for('user_bp.login'))
+
         oid = request.values.get("oid")
-        print(oid)
         newOid = decrypt_data(oid)
-        print(newOid.decode())
         token = request.values.get("token")
-        print(token, "isToken")
-        newToken = decrypt_data(token)
-        print(newToken, "MY TOKEN")
-        getNewToken = newToken.decode() + ".appleMango"
-        decoded = jwt.decode(getNewToken, options={"verify_signature":False})
-        print(decoded)
+        user_email = returnEmail(token)
         data = config.items.find_one({ "_id": ObjectId(newOid.decode())})
         category = data["category"]
         brand = data["brand"]
         model = data["model"]
         price =  data["price"]
-        quantity = "784783532788723"
+        quantity = "1"
 
-        # quantity = request.form['quantity']
         user_id = "kaushalgawri"
-        user_name = decoded['email']
+        user_name = user_email
 
         item_data = dict(category=category, brand=brand, model=model, price=price, quantity=quantity, user_id=user_id, user_name=user_name)
         config.cart.insert_one(item_data)
-        print("DONE")
-        print("hougya")
         return redirect(url_for('cart_bp.getCartDetails'))
         # return render_template("logged_in.html")
         return jsonify(message="Item Added Successfully", flag=True), 201
@@ -103,22 +113,30 @@ def addCart():
         print("Hello")
         return internal_error()
     
-@cart_bp.route("/editCart/<oid>", methods=["POST"])
+@cart_bp.route("/editCart/", methods=["POST"])
 # @jwt_required()
-def editCart(oid):
+def editCart():
     try:
         """
         Using Json body
         """
-        data = config.cart.find_one({ "_id": ObjectId(oid)})
-        print(data)
+        if not userExists():
+            return redirect(url_for('user_bp.login'))
+
+        oid = request.values.get("oid_edit")
+        print(oid)
+        quantity = request.values.get("quantity")
+        print(quantity)
+        newOid = decrypt_data(oid)
+        data = config.cart.find_one({ "_id": ObjectId(newOid.decode())})
         filter = data
   
         # Values to be updated.
-        newvalues = { "$set": { 'quantity': 25 } }
+        newvalues = { "$set": { 'quantity': quantity } }
         config.cart.update_one(filter, newvalues) 
-  
-        return jsonify(message="Item Updated Successfully", flag=True), 201
+
+        return redirect(url_for('cart_bp.getCartDetails'))
+        # return jsonify(message="Item Updated Successfully", flag=True), 201
 
     except (ex.BadRequestKeyError, KeyError):
         return internal_error()
@@ -130,6 +148,9 @@ def deleteCart():
         """
         Using Json body
         """
+        if not userExists():
+            return redirect(url_for('user_bp.login'))
+
         oid = request.values.get("oid")
         newOid = decrypt_data(oid)
         config.cart.delete_one({ "_id": ObjectId(newOid.decode())})
@@ -141,12 +162,15 @@ def deleteCart():
 
 @cart_bp.route("/cart", methods=["POST","GET"])
 def getCartDetails():
+    if not userExists():
+        return redirect(url_for('user_bp.login'))
 
-    data = config.cart.find({ "user_name": "ali_tariq1911@Hotmail.com"})
-    print(data)
-    filter = data
+    getToken = session['token']
+    getEmail = returnEmail(getToken)
+    data = config.cart.find({ "user_name": getEmail})
     result = dumps(data)
     res = json.loads(result)
+    print(res)
     numberOfelements = len(res)
 
     return render_template("cart.html", items=res, numberOfelements=numberOfelements)
