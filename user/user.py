@@ -126,6 +126,7 @@ def login():
             user_password=request.values.get ("password")
             token=request.values.get("token")
             session['token'] = token
+            print(token)
             token_ret=decrypt_data (token)
             current_user = config.zhiffy.find_one({'email': user_email})
         

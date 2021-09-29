@@ -124,18 +124,24 @@ def editCart():
             return redirect(url_for('user_bp.login'))
 
         oid = request.values.get("oid_edit")
-        print(oid)
         quantity = request.values.get("quantity")
+        print(oid)
         print(quantity)
-        newOid = decrypt_data(oid)
-        data = config.cart.find_one({ "_id": ObjectId(newOid.decode())})
-        filter = data
-  
-        # Values to be updated.
-        newvalues = { "$set": { 'quantity': quantity } }
-        config.cart.update_one(filter, newvalues) 
 
-        return redirect(url_for('cart_bp.getCartDetails'))
+        # encrypted_quantity = request.form['quantity']
+        # decrypted_quantity = decrypt_data(encrypted_quantity)
+        # newOid = decrypt_data(oid)
+        # print(newOid)
+        # data = config.cart.find_one({ "_id": ObjectId(newOid.decode())})
+        # print(decrypted_quantity)
+        # print(data)
+        # filter = data
+        # print("")  
+        # # Values to be updated.
+        # newvalues = { "$set": { 'quantity': int(quantity) } }
+        # config.cart.update_one(filter, newvalues) 
+        return "success"
+        # return redirect(url_for('cart_bp.getCartDetails'))
         # return jsonify(message="Item Updated Successfully", flag=True), 201
 
     except (ex.BadRequestKeyError, KeyError):

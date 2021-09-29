@@ -235,6 +235,11 @@ button:focus {
 <script src="../static/js/rsa.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
 <script>
+    function check(){
+        console.log("hello");
+
+    }
+
     console.log($('#oid').val())
     console.log($('#oid_edit').val())
     console.log($('#quantity').val())
@@ -254,20 +259,21 @@ button:focus {
       
       senddata['OID'] = encrypt.encrypt(data);
       document.getElementById('oid').value = senddata['OID'];
+      
       console.log(senddata['OID']);
-    //   $.ajax ({
-    //     url:"http://localhost:5000/deleteCart/",        
-    //     type:"post",       
-    //     data:senddata,       
-    //       datatype:"json",        
-    //       success: function(response){
-    //         console.log("success");
-    //         // console.log(response['jwt_token']);
-    //         window.location.href = "http://localhost:5000/cart/";
-    //       }
-    //       //contenttype:"application/json;charset=utf-8",        success:function (data) {
-    //     }
-    //   );
+      $.ajax ({
+        url:"http://localhost:5000/deleteCart/",        
+        type:"post",       
+        data:senddata,       
+          datatype:"json",        
+          success: function(response){
+            console.log("success");
+            // console.log(response['jwt_token']);
+            window.location.href = "http://localhost:5000/cart";
+          }
+          //contenttype:"application/json;charset=utf-8",        success:function (data) {
+        }
+      );
       
     }
 
@@ -284,20 +290,22 @@ button:focus {
       //Assign the data array to the ajax object
       console.log(data)
       senddata['OID'] = encrypt.encrypt(data);
-      console.log(senddata['OID'])
+      console.log();
+      senddata['quantity'] = encrypt.encrypt($('#quantity').val());
+      console.log(senddata['OID']);
       document.getElementById('oid_edit').value = senddata['OID'];
 
-    //   $.ajax ({
-    //     url:"http://localhost:5000/editCart/",        
-    //     type:"post",       
-    //     data:senddata,       
-    //       datatype:"json",        
-    //       success: function(response){
-    //         console.log("success");
-    //         window.location.href = "http://localhost:5000/cart/";
-    //       }
-    //     }
-    //   );
+      $.ajax ({
+        url:"http://localhost:5000/editCart/",        
+        type:"post",       
+        data:senddata,       
+        datatype:"json",        
+        success: function(response){
+            console.log("success");
+            window.location.href = "http://localhost:5000/cart";
+          }
+        }
+      );
       
     }
 
