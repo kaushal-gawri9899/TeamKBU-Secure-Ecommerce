@@ -201,8 +201,8 @@ button:focus {
             <div class="row text-right">
                 <div class="col-4">
                     <p class="mob-text">{{ items[i]['model'] }}</p>
-                    <form action="/deleteCart/" method="post">
-                        <input id="oid" type="hidden" name="oid" value="{{ items[i]['_id']['$oid'] }}"/>
+                    <form id="delete{{ items[i]['_id']['$oid'] }}" onsubmit="deleteItem(this)" method="post">
+                        <input id="oiddelete{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid" value="{{ items[i]['_id']['$oid'] }}"/>
                         <button id="submitButton" type="submit" id="Delete" class="btn btn-danger btn-lg">Delete</button>
                     </form>
                 </div>
@@ -244,13 +244,15 @@ button:focus {
     const myArr = str.split("updateButton");
     console.log(myArr);
 
-    function encryptrequest (data) {
+    function encryptrequest (formId) {
       console.log("Functrin")
       publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
       var encrypt=new JSEncrypt ();
       encrypt.setPublicKey (publickey);
-      console.log(data);
-
+      var form = new FormData(document.getElementById(formId));
+      var data = document.getElementById('oid' + formId).value;
+      console.log(data + "isdefined");
+        
       //The data object sent by the ajax request
       var senddata=new Object ();
       
@@ -258,13 +260,17 @@ button:focus {
       //Assign the data array to the ajax object
       
       senddata['OID'] = encrypt.encrypt(data);
-      document.getElementById('oid').value = senddata['OID'];
+      document.getElementById('oid' + formId).value = senddata['OID'];
       
       console.log(senddata['OID']);
+      var ourData = {
+          "oid":senddata['OID']
+      }
+
       $.ajax ({
         url:"http://localhost:5000/deleteCart/",        
         type:"post",       
-        data:senddata,       
+        data:ourData,       
           datatype:"json",        
           success: function(response){
             console.log("success");
@@ -309,7 +315,7 @@ button:focus {
         datatype:"json",        
         success: function(response){
             console.log("success");
-            window.location.href = "http://localhost:5000/cart";
+            window.location.href = "http://localhost:5000/seeAllProducts";
           }
         }
       );
@@ -335,6 +341,16 @@ button:focus {
         var inputValue = form.get("oid_edit");
         console.log(inputValue);
         encryptrequestForUpdate(inputValue, formId);
+    };
+
+    function deleteItem(el){
+        console.log("I was called");
+        var formId = el.id;
+        console.log(formId);
+        var form = new FormData(document.getElementById(formId));
+        var inputValue = form.get("oid");
+        console.log(inputValue);
+        encryptrequest(formId);
     };
 
 </script>

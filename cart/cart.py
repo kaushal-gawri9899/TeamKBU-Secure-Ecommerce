@@ -141,7 +141,7 @@ def editCart():
         # # # Values to be updated.
         newvalues = { "$set": { 'quantity': int(decrypted_quantity.decode()) } }
         config.cart.update_one(filter, newvalues) 
-        return "success"
+        return redirect(url_for('product_bp.getAllItems'))
         # return redirect(url_for('cart_bp.getCartDetails'))
         # return jsonify(message="Item Updated Successfully", flag=True), 201
 
@@ -159,6 +159,7 @@ def deleteCart():
             return redirect(url_for('user_bp.login'))
 
         oid = request.values.get("oid")
+        print(oid, "I WAS CALLED")
         newOid = decrypt_data(oid)
         config.cart.delete_one({ "_id": ObjectId(newOid.decode())})
 
