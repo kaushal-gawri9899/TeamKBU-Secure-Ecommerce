@@ -123,23 +123,24 @@ def editCart():
         if not userExists():
             return redirect(url_for('user_bp.login'))
 
-        oid = request.values.get("oid_edit")
-        quantity = request.values.get("quantity")
-        print(oid)
-        print(quantity)
+        oid = request.values.get('OID')
+        quantity = request.values.get('quantity')
+        print(request.values.get('OID'))
+        print(request.values.get('quantity'))
+        # print(quantity)
 
-        # encrypted_quantity = request.form['quantity']
-        # decrypted_quantity = decrypt_data(encrypted_quantity)
-        # newOid = decrypt_data(oid)
-        # print(newOid)
-        # data = config.cart.find_one({ "_id": ObjectId(newOid.decode())})
-        # print(decrypted_quantity)
-        # print(data)
-        # filter = data
-        # print("")  
-        # # Values to be updated.
-        # newvalues = { "$set": { 'quantity': int(quantity) } }
-        # config.cart.update_one(filter, newvalues) 
+        encrypted_quantity = request.values.get("quantity")
+        decrypted_quantity = decrypt_data(encrypted_quantity)
+        newOid = decrypt_data(oid)
+        # # print(newOid)
+        data = config.cart.find_one({ "_id": ObjectId(newOid.decode())})
+        # # print(decrypted_quantity)
+        # # print(data)
+        filter = data
+        # # print("")  
+        # # # Values to be updated.
+        newvalues = { "$set": { 'quantity': int(decrypted_quantity.decode()) } }
+        config.cart.update_one(filter, newvalues) 
         return "success"
         # return redirect(url_for('cart_bp.getCartDetails'))
         # return jsonify(message="Item Updated Successfully", flag=True), 201

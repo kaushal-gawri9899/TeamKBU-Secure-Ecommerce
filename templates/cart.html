@@ -210,17 +210,17 @@ button:focus {
                     <div class="row d-flex justify-content-end px-3">
                         <p class="mb-0" id="cnt2">{{ items[i]['quantity'] }}</p>
                         {{ items[i]['_id']['$oid'] }}
-                        <form action="/editCart/" method="post">
-                            <input id="oid_edit" type="hidden" name="oid_edit" value="{{ items[i]['_id']['$oid'] }}"/>
+                        <form id="{{ items[i]['_id']['$oid'] }}" onsubmit="update(this)" method="post">
+                            <input id="oid_edit{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid_edit" value="{{ items[i]['_id']['$oid'] }}"/>
                             <label for="quantity">Quantity:</label>
-                            <select name="quantity" id="quantity">
+                            <select name="quantity" id="quantity{{ items[i]['_id']['$oid'] }}">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                             </select>
-                            <button id="updateButton" onclick="update()" type="submit" class="btn btn-primary btn-lg">Update Quantity</button>
+                            <button id="updateButton{{ items[i]['_id']['$oid'] }}"  type="submit" class="btn btn-primary btn-lg">Update Quantity</button>
                         </form>
                     </div>
                 </div>
@@ -240,9 +240,9 @@ button:focus {
 
     }
 
-    console.log($('#oid').val())
-    console.log($('#oid_edit').val())
-    console.log($('#quantity').val())
+    let str = "updateButton634878";
+    const myArr = str.split("updateButton");
+    console.log(myArr);
 
     function encryptrequest (data) {
       console.log("Functrin")
@@ -277,7 +277,7 @@ button:focus {
       
     }
 
-    function encryptrequestForUpdate(data) {
+    function encryptrequestForUpdate(data, formId) {
       publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
       var encrypt=new JSEncrypt ();
       encrypt.setPublicKey (publickey);
@@ -288,17 +288,24 @@ button:focus {
       
       
       //Assign the data array to the ajax object
-      console.log(data)
+      console.log(data);
       senddata['OID'] = encrypt.encrypt(data);
-      console.log();
-      senddata['quantity'] = encrypt.encrypt($('#quantity').val());
-      console.log(senddata['OID']);
-      document.getElementById('oid_edit').value = senddata['OID'];
+      var quantity = document.getElementById('quantity' + formId).value;
+      console.log(quantity);
+      senddata['quantity'] = encrypt.encrypt(quantity);
+      console.log(senddata['quantity']);
+      document.getElementById('oid_edit' + formId).value = "hello";
+      document.getElementById('quantity' + formId).value = "hello";
+      var data = {
+          "quantity":senddata['quantity'],
+          "OID":senddata['OID']
+
+      }
 
       $.ajax ({
         url:"http://localhost:5000/editCart/",        
         type:"post",       
-        data:senddata,       
+        data:data,       
         datatype:"json",        
         success: function(response){
             console.log("success");
@@ -318,12 +325,16 @@ button:focus {
 
     });
     
-    function update(){
+    function update(el){
 
-        console.log("HELLO")
-        encryptrequestForUpdate($('#oid_edit').val());
-
-
+        // var buttonId = el.id;
+        // const myArr = buttonId.split("updateButton");
+        var formId = el.id;
+        console.log(formId);
+        var form = new FormData(document.getElementById(formId));
+        var inputValue = form.get("oid_edit");
+        console.log(inputValue);
+        encryptrequestForUpdate(inputValue, formId);
     };
 
 </script>
