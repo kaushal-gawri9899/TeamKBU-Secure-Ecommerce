@@ -123,26 +123,19 @@ def editCart():
         if not userExists():
             return redirect(url_for('user_bp.login'))
 
-        oid = request.values.get('OID')
-        quantity = request.values.get('quantity')
-        print(request.values.get('OID'))
-        print(request.values.get('quantity'))
-        # print(quantity)
-
-        encrypted_quantity = request.values.get("quantity")
-        decrypted_quantity = decrypt_data(encrypted_quantity)
+        oid = request.values.get("oid_edit")
+        print(oid)
+        quantity = request.values.get("quantity")
+        print(quantity)
         newOid = decrypt_data(oid)
-        # # print(newOid)
         data = config.cart.find_one({ "_id": ObjectId(newOid.decode())})
-        # # print(decrypted_quantity)
-        # # print(data)
         filter = data
-        # # print("")  
-        # # # Values to be updated.
-        newvalues = { "$set": { 'quantity': int(decrypted_quantity.decode()) } }
+  
+        # Values to be updated.
+        newvalues = { "$set": { 'quantity': quantity } }
         config.cart.update_one(filter, newvalues) 
-        return redirect(url_for('product_bp.getAllItems'))
-        # return redirect(url_for('cart_bp.getCartDetails'))
+
+        return redirect(url_for('cart_bp.getCartDetails'))
         # return jsonify(message="Item Updated Successfully", flag=True), 201
 
     except (ex.BadRequestKeyError, KeyError):
@@ -159,7 +152,6 @@ def deleteCart():
             return redirect(url_for('user_bp.login'))
 
         oid = request.values.get("oid")
-        print(oid, "I WAS CALLED")
         newOid = decrypt_data(oid)
         config.cart.delete_one({ "_id": ObjectId(newOid.decode())})
 

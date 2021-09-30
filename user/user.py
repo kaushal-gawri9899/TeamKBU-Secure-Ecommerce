@@ -126,7 +126,6 @@ def login():
             user_password=request.values.get ("password")
             token=request.values.get("token")
             session['token'] = token
-            print(token)
             token_ret=decrypt_data (token)
             current_user = config.zhiffy.find_one({'email': user_email})
             print(token_ret.decode())
@@ -134,7 +133,6 @@ def login():
                 if current_user:
                     if bcrypt.hashpw(user_password.encode('utf-8'), current_user["password"]) == current_user["password"]:
                         user_access_token = create_access_token(identity=user_email)
-                        print(user_access_token)
                         ourTokens = {"jwt_token":user_access_token, "user_token":token_ret.decode()}
                         return token_ret.decode()
             else:
