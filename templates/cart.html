@@ -1,13 +1,13 @@
 <!doctype html>
-                        <html>
-                            <head>
-                                <meta charset='utf-8'>
-                                <meta name='viewport' content='width=device-width, initial-scale=1'>
-                                <title>Snippet - BBBootstrap</title>
-                                <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
-                                <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
-                                <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-                                <style>body {
+    <html>
+        <head>
+            <meta charset='utf-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1'>
+            <title>Snippet - BBBootstrap</title>
+            <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
+            <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+            <style>body {
     color: #000;
     overflow-x: hidden;
     height: 100%;
@@ -231,133 +231,238 @@ button:focus {
         </div>
     </div>
     {% endfor %}
-<script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
-<script src="../static/js/rsa.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
-<script>
-    function check(){
-        console.log("hello");
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
+    <script src="../static/js/rsa.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
+    <script type="text/javascript">
 
-    }
+        function encryptPayDetails (requrl, data) {
+            publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
+            var encrypt=new JSEncrypt ();
+            encrypt.setPublicKey (publickey);
+            console.log(data);
 
-    let str = "updateButton634878";
-    const myArr = str.split("updateButton");
-    console.log(myArr);
+            // The data object sent by the ajax request
+            var senddata=new Object ();
+            
+            //Assign the data array to the ajax object
+            for (var key in data) {
+                if(key=='token'){
+                senddata[key]= data[key];
+                }
+                else{
+                senddata[key] = encrypt.encrypt(data [key]);
+                }
+            }
+            console.log(senddata);
+            
+            $.ajax ({
+                url:requrl,        
+                type:"post",       
+                data:senddata,       
+                datatype:"json",        
+                success: function(response){
+                    console.log("success");
+                    // window.location.href = "http://localhost:5000/seeAllProducts/";
+                }
+                }
+            );
+            }
 
-    function encryptrequest (formId) {
-      console.log("Functrin")
-      publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
-      var encrypt=new JSEncrypt ();
-      encrypt.setPublicKey (publickey);
-      var form = new FormData(document.getElementById(formId));
-      var data = document.getElementById('oid' + formId).value;
-      console.log(data + "isdefined");
-        
-      //The data object sent by the ajax request
-      var senddata=new Object ();
-      
-      
-      //Assign the data array to the ajax object
-      
-      senddata['OID'] = encrypt.encrypt(data);
-      document.getElementById('oid' + formId).value = senddata['OID'];
-      
-      console.log(senddata['OID']);
-      var ourData = {
-          "oid":senddata['OID']
-      }
+        $(function () {
+            $("#testme").click (function () {
+                console.log("Hello")
+                
+                var dataVal=[];
 
-      $.ajax ({
-        url:"http://localhost:5000/deleteCart/",        
-        type:"post",       
-        data:ourData,       
-          datatype:"json",        
-          success: function(response){
-            console.log("success");
-            // console.log(response['jwt_token']);
-            window.location.href = "http://localhost:5000/cart";
-          }
-          //contenttype:"application/json;charset=utf-8",        success:function (data) {
-        }
-      );
-      
-    }
+                // console.log("Hello");
+                // var header = {
+                //     "alg": "HS256",
+                //     "typ": "JWT"
+                // };
+            
+                // var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+                // var encodedHeader = base64url(stringifiedHeader);
+                
+                var data = {
+                    "cnum": $('#cnum').val(),
+                    "cname": $('#cname').val(),
+                    "exp": $('#exp').val(),
+                    "cvv": $('#cvv').val()
+                };
+                console.log(data)
+                    
+                // var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+                // var encodedData = base64url(stringifiedData);
+                
+            
+                
+                // var token = data;
+                
+                // document.getElementById('token').value = token;
 
-    function encryptrequestForUpdate(data, formId) {
-      publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
-      var encrypt=new JSEncrypt ();
-      encrypt.setPublicKey (publickey);
-      console.log(data);
+                dataVal["cnum"]= $("#cnum").val();
+                dataVal["cname"]= $("#cname").val();
+                dataVal["exp"]= $("#exp").val();
+                dataVal["cvv"]= $("#cvv").val();
+                dataVal["token"]= "token";
 
-      //The data object sent by the ajax request
-      var senddata=new Object ();
-      
-      
-      //Assign the data array to the ajax object
-      console.log(data);
-      senddata['OID'] = encrypt.encrypt(data);
-      var quantity = document.getElementById('quantity' + formId).value;
-      console.log(quantity);
-      senddata['quantity'] = encrypt.encrypt(quantity);
-      console.log(senddata['quantity']);
-      document.getElementById('oid_edit' + formId).value = "hello";
-      document.getElementById('quantity' + formId).value = "hello";
-      var data = {
-          "quantity":senddata['quantity'],
-          "OID":senddata['OID']
 
-      }
+                
+                console.log(dataVal["cnum"]);
 
-      $.ajax ({
-        url:"http://localhost:5000/editCart/",        
-        type:"post",       
-        data:data,       
-        datatype:"json",        
-        success: function(response){
-            console.log("success");
-            window.location.href = "http://localhost:5000/seeAllProducts";
-          }
-        }
-      );
-      
-    }
+
+
+                encryptPayDetails("/payment", dataVal);
+            });
+        });
+
 
     
-    $('#submitButton').on('click',function(){
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        function check(){
+            console.log("hello");
+
+        }
+
+        let str = "updateButton634878";
+        const myArr = str.split("updateButton");
+        console.log(myArr);
+
+        function encryptrequest (formId) {
+        console.log("Functrin")
+        publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
+        var encrypt=new JSEncrypt ();
+        encrypt.setPublicKey (publickey);
+        var form = new FormData(document.getElementById(formId));
+        var data = document.getElementById('oid' + formId).value;
+        console.log(data + "isdefined");
+            
+        //The data object sent by the ajax request
+        var senddata=new Object ();
+        
+        
+        //Assign the data array to the ajax object
+        
+        senddata['OID'] = encrypt.encrypt(data);
+        document.getElementById('oid' + formId).value = senddata['OID'];
+        
+        console.log(senddata['OID']);
+        var ourData = {
+            "oid":senddata['OID']
+        }
+
+        $.ajax ({
+            url:"http://localhost:5000/deleteCart/",        
+            type:"post",       
+            data:ourData,       
+            datatype:"json",        
+            success: function(response){
+                console.log("success");
+                // console.log(response['jwt_token']);
+                window.location.href = "http://localhost:5000/cart";
+            }
+            //contenttype:"application/json;charset=utf-8",        success:function (data) {
+            }
+        );
+        
+        }
+
+        function encryptrequestForUpdate(data, formId) {
+        publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
+        var encrypt=new JSEncrypt ();
+        encrypt.setPublicKey (publickey);
+        console.log(data);
+
+        //The data object sent by the ajax request
+        var senddata=new Object ();
+        
+        
+        //Assign the data array to the ajax object
+        console.log(data);
+        senddata['OID'] = encrypt.encrypt(data);
+        var quantity = document.getElementById('quantity' + formId).value;
+        console.log(quantity);
+        senddata['quantity'] = encrypt.encrypt(quantity);
+        console.log(senddata['quantity']);
+        document.getElementById('oid_edit' + formId).value = "hello";
+        document.getElementById('quantity' + formId).value = "hello";
+        var data = {
+            "quantity":senddata['quantity'],
+            "OID":senddata['OID']
+
+        }
+
+        $.ajax ({
+            url:"http://localhost:5000/editCart/",        
+            type:"post",       
+            data:data,       
+            datatype:"json",        
+            success: function(response){
+                console.log("success");
+                window.location.reload();
+            }
+            }
+        );
+        
+        }
 
         
-        encryptrequest($('#oid').val());
-   
+        $('#submitButton').on('click',function(){
 
-    });
+            
+            encryptrequest($('#oid').val());
     
-    function update(el){
 
-        // var buttonId = el.id;
-        // const myArr = buttonId.split("updateButton");
-        var formId = el.id;
-        console.log(formId);
-        var form = new FormData(document.getElementById(formId));
-        var inputValue = form.get("oid_edit");
-        console.log(inputValue);
-        encryptrequestForUpdate(inputValue, formId);
-    };
+        });
+        
+        function update(el){
 
-    function deleteItem(el){
-        console.log("I was called");
-        var formId = el.id;
-        console.log(formId);
-        var form = new FormData(document.getElementById(formId));
-        var inputValue = form.get("oid");
-        console.log(inputValue);
-        encryptrequest(formId);
-    };
+            // var buttonId = el.id;
+            // const myArr = buttonId.split("updateButton");
+            var formId = el.id;
+            console.log(formId);
+            var form = new FormData(document.getElementById(formId));
+            var inputValue = form.get("oid_edit");
+            console.log(inputValue);
+            encryptrequestForUpdate(inputValue, formId);
+        };
 
-</script>
+        function deleteItem(el){
+            console.log("I was called");
+            var formId = el.id;
+            console.log(formId);
+            var form = new FormData(document.getElementById(formId));
+            var inputValue = form.get("oid");
+            console.log(inputValue);
+            encryptrequest(formId);
+        };
+
+    </script>
+<form action="/payment" method="post"> 
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
                 <div class="row">
+                    
                     <div class="col-lg-3 radio-group">
                         <div class="row d-flex px-3 radio"> <img class="pay" src="https://i.imgur.com/WIAP9Ku.jpg">
                             <p class="my-auto">Credit Card</p>
@@ -379,6 +484,11 @@ button:focus {
                             <div class="form-group col-md-6"> <label class="form-control-label">CVV</label> <input type="text" id="cvv" name="cvv" placeholder="***"> </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <!-- <input id="token" type="hidden" name="token"> -->
+                        <input class="form-control" type="hidden" id="token" value="token" name="token" ></input>
+                    </div>
+
                     <div class="col-lg-4 mt-2">
                         <div class="row d-flex justify-content-between px-4">
                             <p class="mb-1 text-left">Subtotal</p>
@@ -391,12 +501,14 @@ button:focus {
                         <div class="row d-flex justify-content-between px-4" id="tax">
                             <p class="mb-1 text-left">Total (tax included)</p>
                             <h6 class="mb-1 text-right">$26.48</h6>
-                        </div> <button class="btn-block btn-blue"> <span> <span id="checkout">Checkout</span> <span id="check-amt">$26.48</span> </span> </button>
+                        </div> <button type="button" class="btn-block btn-blue"><span id="testme">Checkout</input> <span id="check-amt">$26.48</span> </span> </button>
                     </div>
+                
                 </div>
             </div>
         </div>
     </div>
+</form>
 </div>
                                 <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
                                 <script type='text/javascript'>$(document).ready(function(){

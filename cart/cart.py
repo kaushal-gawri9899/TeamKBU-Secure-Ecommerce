@@ -66,6 +66,7 @@ def userExists():
 def decrypt_data(inputdata, code="123456"):
   #urldecode
   data=parse.unquote (inputdata)
+  print("DATAAAA",data)
   #base64decode
   data=base64.b64decode (data)
   private_key=RSA.importKey (
@@ -131,7 +132,9 @@ def editCart():
 
         encrypted_quantity = request.values.get("quantity")
         decrypted_quantity = decrypt_data(encrypted_quantity)
+        print("k",decrypted_quantity)
         newOid = decrypt_data(oid)
+        print("n",newOid)
         # # print(newOid)
         data = config.cart.find_one({ "_id": ObjectId(newOid.decode())})
         # # print(decrypted_quantity)
@@ -141,6 +144,7 @@ def editCart():
         # # # Values to be updated.
         newvalues = { "$set": { 'quantity': int(decrypted_quantity.decode()) } }
         config.cart.update_one(filter, newvalues) 
+        
         return redirect(url_for('product_bp.getAllItems'))
         # return redirect(url_for('cart_bp.getCartDetails'))
         # return jsonify(message="Item Updated Successfully", flag=True), 201
@@ -148,7 +152,62 @@ def editCart():
     except (ex.BadRequestKeyError, KeyError):
         return internal_error()
 
-@cart_bp.route("/deleteCart/", methods=["POST"])
+@cart_bp.route("/payment", methods=["POST"])
+def payOrder():
+   
+    name = decrypt_data(request.values.get("cname")).decode()
+    number = decrypt_data(request.values.get('cnum')).decode()
+    expiry = decrypt_data(request.values.get('exp')).decode()
+    cvv = decrypt_data(request.values.get('cvv')).decode()
+    
+
+    session_token = session['token']
+    user_email = returnEmail(session_token)
+    data = config.cart.find({ "user_name": user_email})
+    res = json.loads(dumps(data))
+    print(res)
+    numberOfelements = len(res)
+    print(numberOfelements)
+    category_list = []
+    brand_list = []
+    model_list = []
+    price_list = []
+    quantity_list = []
+    oid_list = []
+    for i in range(numberOfelements):
+        print(i)
+        if res[i]['_id']['$oid']:
+            oid_list.append(res[i]['_id']['$oid'])
+        if res[i]['category']:
+            category_list.append(res[i]['category'])
+        if res[i]['brand']:
+            brand_list.append(res[i]['brand'])
+        if res[i]['model']:
+            model_list.append(res[i]['model'])
+        if res[i]['price']:
+            price_list.append(res[i]['price'])
+        if res[i]['quantity']:
+            quantity_list.append(res[i]['quantity'])
+       
+
+    user_data = dict(category=category_list, brand=brand_list, model=model_list, price=price_list, quantity=quantity_list, cname = name, cnum = number, cexpiry = expiry, cvv = cvv, user_email = user_email )
+    # print(category_list, brand_list, model_list, price_list, quantity_list)
+    result = config.order.insert_one(user_data)
+    if result:
+        print(result)
+        for i in range(numberOfelements):
+            config.cart.delete_one({ "_id": ObjectId(oid_list[i])})
+
+
+    print(name)
+    print(number)
+    print(expiry)
+    print(cvv)
+    print(user_email)
+    # print(token)
+    print(oid_list)
+    return "true"
+@cart_bp.route("/deleteCart", methods=["POST"])
 # @jwt_required()
 def deleteCart():
     try:
@@ -159,7 +218,6 @@ def deleteCart():
             return redirect(url_for('user_bp.login'))
 
         oid = request.values.get("oid")
-        print(oid, "I WAS CALLED")
         newOid = decrypt_data(oid)
         config.cart.delete_one({ "_id": ObjectId(newOid.decode())})
 
