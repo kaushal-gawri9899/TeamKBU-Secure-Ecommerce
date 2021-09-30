@@ -1,15 +1,15 @@
 """
 Importing the necessary Libraries
 """
-from flask import Flask, render_template
+from flask import Flask, render_template, session, redirect, url_for
 from flask import Blueprint
 import bcrypt
 from flask_pymongo import PyMongo
 import json
 from bson.json_util import dumps, loads
-
+import jwt
 import bson.errors
-
+from flask_jwt_extended import decode_token
 from bson.objectid import ObjectId
 
 from flask import jsonify, request
@@ -20,13 +20,39 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
 import config
 import werkzeug.exceptions as ex
+import os
+from flask import jsonify, request
+import base64
+from urllib import parse
+from pymongo import MongoClient
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+import config
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP, PKCS1_v1_5
+from base64 import b64decode
 
 """
 Creating a blueprint for all the product routes
 This blueprint would be registered in main application
 """
 product_bp = Blueprint('product_bp', __name__)
+curr_dir=os.path.dirname (os.path.realpath (__file__))
 
+def decrypt_data(inputdata, code="123456"):
+  #urldecode
+  data=parse.unquote (inputdata)
+  #base64decode
+  data=base64.b64decode (data)
+  private_key=RSA.importKey (
+    open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
+  )
+  #Use pkcs1_v1_5 instead of pkcs1_oaep
+  #If pkcs1_oaep is used, the data encrypted by jsencrypt.js on the front end cannot be decrypted
+  cipher_rsa=PKCS1_v1_5.new (private_key)
+  #When decryption fails,Will return sentinel
+  #sentinel=none
+  ret=cipher_rsa.decrypt (data, "none")
+  return ret
 
 """
 Insert Product API route : Adds a product or items to the collection with pre decided attributes. 
@@ -43,14 +69,6 @@ def insertProducts():
         """
         Using Json body
         """
-        # _json = request.json
-        # item_category = _json["category"]
-        # item_brand = _json["brand"]
-        # item_model = _json["model"]
-        # item_purchase = _json["purchase_date"]
-        # item_price = _json["price"]
-        # item_location = _json["location"]
-      
         item_category = request.form["category"]
         item_brand = request.form["brand"]
         item_model = request.form["model"]
@@ -102,38 +120,40 @@ def internal_error_invalid_ID(error=None):
 See All Products Route : Returns a json string which is converted using json.dumps() that converts bson to json
 A json string containing all the product details is returned
 """
-@product_bp.route("/seeAllProducts", methods=["GET"])
+@product_bp.route("/seeAllProducts/", methods=["GET"])
 def getAllItems():
+    
+    if not userExists():
+        return redirect(url_for('user_bp.login'))
+
     allItems = config.items.find()
     results = dumps(allItems)
-    # print(results[0]['category'])
     res = json.loads(results)
-    print(type(res))
-    print(res)
-   # print(type(res[0]['product_image']))
+
     print(res[0]['_id']['$oid'])
     numberOfelements = len(res)
-   # firstImage = str(res[0]['product_image'])
-   # print(firstImage)
 
-    #return render_template("new.html", items=res, numberOfelements=numberOfelements, img=firstImage )
     return render_template("new.html", items=res, numberOfelements=numberOfelements )
 
 """
 See Details of Given Product Route : Returns a json string containing details of given product based on product ID
 """
-@product_bp.route("/seeAllProducts/<pid>", methods=["GET"])
+@product_bp.route("/seeAllProducts/<pid>/", methods=["GET"])
 def getItemDetails(pid):
     try:
-        item = config.items.find_one({"_id": ObjectId(pid)})
         
+        if not userExists():
+            return redirect(url_for('user_bp.login'))
+
+        item = config.items.find_one({"_id": ObjectId(pid)})
+        print(session['token'])
         if not item:
             return jsonify(message="Invalid ID provided", flag=False), 404
 
         result = dumps(item)
         res = json.loads(result)
-        print(res)
-        return render_template("product_details.html", item=res)
+        # print(res)
+        return render_template("product_details.html", item=res, token=session['token'])
     
     except (ex.BadRequestKeyError, KeyError):
         return internal_error()
@@ -211,8 +231,25 @@ def changeItemDetail(pid):
     except (ex.BadRequestKeyError, KeyError):
         return internal_error()
 
-        
-# EXTRAS
-# 1. Session Key generation at login
-# 2. 
+def returnEmail(getNewToken):
+    decrypted_Token = decrypt_data(getNewToken)
+    getNewToken = decrypted_Token.decode() + ".appleMango"
+    decoded = jwt.decode(getNewToken, options={"verify_signature":False})
+    return decoded['email']
+
+def userExists():
+    if session['token'] == None:
+        return False
+
+    user_email = returnEmail(session['token'])
+
+    current_user = config.zhiffy.find_one({'email': user_email})
+    result = dumps(current_user)
+    res = json.loads(result)
+
+    if res:
+        return True
+
+    return False
+
 

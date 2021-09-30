@@ -7,6 +7,7 @@
                                 <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
                                 <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
                                 <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+                                <!-- <script type="text/javascript" src="../static/js/autoUpdate.js"> </script> -->
                                 <style>body {
     color: #000;
     overflow-x: hidden;
@@ -193,7 +194,7 @@ button:focus {
                 <div class="book"> <img src="https://i.imgur.com/Oj1iQUX.jpg" class="book-img"> </div>
                 <div class="my-auto flex-column d-flex pad-left">
                     <h6 class="mob-text">{{ items[i]['brand'] }}
-                   
+                    
                 </div>
             </div>
         </div>
@@ -201,11 +202,128 @@ button:focus {
             <div class="row text-right">
                 <div class="col-4">
                     <p class="mob-text">{{ items[i]['model'] }}</p>
+                    <form id="delete{{ items[i]['_id']['$oid'] }}" onsubmit="deleteItem(this)" method="post">
+                        <input id="oiddelete{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid" value="{{ items[i]['_id']['$oid'] }}"/>
+                        <button id="submitButton" type="submit" id="Delete" class="btn btn-danger btn-lg">Delete</button>
+                    </form>
                 </div>
+               
                 <div class="col-4">
                     <div class="row d-flex justify-content-end px-3">
-                        <p class="mb-0" id="cnt2">1</p>
-                        <div class="d-flex flex-column plus-minus"> <span class="vsm-text plus">+</span> <span class="vsm-text minus">-</span> </div>
+                         <!-- <script type="text/javascript" src="../static/js/autoUpdate.js"> </script> -->
+                         
+                         <script>
+                             window.addEventListener('load', function()
+{
+    var xhr = null;
+
+    getXmlHttpRequestObject = function()
+    {
+        if(!xhr)
+        {
+            xhr = new XMLHttpRequest();
+        }
+        return xhr;
+    };
+   
+    updateLiveData = function()
+    {
+        var url = 'http://localhost:5000/cart';
+        xhr = getXmlHttpRequestObject();
+
+        xhr.onreadystatechange = eventHandler;
+
+        xhr.open("POST", url, true);
+
+        xhr.send(null);
+    };
+
+
+    function eventHandler(){
+
+        console.log(xhr.readyState)
+        if((xhr.readyState == 4 || xhr.readyState==3 || xhr.readyState==2 || xhr.readyState==1) && xhr.status == 200){
+
+            console.log("Here");
+            data = document.getElementById('cnt2');
+            //data.innerHTML = xhr.responseText;
+            data.value = "4";
+            // console.log(data);
+            //data.value = xhr.responseText;
+
+            setTimeout(updateLiveData(), 1);
+        }
+    }
+
+    
+     updateLiveData();
+
+    
+   // window.location.reload();
+});
+
+
+
+                         </script>
+                        <p class="mb-0" id="cnt2" name="cnt2" >{{ items[i]['quantity'] }}</p>
+                        <!-- <p id="val" name="val">{{ items[i]['quantity'] }}</p> -->
+                   
+                        <!-- {{ items[i]['_id']['$oid'] }} -->
+                        <form id="{{ items[i]['_id']['$oid'] }}" onsubmit="update(this)" method="post">
+                            <input id="oid_edit{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid_edit" value="{{ items[i]['_id']['$oid'] }}"/>
+                            <label for="quantity">Quantity:</label>
+                            <select name="quantity" id="quantity{{ items[i]['_id']['$oid'] }}">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <script>
+                                function load(i)
+                                {
+                                    // console.log("Kaushal")
+                                    // var xhttp = new XMLHttpRequest();
+                                    // var btnClickID = el.id;
+                                    // var update = btnClickID.split("updateButton")[1];
+                                    // // console.log("DOCU", update)
+                                    // // console.log("Kaushal Hrre");
+
+                                    
+                                    // console.log("HEYYYYYYY");
+                                    // //xhttp.getElementById(update);
+                                    // var formId = update;
+                                    // var form = new FormData(document.getElementById(formId));
+                                    // var inputValue = form.get("quantity");
+
+                                    // console.log("DOC ID", inputValue);
+
+                                    // xhttp.open("POST","http://localhost:5000/cart",true);
+
+                                    // xhttp.onreadystatechange = function()
+                                    // {
+                                    //     console.log("SIUUUUUUUUUUUUUUUUUUUUUU")
+                                    //     console.log("State", this.readyState);
+                                    //     // console.log("ID", this.responseText);
+                                    //     if(this.readyState===4 && this.status===200){
+                                    //         console.log("HHHHHHHHHHHHHHHHHHHH");
+                                    //         console.log(this.responseText);
+                                           
+                                    //        document.getElementById("cnt2").innerHTML = this.responseText;
+                                    //     }
+                                    // };
+
+                                    
+                                    // xhttp.send(inputValue);
+                                    //window.location.reload();
+                                    //console.log(window.history);
+                                  
+                                }
+                                
+
+                            </script>
+                            <button id="updateButton{{ items[i]['_id']['$oid'] }}" type="submit" class="btn btn-primary btn-lg">Update Quantity</button>
+                        </form>
                     </div>
                 </div>
                 <div class="col-4">
@@ -215,6 +333,142 @@ button:focus {
         </div>
     </div>
     {% endfor %}
+<script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
+<script src="../static/js/rsa.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
+<script>
+    function check(){
+        console.log("hello");
+
+    }
+
+    let str = "updateButton634878";
+    const myArr = str.split("updateButton");
+    console.log(myArr);
+
+    function encryptrequest (formId) {
+      console.log("Functrin")
+      publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
+      var encrypt=new JSEncrypt ();
+      encrypt.setPublicKey (publickey);
+      var form = new FormData(document.getElementById(formId));
+      var data = document.getElementById('oid' + formId).value;
+      console.log(data + "isdefined");
+        
+      //The data object sent by the ajax request
+      var senddata=new Object ();
+      
+      
+      //Assign the data array to the ajax object
+      
+      senddata['OID'] = encrypt.encrypt(data);
+      document.getElementById('oid' + formId).value = senddata['OID'];
+      
+      console.log(senddata['OID']);
+      var ourData = {
+          "oid":senddata['OID']
+      }
+
+      $.ajax ({
+        url:"http://localhost:5000/deleteCart/",        
+        cache : false,
+        type:"post",       
+        data:ourData,       
+          datatype:"json",       
+          success: function(response){
+            console.log("success");
+            // console.log(response['jwt_token']);
+            window.location.href = "http://localhost:5000/cart";
+          }
+          //contenttype:"application/json;charset=utf-8",        success:function (data) {
+        }
+      );
+      
+    }
+
+    function encryptrequestForUpdate(data, formId) {
+      publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
+      var encrypt=new JSEncrypt ();
+      encrypt.setPublicKey (publickey);
+      console.log(data);
+
+      //The data object sent by the ajax request
+      var senddata=new Object ();
+      
+      
+      //Assign the data array to the ajax object
+      console.log(data);
+      senddata['OID'] = encrypt.encrypt(data);
+      var quantity = document.getElementById('quantity' + formId).value;
+      //console.log(quantity);
+      senddata['quantity'] = encrypt.encrypt(quantity);
+      console.log(senddata['quantity']);
+      document.getElementById('oid_edit' + formId).value = "hello";
+      document.getElementById('quantity' + formId).value = "hello";
+      var data = {
+          "quantity":senddata['quantity'],
+          "OID":senddata['OID']
+
+      }
+
+      $.ajax ({
+        url:"http://localhost:5000/editCart/",  
+        cache: false,      
+        type:"post",       
+        data:data,       
+        datatype:"json",        
+        success: function(response){
+
+            // setTimeout(reload, 2000);
+            console.log("success");
+            window.location.href = "http://localhost:5000/cart";
+          }
+        }
+      );
+      
+
+     // sessionStorage.setItem("quantity", senddata['quantity']);
+    //    this.$quantity= this.$element.find("#cnt2");
+
+    //    cosnole.log(this.$quantity);
+
+    //   this.$quantity.setItem(sendd)
+
+    }
+
+    
+    $('#submitButton').on('click',function(){
+
+        
+        encryptrequest($('#oid').val());
+   
+
+    });
+    
+    function update(el){
+
+        // var buttonId = el.id;
+        // const myArr = buttonId.split("updateButton");
+        var formId = el.id;
+        console.log(formId);
+        var form = new FormData(document.getElementById(formId));
+        var inputValue = form.get("oid_edit");
+        console.log(inputValue);
+        encryptrequestForUpdate(inputValue, formId);
+        //window.location.reload();
+    };
+
+    function deleteItem(el){
+        console.log("I was called");
+        var formId = el.id;
+        console.log(formId);
+        var form = new FormData(document.getElementById(formId));
+        var inputValue = form.get("oid");
+        console.log(inputValue);
+        encryptrequest(formId);
+    };
+
+</script>
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
