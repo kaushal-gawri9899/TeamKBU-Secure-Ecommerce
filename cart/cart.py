@@ -3,6 +3,7 @@ Importing the necessary Libraries
 """
 from flask import Flask, render_template, redirect, url_for
 from flask import Blueprint
+from datetime import date, datetime
 from flask.globals import session
 import bcrypt
 from flask_pymongo import PyMongo
@@ -66,18 +67,35 @@ def userExists():
 def decrypt_data(inputdata, code="123456"):
   #urldecode
   data=parse.unquote (inputdata)
-  print("DATAAAA",data)
   #base64decode
-  data=base64.b64decode (data)
+  data= base64.b64decode (data)
   private_key=RSA.importKey (
     open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
   )
   #Use pkcs1_v1_5 instead of pkcs1_oaep
   #If pkcs1_oaep is used, the data encrypted by jsencrypt.js on the front end cannot be decrypted
-  cipher_rsa=PKCS1_v1_5.new (private_key)
+  cipher_rsa=PKCS1_v1_5.new(private_key)
   #When decryption fails,Will return sentinel
   #sentinel=none
   ret=cipher_rsa.decrypt (data, "none")
+  return ret
+
+def encrypt_data(inputdata, code="123456"):
+  #urldecode
+#   data=parse.unquote (inputdata)
+# #   #base64decode
+#   print("Data",data)
+  data= base64.b64decode(inputdata)
+#   print(data)
+  private_key=RSA.importKey (
+    open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
+  )
+  #Use pkcs1_v1_5 instead of pkcs1_oaep
+  #If pkcs1_oaep is used, the data encrypted by jsencrypt.js on the front end cannot be decrypted
+  cipher_rsa=PKCS1_v1_5.new(private_key)
+  #When decryption fails,Will return sentinel
+  #sentinel=none
+  ret=cipher_rsa.encrypt(data)
   return ret
 
 @cart_bp.route("/addToCart/", methods=["POST","GET"])
@@ -174,8 +192,19 @@ def payOrder():
     price_list = []
     quantity_list = []
     oid_list = []
+    total_price = 0
+    today = date.today()
+    
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+    current_date = datetime.strptime(str(today),"%Y-%m-%d")
+    validate_date = datetime.strptime(str(expiry),"%m/%Y")
+    # TODO: Error mesaage as date is bad
+    if validate_date < current_date:
+        return "Failure"
+
     for i in range(numberOfelements):
-        print(i)
         if res[i]['_id']['$oid']:
             oid_list.append(res[i]['_id']['$oid'])
         if res[i]['category']:
@@ -186,26 +215,18 @@ def payOrder():
             model_list.append(res[i]['model'])
         if res[i]['price']:
             price_list.append(res[i]['price'])
+            total_price += int(res[i]['price'])
         if res[i]['quantity']:
             quantity_list.append(res[i]['quantity'])
        
 
-    user_data = dict(category=category_list, brand=brand_list, model=model_list, price=price_list, quantity=quantity_list, cname = name, cnum = number, cexpiry = expiry, cvv = cvv, user_email = user_email )
+    user_data = dict(category=category_list, brand=brand_list, model=model_list, price=price_list, quantity=quantity_list, cname = name, cnum = number, cexpiry = expiry, cvv = cvv, user_email = user_email, total_price = total_price, date_ordered = dt_string )
     # print(category_list, brand_list, model_list, price_list, quantity_list)
     result = config.order.insert_one(user_data)
-    if result:
-        print(result)
-        for i in range(numberOfelements):
-            config.cart.delete_one({ "_id": ObjectId(oid_list[i])})
-
-
-    print(name)
-    print(number)
-    print(expiry)
-    print(cvv)
-    print(user_email)
-    # print(token)
-    print(oid_list)
+    # if result:
+    #     print(result)
+    #     for i in range(numberOfelements):
+    #         config.cart.delete_one({ "_id": ObjectId(oid_list[i])})
     return "true"
 @cart_bp.route("/deleteCart", methods=["POST"])
 # @jwt_required()
@@ -236,7 +257,94 @@ def getCartDetails():
     data = config.cart.find({ "user_name": getEmail})
     result = dumps(data)
     res = json.loads(result)
-    print(res)
     numberOfelements = len(res)
 
     return render_template("cart.html", items=res, numberOfelements=numberOfelements)
+
+@cart_bp.route("/orders", methods=["POST","GET"])
+def getOrderDetails():
+    if not userExists():
+        return redirect(url_for('user_bp.login'))
+
+    getToken = session['token']
+    getEmail = returnEmail(getToken)
+    data = config.order.find({ "user_email": str(getEmail)})
+    result = dumps(data)
+    res = json.loads(result)
+    numberOfelements = len(res)
+
+    category_list = []
+    brand_list = []
+    model_list = []
+    price_list = []
+    quantity_list = []
+    oid_list = []
+    total_price_list = []
+    date_ordered_list = []
+
+    for i in range(numberOfelements):
+        if res[i]['_id']['$oid']:
+            oid_list.append(res[i]['_id']['$oid'])
+        if res[i]['total_price']:
+            val = str(res[i]['total_price'])
+            if len(val) % 4:
+                # not a multiple of 4, add padding:
+                val += '=' * (4 - len(val) % 4) 
+            total_price_list.append(val)
+        if res[i]['date_ordered']:
+            date_ordered_list.append(res[i]['date_ordered'])
+        if res[i]['category'][0]:
+            if len(res[i]['category'][0]) % 4:
+                # not a multiple of 4, add padding:
+                res[i]['category'][0] += '=' * (4 - len(res[i]['category'][0]) % 4) 
+            category_list.append(res[i]['category'][0])
+        if res[i]['brand'][0]:
+            if len(res[i]['brand'][0]) % 4:
+                # not a multiple of 4, add padding:
+                res[i]['brand'][0] += '=' * (4 - len(res[i]['brand'][0]) % 4) 
+            brand_list.append(res[i]['brand'][0])
+        if res[i]['model'][0]:
+            if len(res[i]['model'][0]) % 4:
+                # not a multiple of 4, add padding:
+                res[i]['model'][0] += '=' * (4 - len(res[i]['model'][0]) % 4) 
+            model_list.append(res[i]['model'][0])
+        if res[i]['price'][0]:
+            if len(str(res[i]['price'][0])) % 4:
+                # not a multiple of 4, add padding:
+                res[i]['price'][0] += '=' * (4 - len(str(res[i]['price'][0])) % 4) 
+            price_list.append(str(res[i]['price'][0]))
+        if res[i]['quantity'][0]:
+            val = str(res[i]['quantity'][0])
+            if len(val) % 4:
+                # not a multiple of 4, add padding:
+                val += '=' * (4 - len(val) % 4) 
+            quantity_list.append(val)
+   
+    encrypted_category_list = []
+    encrypted_brand_list = []
+    encrypted_model_list = []
+    encrypted_price_list = []
+    encrypted_quantity_list = []
+    encrypted_oid_list = []
+    encrypted_total_price_list = []
+    encrypted_date_ordered_list = []
+
+    for i in range(numberOfelements):
+        print(i)
+        encrypted_category_list.append(encrypt_data(category_list[i]))
+        encrypted_brand_list.append(encrypt_data(brand_list[i]))
+        encrypted_model_list.append(encrypt_data(model_list[i]))
+        encrypted_price_list.append(encrypt_data(price_list[i]))
+        # TODO: quantityList not working
+        # encrypted_quantity_list.append(encrypt_data(quantity_list[i]))
+        encrypted_oid_list.append(encrypt_data(oid_list[i]))
+        encrypted_total_price_list.append(encrypt_data(total_price_list[i]))
+        encrypted_date_ordered_list.append(encrypt_data(date_ordered_list[i]))
+    
+    
+    
+    encrypted_dict = dict(category=encrypted_category_list, brand=encrypted_brand_list, model=encrypted_model_list, price=encrypted_price_list, oid = encrypted_oid_list, total_price = encrypted_total_price_list, date_ordered = encrypted_date_ordered_list )
+    print(encrypted_dict)
+    return "True"
+
+    # return render_template("cart.html", items=res, numberOfelements=numberOfelements)
