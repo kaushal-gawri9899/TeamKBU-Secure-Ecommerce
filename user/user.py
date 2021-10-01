@@ -47,8 +47,11 @@ def decrypt_data (inputdata, code="123456"):
   data=parse.unquote (inputdata)
   #base64decode
   data=base64.b64decode (data)
+#   private_key=RSA.importKey (
+#     open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
+#   )
   private_key=RSA.importKey (
-    open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
+    open (curr_dir + "/rsa_private.bin"). read (),    passphrase=code
   )
   #Use pkcs1_v1_5 instead of pkcs1_oaep
   #If pkcs1_oaep is used, the data encrypted by jsencrypt.js on the front end cannot be decrypted

@@ -69,7 +69,7 @@ def decrypt_data(inputdata, code="123456"):
   #base64decode
   data=base64.b64decode (data)
   private_key=RSA.importKey (
-    open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
+    open (curr_dir + "/rsa_private.bin"). read (),    passphrase=code
   )
   #Use pkcs1_v1_5 instead of pkcs1_oaep
   #If pkcs1_oaep is used, the data encrypted by jsencrypt.js on the front end cannot be decrypted
@@ -248,5 +248,7 @@ def getCartDetails():
     res = json.loads(result)
     print(res)
     numberOfelements = len(res)
+    hello = "hello"
+    hello = encrypt_data(hello)
 
-    return render_template("cart.html", items=res, numberOfelements=numberOfelements)
+    return render_template("cart.html", items=res, numberOfelements=numberOfelements, hello=hello)
