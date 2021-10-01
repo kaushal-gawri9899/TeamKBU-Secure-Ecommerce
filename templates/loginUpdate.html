@@ -47,6 +47,9 @@
           success: function(response){
             console.log("success");
             window.location.href = "http://localhost:5000/seeAllProducts/";
+          },
+          error: function (error) {
+            alert('Wrong Email or Password');
           }
         }
       );
@@ -159,7 +162,7 @@
 
 <body>
   <div class="login-form">
-      
+      {{message}}
       <form action="/" method="post">
 
 

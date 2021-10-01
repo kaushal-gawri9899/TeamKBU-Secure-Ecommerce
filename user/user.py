@@ -141,6 +141,7 @@ def login():
                         ourTokens = {"jwt_token":user_access_token, "user_token":token_ret.decode()}
                         return "success"
             else:
+                return "error"
                 return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
             return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
             
@@ -153,7 +154,7 @@ def login():
             return internal_error()
     
     else: 
-        return render_template("loginUpdate.html")
+        return render_template("loginUpdate.html", message="")
 
 
 """
