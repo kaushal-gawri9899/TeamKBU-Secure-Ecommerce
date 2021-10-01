@@ -166,6 +166,10 @@ button:focus {
         padding-left: 20px
     }
 }</style>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
+<script src="../static/js/rsa.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
                                 </head>
                                 <body oncontextmenu='return false' class='snippet-body'>
                                 <div class="container px-4 py-5 mx-auto">
@@ -273,7 +277,7 @@ button:focus {
                    
                         <!-- {{ items[i]['_id']['$oid'] }} -->
                         <form id="{{ items[i]['_id']['$oid'] }}" onsubmit="update(this)" method="post">
-                            <input id="{{token}}}}" type="hidden" name="token" value="{{ token }}"/>
+                            <input id="token" type="hidden" name="token" value="{{ token }}"/>
                             <input id="oid_edit{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid_edit" value="{{ items[i]['_id']['$oid'] }}"/>
                             <label for="quantity">Quantity:</label>
                             <select name="quantity" id="quantity{{ items[i]['_id']['$oid'] }}">
@@ -427,10 +431,7 @@ function decryptData (requrl, data) {
     </div>
     {% endfor %}
     
-    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
-    <script src="../static/js/rsa.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
+    
 
 <script>
     console.log(document.getElementById("hello").value);
@@ -544,6 +545,7 @@ function decryptData (requrl, data) {
       var tokenDecrypt = decrypt.decrypt(getToken);
       var splitToken = tokenDecrypt.split('.')[0];
       senddata['token'] = encrypt.encrypt(splitToken);
+
       var encryptToken = {
           'token':senddata['token']
       };
