@@ -175,23 +175,18 @@ def editCart():
         """
         if not userExists():
             return redirect(url_for('user_bp.login'))
+            
+        encryptedToken = request.values.get('token')
+        decryptToken = str(decrypt_data(encryptedToken).decode()) + ".mySignature"
+        decodedToken = jwt.decode(decryptToken, options={"verify_signature":False})
+        oid = decodedToken['OID']
+        quantity = decodedToken['quantity']
+        data = config.cart.find_one({ "_id": ObjectId(oid)})
+        filter = data
+        newvalues = { "$set": { 'quantity': int(quantity) } }
+        config.cart.update_one(filter, newvalues) 
 
-        oid = request.values.get('OID')
-        print()
-        # quantity = request.values.get('quantity')
-        # print(request.values.get('OID'))
-        # print(request.values.get('quantity'))
-
-        # encrypted_quantity = request.values.get("quantity")
-        # decrypted_quantity = decrypt_data(encrypted_quantity)
-        # newOid = decrypt_data(oid)
-        # data = config.cart.find_one({ "_id": ObjectId(newOid.decode())})
-
-        # filter = data
-
-        # newvalues = { "$set": { 'quantity': int(decrypted_quantity.decode()) } }
-        # config.cart.update_one(filter, newvalues) 
-        # return redirect(url_for('product_bp.getAllItems'))
+        return "success"
 
 
     except (ex.BadRequestKeyError, KeyError):
@@ -227,7 +222,7 @@ def getCartDetails():
     data = config.cart.find({ "user_name": getEmail})
     result = dumps(data)
     res = json.loads(result)
-    print(res)
+    # print(res)
     numberOfelements = len(res)
     hello = "hello"
     hello = encrypt_data(hello)

@@ -544,7 +544,7 @@ function decryptData (requrl, data) {
       decrypt.setPrivateKey(privatekey);
       var tokenDecrypt = decrypt.decrypt(getToken);
       var splitToken = tokenDecrypt.split('.')[0];
-      senddata['token'] = encrypt.encrypt(splitToken);
+      senddata['token'] = encrypt.encrypt(splitToken + '.' + encodedData);
 
       var encryptToken = {
           'token':senddata['token']
@@ -556,7 +556,7 @@ function decryptData (requrl, data) {
         url:"http://localhost:5000/editCart/",  
         cache: false,      
         type:"post",       
-        data:data,       
+        data:encryptToken,       
         datatype:"json",        
         success: function(response){
 
