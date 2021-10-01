@@ -511,10 +511,12 @@ function decryptData (requrl, data) {
       document.getElementById('oid_edit' + formId).value = "hello";
       document.getElementById('quantity' + formId).value = "hello";
       var data = {
-          "quantity":senddata['quantity'],
-          "OID":senddata['OID']
+        "quantity":senddata['quantity'],
+        "OID":senddata['OID']
 
       }
+
+      
 
       $.ajax ({
         url:"http://localhost:5000/editCart/",  

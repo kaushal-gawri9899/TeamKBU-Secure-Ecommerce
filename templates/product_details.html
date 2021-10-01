@@ -67,7 +67,7 @@
                 <hr />
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <form action="/addToCart/" method="post">
+                        <form onsubmit="sendData()" method="post">
                             <input id="token" name="token" type="hidden" value="{{token}}"/>
                             <input id="oid" type="hidden" name="oid" value="{{ item['_id']['$oid'] }}"/>
                             <button type="submit" id="submitButton" class="btn btn-success btn-lg">Add to cart</button>
@@ -86,41 +86,97 @@
 <script src="../static/js/rsa.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
 <script>
-    console.log($('#token').val())
-    console.log($('#oid').val())
+    // window.location.href = "http://localhost:5000/";
+    console.log($('#token').val());
+    console.log($('#oid').val());
+
+    function base64url(source) {
+        // Encode in classical base64
+        encodedSource = CryptoJS.enc.Base64.stringify(source);
+    
+        // Remove padding equal characters
+        encodedSource = encodedSource.replace(/=+$/, '');
+    
+        // Replace characters according to base64url specifications
+        encodedSource = encodedSource.replace(/\+/g, '-');
+        encodedSource = encodedSource.replace(/\//g, '_');
+    
+        return encodedSource;
+    }
 
     function encryptrequest (data) {
-        console.log("Functrin")
+        // console.log("Functrin")
         publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
+        privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
+
+
         var encrypt=new JSEncrypt ();
         encrypt.setPublicKey (publickey);
-        console.log(data);
+        // console.log(data);
         //The data object sent by the ajax request
-        
+        var tokenValue = $('#token').val();
+        var decrypt = new JSEncrypt();
+        decrypt.setPrivateKey(privatekey);
+        var tokenDecrypt = decrypt.decrypt(tokenValue);
+        var splitToken = tokenDecrypt.split('.')[0];
+
+
         var senddata=new Object ();      
         senddata['OID'] = encrypt.encrypt(data);
-        var tokenData = $('#token').val();
+        // var tokenData = $('#token').val();
+
+        var data = {
+            'oid': data
+        }
+
+        var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+        var encodedData = base64url(stringifiedData);
+
+        // console.log()
+        var newToken = splitToken + '.' + encodedData;
+        // senddata['apple'] = encrypt.encrypt(newToken);
+        var newEncrypt = new JSEncrypt();
+        newEncrypt.setPublicKey(publickey);
+        var encryptedToken = newEncrypt.encrypt(newToken);
+
+        // console.log(senddata['apple'])
+        console.log(encryptedToken);
+        var sendThisToken = new Object();
+        sendThisToken['token'] = encryptedToken; 
+        // {
+        //     'token': encryptedToken
+        // }
+        // console.log(data);
+        
         
         document.getElementById('oid').value = senddata['OID'];
 
-        console.log(senddata['OID']);
+        // console.log(senddata['OID'] + "OID");
         $.ajax ({
             url:"http://localhost:5000/addToCart/",        
             type:"post",       
-            data:senddata,       
-            datatype:"json",        
+            data:sendThisToken,       
+            datatype:"json", 
+            cache:false,       
             success: function(response){
                 console.log("success");
+                window.location.href = "http://localhost:5000/cart";
+            },
+            error: function ( xhr, status, error) {
+                console.log("failure");
+                console.log( " xhr.responseText: " + xhr.responseText + " //status: " + status + " //Error: "+error );
             }
             }
         );
+        console.log("HELLO");
+        window.location.href = "http://localhost:5000/";
       
     }
 
     
-    $('#submitButton').on('click',function(){
+    function sendData(){
         encryptrequest($('#oid').val());
-    });
+    };
 </script>
 
 

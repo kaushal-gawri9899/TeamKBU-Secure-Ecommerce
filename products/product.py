@@ -138,7 +138,7 @@ def getAllItems():
 """
 See Details of Given Product Route : Returns a json string containing details of given product based on product ID
 """
-@product_bp.route("/seeAllProducts/<pid>/", methods=["GET"])
+@product_bp.route("/seeAllProducts/<pid>/", methods=["GET","POST"])
 def getItemDetails(pid):
     try:
         
@@ -161,7 +161,7 @@ def getItemDetails(pid):
     except bson.errors.InvalidId:
         return internal_error_invalid_ID()
 
-@product_bp.route('/seeAllProducts/image/<pid>')
+@product_bp.route('/seeAllProducts/image/<pid>', methods=["GET","POST"])
 def getItemImage(pid):
     try:
         item = config.items.find_one({"_id": ObjectId(pid)})

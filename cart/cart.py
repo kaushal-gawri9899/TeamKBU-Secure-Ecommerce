@@ -76,6 +76,7 @@ def decrypt_data(inputdata, code="123456"):
   cipher_rsa=PKCS1_v1_5.new (private_key)
   #When decryption fails,Will return sentinel
   #sentinel=none
+  
   ret=cipher_rsa.decrypt (data, "none")
   return ret
 
@@ -125,12 +126,23 @@ def addCart():
         if not userExists():
             return redirect(url_for('user_bp.login'))
 
-        oid = request.values.get("oid")
-        print("OID", oid)
-        newOid = decrypt_data(oid)
-        token = request.values.get("token")
+        mytoken = request.values.get("token")
+        print("OID", mytoken)
+        decryptedToken = str(decrypt_data(mytoken).decode()) + ".appleMango"
+        print(decryptedToken)
+        print("scucces")
+        decodedToken = jwt.decode(decryptedToken, options={"verify_signature":False})
+        oid = decodedToken['oid']
+        print(oid)
+
+        token = session['token']
+        # myToken = decrypt_data(token)
+        # print(myToken)
+        # print("here")
         user_email = returnEmail(token)
-        data = config.items.find_one({ "_id": ObjectId(newOid.decode())})
+        print("check")
+        print(user_email)
+        data = config.items.find_one({ "_id": ObjectId(oid)})
         category = data["category"]
         brand = data["brand"]
         model = data["model"]
@@ -142,40 +154,13 @@ def addCart():
 
         item_data = dict(category=category, brand=brand, model=model, price=price, quantity=quantity, user_id=user_id, user_name=user_name)
         config.cart.insert_one(item_data)
-
-        text = "This will be encrypted"
-        encrypted = encrypt_data(text)
-        print("EncryptedData:", encrypted)
+        a = {"success":"b"}
+        b = json.dumps(a)
+        return b
+        # return "success"
+        # return redirect(url_for('cart_bp.getCartDetails'))
         
-        
-        #data=parse.unquote (encrypted)
-  #base64decode
-        #data=base64.b64decode (data)
-        private_key=RSA.importKey (
-            open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase="123456"
-        )
-        # private_key=RSA.importKey(
-        #     open (curr_dir + "/my_rsa_public.pem").read(), passphrase="123456"
-        # )
-  #Use pkcs1_v1_5 instead of pkcs1_oaep
-  #If pkcs1_oaep is used, the data encrypted by jsencrypt.js on the front end cannot be decrypted
-        cipher_rsa=PKCS1_v1_5.new (private_key)
-  #When decryption fails,Will return sentinel
-  #sentinel=none
-        # ret=cipher_rsa.decrypt (encrypted, "none")
-
-        # print("Decrypted Value is", base64.b64decode(ret).decode())
-        
-
-        # decrypted = decrypt_data(encrypted)
-        
-        # print("Decrypted", decrypted.decode())
-        #print("Decoded" , base64.b64decode(encrypted))
-
-        return redirect(url_for('cart_bp.getCartDetails', data=encrypted))
-        # return render_template('cart.html', data=encrypted)
-        # return render_template("logged_in.html")
-        return jsonify(message="Item Added Successfully", flag=True), 201
+        # return jsonify(message="Item Added Successfully", flag=True), 201
 
     except (ex.BadRequestKeyError, KeyError):
         print("Hello")
@@ -250,5 +235,7 @@ def getCartDetails():
     numberOfelements = len(res)
     hello = "hello"
     hello = encrypt_data(hello)
+    # print(str(decrypt_data(session['token']).decode()).split('.'), "HELLELELELELELEL")
+    token = session['token']
 
     return render_template("cart.html", items=res, numberOfelements=numberOfelements, hello=hello)
