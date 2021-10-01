@@ -225,10 +225,6 @@ def getCartDetails():
     data = config.cart.find({ "user_name": getEmail})
     result = dumps(data)
     res = json.loads(result)
-<<<<<<< decryption
-    # print(res)
-=======
->>>>>>> local
     numberOfelements = len(res)
     hello = "hello"
     hello = encrypt_data(hello)
