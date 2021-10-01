@@ -202,12 +202,15 @@ def deleteCart():
         if not userExists():
             return redirect(url_for('user_bp.login'))
 
-        oid = request.values.get("oid")
-        print(oid, "I WAS CALLED")
-        newOid = decrypt_data(oid)
-        config.cart.delete_one({ "_id": ObjectId(newOid.decode())})
+        encryptedToken = request.values.get("token")
+        decryptToken = str(decrypt_data(encryptedToken).decode()) + ".mySignature"
+        decodedToken = jwt.decode(decryptToken, options={"verify_signature":False})
+        oid = decodedToken['oid']
 
-        return redirect(url_for('cart_bp.getCartDetails'))
+        
+        config.cart.delete_one({ "_id": ObjectId(oid)})
+        print("success")
+        return "success"
 
     except (ex.BadRequestKeyError, KeyError):
         return internal_error()
@@ -222,11 +225,13 @@ def getCartDetails():
     data = config.cart.find({ "user_name": getEmail})
     result = dumps(data)
     res = json.loads(result)
+<<<<<<< decryption
     # print(res)
+=======
+>>>>>>> local
     numberOfelements = len(res)
     hello = "hello"
     hello = encrypt_data(hello)
-    # print(str(decrypt_data(session['token']).decode()).split('.'), "HELLELELELELELEL")
     token = session['token']
 
     return render_template("cart.html", items=res, numberOfelements=numberOfelements, hello=hello, token=token)
