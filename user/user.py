@@ -47,8 +47,11 @@ def decrypt_data (inputdata, code="123456"):
   data=parse.unquote (inputdata)
   #base64decode
   data=base64.b64decode (data)
+#   private_key=RSA.importKey (
+#     open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
+#   )
   private_key=RSA.importKey (
-    open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
+    open (curr_dir + "/rsa_private.bin"). read (),    passphrase=code
   )
   #Use pkcs1_v1_5 instead of pkcs1_oaep
   #If pkcs1_oaep is used, the data encrypted by jsencrypt.js on the front end cannot be decrypted
@@ -136,7 +139,7 @@ def login():
                         user_access_token = create_access_token(identity=user_email)
                         print(user_access_token)
                         ourTokens = {"jwt_token":user_access_token, "user_token":token_ret.decode()}
-                        return token_ret.decode()
+                        return "success"
             else:
                 return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
             return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404

@@ -44,7 +44,7 @@ def decrypt_data(inputdata, code="123456"):
   #base64decode
   data=base64.b64decode (data)
   private_key=RSA.importKey (
-    open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
+    open (curr_dir + "/rsa_private.bin"). read (),    passphrase=code
   )
   #Use pkcs1_v1_5 instead of pkcs1_oaep
   #If pkcs1_oaep is used, the data encrypted by jsencrypt.js on the front end cannot be decrypted
@@ -138,7 +138,7 @@ def getAllItems():
 """
 See Details of Given Product Route : Returns a json string containing details of given product based on product ID
 """
-@product_bp.route("/seeAllProducts/<pid>/", methods=["GET"])
+@product_bp.route("/seeAllProducts/<pid>/", methods=["GET","POST"])
 def getItemDetails(pid):
     try:
         
@@ -161,7 +161,7 @@ def getItemDetails(pid):
     except bson.errors.InvalidId:
         return internal_error_invalid_ID()
 
-@product_bp.route('/seeAllProducts/image/<pid>')
+@product_bp.route('/seeAllProducts/image/<pid>', methods=["GET","POST"])
 def getItemImage(pid):
     try:
         item = config.items.find_one({"_id": ObjectId(pid)})
