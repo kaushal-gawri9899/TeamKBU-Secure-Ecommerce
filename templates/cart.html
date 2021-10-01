@@ -468,7 +468,10 @@
                     datatype: "json",
                     success: function (response) {
                         console.log("success");
-                        // window.location.href = "http://localhost:5000/seeAllProducts/";
+                        window.location.href = "http://localhost:5000/seeAllProducts/";
+                    },
+                    error: function (error) {
+                        alert('Missing or Incorrect payment details, or card expiry date found to be in past');
                     }
                 }
                 );
