@@ -238,4 +238,4 @@ def getCartDetails():
     # print(str(decrypt_data(session['token']).decode()).split('.'), "HELLELELELELELEL")
     token = session['token']
 
-    return render_template("cart.html", items=res, numberOfelements=numberOfelements, hello=hello)
+    return render_template("cart.html", items=res, numberOfelements=numberOfelements, hello=hello, token=token)
