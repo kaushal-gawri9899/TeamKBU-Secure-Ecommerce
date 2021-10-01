@@ -147,7 +147,11 @@
                                     error: function ( xhr, status, error) {
                                         console.log("failure");
                                         console.log( " xhr.responseText: " + xhr.responseText + " //status: " + status + " //Error: "+error );
-                                    }
+                                    },
+
+                                    complete: function(response) {
+                                        window.location.href = "http://localhost:5000/cart";
+                                    } //E
                                     }
                                 );
                                 console.log("HELLO");
