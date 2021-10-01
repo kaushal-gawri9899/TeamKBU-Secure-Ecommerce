@@ -238,11 +238,26 @@ def getCartDetails():
 
 @cart_bp.route("/payment", methods=["POST"])
 def payOrder():
+    
+    token = request.values.get("token")
+    
+    decrypted_token = decrypt_data(token).decode()
+    signature_token = str(decrypted_token) + ".mySignature"
+    # decryptToken = str(decrypt_data(encryptedToken).decode()) + ".mySignature"
+    decoded_signature_Token = jwt.decode(signature_token, options={"verify_signature":False})
+    print(decoded_signature_Token)
+    
+    
+    print(decrypted_token)
+    # return "None"
    
-    name = decrypt_data(request.values.get("cname")).decode()
-    number = decrypt_data(request.values.get('cnum')).decode()
-    expiry = decrypt_data(request.values.get('exp')).decode()
-    cvv = decrypt_data(request.values.get('cvv')).decode()
+    name = decoded_signature_Token["cname"]
+    number = decoded_signature_Token["cnum"]
+    expiry = decoded_signature_Token["exp"]
+    cvv = decoded_signature_Token["cvv"]
+    print(name)
+    
+    # return "None"
     
 
     session_token = session['token']
@@ -307,6 +322,10 @@ def getOrderDetails():
     result = dumps(data)
     res = json.loads(result)
     numberOfelements = len(res)
+    
+    print(res)
+    
+    # return "None"
 
     category_list = []
     brand_list = []
@@ -344,15 +363,15 @@ def getOrderDetails():
                 res[i]['model'][0] += '=' * (4 - len(res[i]['model'][0]) % 4) 
             model_list.append(res[i]['model'][0])
         if res[i]['price'][0]:
-            if len(str(res[i]['price'][0])) % 4:
-                # not a multiple of 4, add padding:
-                res[i]['price'][0] += '=' * (4 - len(str(res[i]['price'][0])) % 4) 
+            # if len(str(res[i]['price'][0])) % 4:
+            #     # not a multiple of 4, add padding:
+            #     res[i]['price'][0] += '=' * (4 - len(str(res[i]['price'][0])) % 4) 
             price_list.append(str(res[i]['price'][0]))
         if res[i]['quantity'][0]:
             val = str(res[i]['quantity'][0])
-            if len(val) % 4:
-                # not a multiple of 4, add padding:
-                val += '=' * (4 - len(val) % 4) 
+            # if len(val) % 4:
+            #     # not a multiple of 4, add padding:
+            #     val += '=' * (4 - len(val) % 4) 
             quantity_list.append(val)
    
     encrypted_category_list = []
