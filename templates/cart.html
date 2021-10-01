@@ -255,8 +255,8 @@ button:focus {
         }
     }
 
-    
-     updateLiveData();
+    //Uncomment
+    // updateLiveData();
 
     
    // window.location.reload();
@@ -265,6 +265,7 @@ button:focus {
 
 
                          </script>
+
                         <p class="mb-0" id="cnt2" name="cnt2" >{{ items[i]['quantity'] }}</p>
                         <!-- <p id="val" name="val">{{ items[i]['quantity'] }}</p> -->
                    
@@ -322,7 +323,97 @@ button:focus {
                                 
 
                             </script>
+                            <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
                             <button id="updateButton{{ items[i]['_id']['$oid'] }}" type="submit" class="btn btn-primary btn-lg">Update Quantity</button>
+                            
+                            <script>
+
+function decryptData (requrl, data) {
+      console.log("Decrypt")
+      console.log("Data")
+      console.log(data)
+      
+        // publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
+     
+        // privatekey = "-----BEGIN RSA PRIVATE KEY-----Proc-Type: 4,ENCRYPTEDDEK-Info: DES-EDE3-CBC,64C145AECE31D323U8Jj11dYgdO2W6Ya4eQrxNPkjagyhc4P1EveP47gvb7EnBXYyJmMPCwz8jjHsQfmkTQA2k0exVToGgK4UiJdLSeBX/SvZ6NeNXnA/PMPz+t+SiOGMjggoz3ctA2MPwwTncPsP/CICQo8cr3byMoicQbMxWVDISy+RtKYmqp9ma6Oh/r78jUcEXePxoV5ANOBXk4geWHdJtT/cy6Xo+SXEHfeSQisvPX67uIFpN050EG5yKC3HIywVh6tv62k/t9RGakVx0BneaXaWpbwOGlu9PnFBCPQTFrxkSOC4cvDgQhSBLz2MOw2oOKPHhq3WQyZ+o0dVpcQpuaJ1FEgTZvgX/Cpem8Oy9qXudYCBmseGftDvWWWXGmQt8e5tdd6DQWvt/QQKs1d/bilB8Lwf7yxuc/UvItWN1AB1z+y/dv8qySSpirYzAkpOPrlC7c0s7DKAVFblOYWvivRA1t9dMqxSObVbayJnER+r+eXXwWBPsnpFAKAhOETiW55nG/qOjKp2YwZpLRS+Nb5iVM1K7SBXXvmjt1j5n6em6PwnUs0xAyBBp0z53OQIFOQIsvZv18a03baVhyO9cwnmR+B0hDeW/Kb1kbyu9mJRGWBN2mUKVfKQQTaU1UonJRhCwwbsJ1wsqY4OXtFmmc6eze7QmRN0DrjLsRf2LntHBqsC5LQCkyfrWLetZCzxzDw5eZS/+oR+x5+h9H5oZCk2MgW+ji91GespsbQ3az6CflJ6nZowzC1mCZvWWYXOyfRDnU+Fe0YwudzRVcE03PmeRqoaU3wGaojNWzlk/GiC6XdVk8qqpo3r6kZhp0ym5bwfykMRgKnNmNntkkd+NK2gzM4yWM/kJ0Od7Gifs38n1yk1iGlil70/Mk70UvJyDllTl1aD+KxWkqdurXETP5j+tlwFqLYzGkl7yk4uryNIwiwOjzzdXanffq0FYudrL0oot+17dfz6hajO/nBbP5EBwr1T1+LBjFVFRkjJegz5ilY6iIa7kfuCBNP+os9YMa6J4Mn1zdWZkdv6sZYeuR4XzopZnv6F4nV0dy3hhdSXBxKLb54ic6/WcmY5abuP4sKt+JndOE5xbMYbd1qqFXkMgVLjfqLqgWX0pLrhEFCAMiFZ7RTPOwd8YdBs5+OGiIZV1g4p1YsHqmrQmWvxxXvxBfwBJvC3ccPwgvYRdxt97VxZEIwxYDTU01fF5jAgKubkVfLgigp2KkOyLWwX8hTscx+QR41wSymbE/YafGMakWjvwJbDNApvAcmw5GQGhmBDqoOLzIrRUWfi0/Uj48DjB0T1fsKMTb12z9bJnvHiBnfAAXcKU/sPfKPGInQlFKcyMwB7LEmg+J3enaEHIJOeHhKBE2KVHasVhU4teM4KLCAUpIshQ5E+2OI9W1S92f165xHkKmZrpTgWJv25nPCIHy5SdM5NXiUiNb7ILnHKqS+oG3/YiFW7xmYQtn2hNNak2HG3YXE2Dlv8pLtfSt+McnuPACxdHy47+gRkdhD55+tuoYRzd1SscOIibHXX/vJkg4Sk2Ogv5loatKz5ZBcF1jrzv8dfr+X8hyIe6ywLkMzRsVAKka/l0rQ6UohmGco+nIWETM9-----END RSA PRIVATE KEY-----"
+        
+    
+        //const fs = require('fs');
+        
+
+        //let privatekey = fs.readFileSync("my_private_rsa_key.bin", "utf-8").toString();
+
+        //publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzdxaei6bt/xIAhYsdFdW62CGTpRX+GXoZkzqvbf5oOxw4wKENjFX7LsqZXxdFfoRxEwH90zZHLHgsNFzXe3JqiRabIDcNZmKS2F0A7+Mwrx6K2fZ5b7E2fSLFbC7FsvL22mN0KNAp35tdADpl4lKqNFuF7NT22ZBp/X3ncod8cDvMb9tl0hiQ1hJv0H8My/31w+F+Cdat/9Ja5d1ztOOYIx1mZ2FD2m2M33/BgGY/BusUKqSk9W91Eh99+tHS5oTvE8CI8g7pvhQteqmVgBbJOa73eQhZfOQJ0aWQ5m2i0NUPcmwvGDzURXTKW+72UKDz671bE7YAch2H+U7UQeawwIDAQAB-----END PUBLIC KEY-----"
+        //privatekey = "-----BEGIN PRIVATE KEY-----MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDN3Fp6Lpu3/EgCFix0V1brYIZOlFf4ZehmTOq9t/mg7HDjAoQ2MVfsuyplfF0V+hHETAf3TNkcseCw0XNd7cmqJFpsgNw1mYpLYXQDv4zCvHorZ9nlvsTZ9IsVsLsWy8vbaY3Qo0Cnfm10AOmXiUqo0W4Xs1PbZkGn9fedyh3xwO8xv22XSGJDWEm/QfwzL/fXD4X4J1q3/0lrl3XO045gjHWZnYUPabYzff8GAZj8G6xQqpKT1b3USH3360dLmhO8TwIjyDum+FC16qZWAFsk5rvd5CFl85AnRpZDmbaLQ1Q9ybC8YPNRFdMpb7vZQoPPrvVsTtgByHYf5TtRB5rDAgMBAAECggEAUDPieCnCd1rtvwpehXElpwxzJxg6ccdaVMjwx7tuoRidHoRzeB2fUNbWvLVIGvDTjTPGAr5I9BoFHT5tARJMeGIzbISDxsosDBRKu88cCx6dRl3ukcjSLsxMh8XUDhyWLsSgAMIpxVfHUuOsHmLZ2I3Ho6o1KIxdVg/JSgtdwTqjz3w8jmGQ/NXgc7Ym/ys1fLG9L2nYdMzK/mRJf/BnXiCNE6/SYlZYO716oC688UJBWS3BqB9jaJyNpigX//ynJvU6xw8FhHt4fRStUmCCYAYhCQu3XgbtmxKisDGhdBVASG+DM+vVTh+sSvxkNrjJjF+m2tSg578A8C8Ls0r3uQKBgQDpO9e178NR0HHmvWbZR9+uPugf4UT9+U2/dEfJBHAOp2GRsIvXkFwbPHuSHkc0iEPwz+U8gPC8jInSslKOUDtaGtUaVzzWrxxh7DggWx4pYs3I0Ki8C+CRTTdOY9GAFa9jhIyRmf6v9QoAH/loGNV2qYFbb+HweD0PnxlWha1txQKBgQDh9IBBltW7T96foUmHOn+x6xlF5MNDHxLBY6bngxKvMTZoi5C6wmmCmasF45LWbkvUiMAsovYN5z4cJnKXWmRmCS8NXUucmUgdvsmCbiB62BmZvHaOffmnIdhcAjBebT/Bn5qMvKCNy3fQFSfuEw1eRRO2IofB4o7z7m794vo25wKBgEPowrQcrZhCwwdWGn4laUGI23l80+PHFRYru0MSYbZCkiwjZXRMeiUMBUbUPhNTocSaI7rsKCweF3sbpOH/BmkD6wySXgp8Th1M9EKnhS6zsAtKhfbK1oY4H2RZuAQ9TCYD0BIM7pU5GcJTjQD8ShsU269N8lFcERtdTbldjtOpAoGAF4YkADAa6lhjXg0loY2Gk9hdFji913QZuMaOLtYnkNO3zWSSWc85ut4Svxc1R1vOSz89eqgwo7vqbHXYQken4jOckXCgGZqftnERe6HJgeCTsby8PxOAdVUBuHqF3J7VH2xlY7eTo4+GVsSNFq0nHCRm6/RmW9ohdeXh6k7CLAsCgYBZe3RLWuffKxg+lZmv9tJDOO813QPLFeixrBYhKjGDcwjVYcCugGNDmyStM0/++uWddgMKavNALjpamu8KolDNivrjL1qaFHX9Bpi108T+dDn2WpX+vUP6hjA/U2wtTvUbJle1SsbZxRrV9gf5PAJqTrQY4u28ezjR3PCV+R4kdw==-----END PRIVATE KEY-----";
+    
+        privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
+        
+        publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
+
+        // var enc = new JSEncrypt();
+
+        // enc.setPublicKey(publickey);
+        // //enc.setPrivateKey(privatekey);
+        // var encrypted = enc.encrypt("This is a String");
+        
+        // console.log("Encrypted Value", encrypted)
+        
+        //enc = "b'VGhpcyB3aWxsIGJlIGVuY3J5cHRlZA=='"
+        var dept = new JSEncrypt();
+        //dept.setPublicKey(publickey);
+        dept.setPrivateKey(privatekey);
+        var senddata = new Object();
+        
+
+        //senddata["value"] = dept.decrypt(encrypted)
+        
+        // console.log("Data "+data+" End")
+        var decrypted = dept.decrypt("WVEzKOT6DyTpxsU%2F113KgMVtdBM4nd%2Fwk6Po3JRzWgGF5VMbd9fiAbzl71Wt2wuGDXyfcSnEHv3a447SfesfPNWcy3vWsR2q7VuJmcKRNf7BEiu9EPOCx93860K%2B%2F2mHhMBIynp0%2BA%2BC93N7LdcKUtRyh1RP3zurIRKLNnYAtaxSRs9bNL%2BfP6rRYxZwUW%2BmXG%2B5vpjPxriVINrcuwGRwWJCAxjuG2SImrnWypf0sPZfcuhqmZb1iszX7n3vQ%2FxrzCocI0wr7UhN59okRENDY0QP5yY14Q31Alm%2BVJrJZ%2Bi6PfNldri3v1%2B89%2FQsr7PZoia1QOwzb5EiGq9n%2F23obg%3D%3D")
+        //senddata["Value"] = dept.decrypt("00x\x11\xaf\xd6\xc3\x1e\x9e\xa7N\xdb\'\xeb\xdf\xd7\xe7RIN\xd8\nE\xf2\xc9Y\xbb\xd3\x15\xa2\x05\xa4*\x92\xcb\x1e\xfb\xb8\xd0&,\xc0\xb0\xa2\xeaw\xb9\x1d\xd4\xc2q\x82\x01\xde\x825\xd7R@\x03\x0c!\xfcww\x02e\xc1\x81\xfa\x98\xf4@\x02N\xa5\x003\xe8\xaf\xe4 \xad\xe3\x18g\x92\x0c\x05T3\xd5&(\x1b\xf8\xbd\t\t\x87\xe7\x92\xe0\x07\xc4"\\>\xf0\xff-\xb1r\x12\xf8\x06\x07\xbe6\xc5\xa6\xb7\\EB\x1f\x13\xea\x91:\x98A@q\xd6\xef\x02\x90hp%7\x0b\x04\xa3\x87\xa4\xcc\x84\x91\x87\'\xda\x00\xac\xe2\xc4\x7f~\xf2\x85\xcbF\x9d.\xf2#\xeeS\x15,\t\xc0\x12(:6\xb3{\xef7\xc4\x1e6\x0f\xc6\xd9\x8e\xad\x93\x0c\xd7\xcfK]\x903\x9e\x03K\x17\x94\x9b\xa2\xd2\x08\xfa\xb4\xc4K\r\x8fy@4v\xdc\xf2kd\xc1\xc2\x92\x01\x02\xe8>N\xf3,\xcf\xbe<F\xd9\x94\x90-L\xaf\x97Ay\xc7\x07/\x91<`f\x95A\xad\x96H+\x92Sc");
+        console.log(decrypted);
+        //   var encrypt=new JSEncrypt ();
+    //   encrypt.setPublicKey (publickey);
+    //   console.log(data);
+
+    //   //The data object sent by the ajax request
+    //   var senddata=new Object ();
+      
+    //   //Assign the data array to the ajax object
+    //   for (var key in data) {
+    //     if(key=='token'){
+    //       senddata [key]=encrypt.encrypt(data [key]);
+    //     }
+    //     else{
+    //       senddata[key] = data[key];
+    //     }
+    //   }
+    //   console.log(senddata);
+      
+      $.ajax ({
+        url:requrl,        
+        type:"post",       
+         data:senddata,       
+          datatype:"json",        
+          success: function(response){
+            console.log("success");
+            window.location.href = "http://localhost:5000/cart";
+          }
+        }
+      );
+    }
+                                 $(function () {
+      $("#encryptNow").click (function () {
+
+        var data = '{{data}}' ;
+        console.log("Data IS")
+        console.log(data)
+        console.log("Data End")
+        decryptData("http://localhost:5000/cart", data);
+      });
+    });
+  </script>
+                            </script>
+                            <input  type="button" id="encryptNow"></input>
                         </form>
                     </div>
                 </div>
