@@ -375,19 +375,15 @@ def getOrderDetails():
     
     print(res)
 
-    tokenDecrypt = str(decrypt_data(getToken).decode())
-    print(tokenDecrypt)
-
-    tokenHead = tokenDecrypt.split(".")
-    print(tokenHead[0])
+    
 
 
     print(getEmail)
     
     client_details = "Email : " + getEmail + " Name : " + res['cname']
     client = Client(client_details)
-    provider = Provider('ABCD', bank_account='2600420569', bank_code='2010')
-    creator = Creator('ABCD')
+    provider = Provider('KPA', bank_account='2600420569', bank_code='2010')
+    creator = Creator('KPA')
     
     invoice = Invoice(client, provider, creator)
     invoice.currency_locale = 'en_US'
@@ -440,10 +436,33 @@ def getOrderDetails():
             
     
     pdf = SimpleInvoice(invoice)
-    pdf.gen("invoices/" +res['_id']['$oid']+'.pdf', generate_qr_code=True)
+
+    invoice_dir = "static/invoices/" +res['_id']['$oid']+'.pdf' 
+
+    #encrypted_invoice_dir = encrypt_data(invoice_dir)
+
+    #session['invoice'] = encrypted_invoice_dir
+
+
+    pdf.gen(invoice_dir, generate_qr_code=True)
     
 
+    tokenDecrypt = str(decrypt_data(getToken).decode())
+    print(tokenDecrypt)
 
+    tokenHead = tokenDecrypt.split(".")
+    print(tokenHead[0])
+
+    
+    
+    invoice_dict = {"invoiceDict" : invoice_dir}
+
+    encodedDir = base64.urlsafe_b64encode(json.dumps(invoice_dict).encode()).decode()
+    newTokenDir = tokenHead[0] + "." + encodedDir
+
+    encrypted_Dir = encrypt_data(newTokenDir)
+    session['invoice'] = encrypted_Dir
+    print("DIR", encrypted_Dir)
 
 
     # for i in range(numberOfelements):
