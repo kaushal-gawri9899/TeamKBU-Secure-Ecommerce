@@ -117,7 +117,7 @@ def encrypt_data(inputdata, code="123456"):
     return encrypted_bytes.decode("utf-8")
 
     
-@cart_bp.route("/addToCart/", methods=["POST","GET"])
+@cart_bp.route("/addToCart", methods=["POST","GET"])
 def addCart():
     try:
         """
@@ -163,14 +163,14 @@ def addCart():
         
         # return jsonify(message="Item Added Successfully", flag=True), 201
         #return redirect(url_for('cart_bp.getCartDetails'))
-        
+        return "True"
         return jsonify(message="Item Added Successfully", flag=True), 201
 
     except (ex.BadRequestKeyError, KeyError):
         print("Hello")
         return internal_error()
     
-@cart_bp.route("/editCart/", methods=["POST"])
+@cart_bp.route("/editCart", methods=["POST"])
 # @jwt_required()
 def editCart():
     try:
@@ -196,7 +196,7 @@ def editCart():
     except (ex.BadRequestKeyError, KeyError):
         return internal_error()
 
-@cart_bp.route("/deleteCart/", methods=["POST"])
+@cart_bp.route("/deleteCart", methods=["POST"])
 # @jwt_required()
 def deleteCart():
     try:
@@ -206,10 +206,21 @@ def deleteCart():
         if not userExists():
             return redirect(url_for('user_bp.login'))
 
-        oid = request.values.get("oid")
-        print(oid, "I WAS CALLED")
-        newOid = decrypt_data(oid)
-        config.cart.delete_one({ "_id": ObjectId(newOid.decode())})
+        encryptedToken = request.values.get("token")
+        decryptToken = str(decrypt_data(encryptedToken).decode()) + ".mySignature"
+        decodedToken = jwt.decode(decryptToken, options={"verify_signature":False})
+        oid = decodedToken['oid']
+        print(oid)
+
+        # return redirect(url_for('cart_bp.getCartDetails'))
+
+        config.cart.delete_one({ "_id": ObjectId(oid)})
+        print("success")
+        # return "success"
+        # oid = request.values.get("oid")
+        # print(oid, "I WAS CALLED")
+        # newOid = decrypt_data(oid)
+        # config.cart.delete_one({ "_id": ObjectId(newOid.decode())})
 
         return redirect(url_for('cart_bp.getCartDetails'))
 
@@ -245,28 +256,20 @@ def payOrder():
     signature_token = str(decrypted_token) + ".mySignature"
     # decryptToken = str(decrypt_data(encryptedToken).decode()) + ".mySignature"
     decoded_signature_Token = jwt.decode(signature_token, options={"verify_signature":False})
-    print(decoded_signature_Token)
-    
-    
-    print(decrypted_token)
-    # return "None"
-   
+  
     name = decoded_signature_Token["cname"]
     number = decoded_signature_Token["cnum"]
     expiry = decoded_signature_Token["exp"]
     cvv = decoded_signature_Token["cvv"]
-    print(name)
-    
-    # return "None"
-    
+  
 
     session_token = session['token']
     user_email = returnEmail(session_token)
     data = config.cart.find({ "user_name": user_email})
     res = json.loads(dumps(data))
-    print(res)
+  
     numberOfelements = len(res)
-    print(numberOfelements)
+   
     category_list = []
     brand_list = []
     model_list = []
@@ -282,8 +285,15 @@ def payOrder():
     current_date = datetime.strptime(str(today),"%Y-%m-%d")
     validate_date = datetime.strptime(str(expiry),"%m/%Y")
     # TODO: Error mesaage as date is bad
+    print(validate_date)
+    print(current_date)
     if validate_date < current_date:
-        return "Failure"
+        return "Failure Date"
+    if len(cvv) != 3:
+        return "Failure cvv"
+    if len(number) != 16:
+        return "Failure number"
+
 
     for i in range(numberOfelements):
         if res[i]['_id']['$oid']:
@@ -304,10 +314,10 @@ def payOrder():
     user_data = dict(category=category_list, brand=brand_list, model=model_list, price=price_list, quantity=quantity_list, cname = name, cnum = number, cexpiry = expiry, cvv = cvv, user_email = user_email, total_price = total_price, date_ordered = dt_string )
     # print(category_list, brand_list, model_list, price_list, quantity_list)
     result = config.order.insert_one(user_data)
-    # if result:
-    #     print(result)
-    #     for i in range(numberOfelements):
-    #         config.cart.delete_one({ "_id": ObjectId(oid_list[i])})
+    if result:
+        print(result)
+        for i in range(numberOfelements):
+            config.cart.delete_one({ "_id": ObjectId(oid_list[i])})
     return "true"
 
 
@@ -327,78 +337,79 @@ def getOrderDetails():
     
     # return "None"
 
-    category_list = []
-    brand_list = []
-    model_list = []
-    price_list = []
-    quantity_list = []
-    oid_list = []
-    total_price_list = []
-    date_ordered_list = []
+    # category_list = []
+    # brand_list = []
+    # model_list = []
+    # price_list = []
+    # quantity_list = []
+    # oid_list = []
+    # total_price_list = []
+    # date_ordered_list = []
 
-    for i in range(numberOfelements):
-        if res[i]['_id']['$oid']:
-            oid_list.append(res[i]['_id']['$oid'])
-        if res[i]['total_price']:
-            val = str(res[i]['total_price'])
-            if len(val) % 4:
-                # not a multiple of 4, add padding:
-                val += '=' * (4 - len(val) % 4) 
-            total_price_list.append(val)
-        if res[i]['date_ordered']:
-            date_ordered_list.append(res[i]['date_ordered'])
-        if res[i]['category'][0]:
-            if len(res[i]['category'][0]) % 4:
-                # not a multiple of 4, add padding:
-                res[i]['category'][0] += '=' * (4 - len(res[i]['category'][0]) % 4) 
-            category_list.append(res[i]['category'][0])
-        if res[i]['brand'][0]:
-            if len(res[i]['brand'][0]) % 4:
-                # not a multiple of 4, add padding:
-                res[i]['brand'][0] += '=' * (4 - len(res[i]['brand'][0]) % 4) 
-            brand_list.append(res[i]['brand'][0])
-        if res[i]['model'][0]:
-            if len(res[i]['model'][0]) % 4:
-                # not a multiple of 4, add padding:
-                res[i]['model'][0] += '=' * (4 - len(res[i]['model'][0]) % 4) 
-            model_list.append(res[i]['model'][0])
-        if res[i]['price'][0]:
-            # if len(str(res[i]['price'][0])) % 4:
-            #     # not a multiple of 4, add padding:
-            #     res[i]['price'][0] += '=' * (4 - len(str(res[i]['price'][0])) % 4) 
-            price_list.append(str(res[i]['price'][0]))
-        if res[i]['quantity'][0]:
-            val = str(res[i]['quantity'][0])
-            # if len(val) % 4:
-            #     # not a multiple of 4, add padding:
-            #     val += '=' * (4 - len(val) % 4) 
-            quantity_list.append(val)
+    # for i in range(numberOfelements):
+    #     # if res[i]['_id']['$oid']:
+    #     #     oid_list.append(res[i]['_id']['$oid'])
+    #     # if res[i]['total_price']:
+    #     #     val = str(res[i]['total_price'])
+    #     #     # if len(val) % 4:
+    #     #     #     # not a multiple of 4, add padding:
+    #     #     #     val += '=' * (4 - len(val) % 4) 
+    #     #     total_price_list.append(val)
+    #     # if res[i]['date_ordered']:
+    #     #     date_ordered_list.append(res[i]['date_ordered'])
+    #     if res[i]['category'][0]:
+    #         # if len(res[i]['category'][0]) % 4:
+    #         #     # not a multiple of 4, add padding:
+    #         #     res[i]['category'][0] += '=' * (4 - len(res[i]['category'][0]) % 4) 
+    #         category_list.append(res[i]['category'][0])
+    #     if res[i]['brand'][0]:
+    #         # if len(res[i]['brand'][0]) % 4:
+    #         #     # not a multiple of 4, add padding:
+    #         #     res[i]['brand'][0] += '=' * (4 - len(res[i]['brand'][0]) % 4) 
+    #         brand_list.append(res[i]['brand'][0])
+    #     if res[i]['model'][0]:
+    #         # if len(res[i]['model'][0]) % 4:
+    #         #     # not a multiple of 4, add padding:
+    #         #     res[i]['model'][0] += '=' * (4 - len(res[i]['model'][0]) % 4) 
+    #         model_list.append(res[i]['model'][0])
+    #     if res[i]['price'][0]:
+    #         # if len(str(res[i]['price'][0])) % 4:
+    #         #     # not a multiple of 4, add padding:
+    #         #     res[i]['price'][0] += '=' * (4 - len(str(res[i]['price'][0])) % 4) 
+    #         price_list.append(str(res[i]['price'][0]))
+    #     if res[i]['quantity'][0]:
+    #         val = str(res[i]['quantity'][0])
+    #         # if len(val) % 4:
+    #         #     # not a multiple of 4, add padding:
+    #         #     val += '=' * (4 - len(val) % 4) 
+    #         quantity_list.append(val)
    
-    encrypted_category_list = []
-    encrypted_brand_list = []
-    encrypted_model_list = []
-    encrypted_price_list = []
-    encrypted_quantity_list = []
-    encrypted_oid_list = []
-    encrypted_total_price_list = []
-    encrypted_date_ordered_list = []
+    # encrypted_category_list = []
+    # encrypted_brand_list = []
+    # encrypted_model_list = []
+    # encrypted_price_list = []
+    # encrypted_quantity_list = []
+    # encrypted_oid_list = []
+    # encrypted_total_price_list = []
+    # encrypted_date_ordered_list = []
 
-    for i in range(numberOfelements):
-        print(i)
-        encrypted_category_list.append(encrypt_data(category_list[i]))
-        encrypted_brand_list.append(encrypt_data(brand_list[i]))
-        encrypted_model_list.append(encrypt_data(model_list[i]))
-        encrypted_price_list.append(encrypt_data(price_list[i]))
-        # TODO: quantityList not working
-        # encrypted_quantity_list.append(encrypt_data(quantity_list[i]))
-        encrypted_oid_list.append(encrypt_data(oid_list[i]))
-        encrypted_total_price_list.append(encrypt_data(total_price_list[i]))
-        encrypted_date_ordered_list.append(encrypt_data(date_ordered_list[i]))
+    # for i in range(numberOfelements):
+    #     print(i)
+        # encrypted_category_list.append(encrypt_data(category_list[i]))
+        # encrypted_brand_list.append(encrypt_data(brand_list[i]))
+        # encrypted_model_list.append(encrypt_data(model_list[i]))
+        # encrypted_price_list.append(encrypt_data(price_list[i]))
+        # # TODO: quantityList not working
+        # # encrypted_quantity_list.append(encrypt_data(quantity_list[i]))
+        # encrypted_oid_list.append(encrypt_data(oid_list[i]))
+        # encrypted_total_price_list.append(encrypt_data(total_price_list[i]))
+        # encrypted_date_ordered_list.append(encrypt_data(date_ordered_list[i]))
     
     
-    
-    encrypted_dict = dict(category=encrypted_category_list, brand=encrypted_brand_list, model=encrypted_model_list, price=encrypted_price_list, oid = encrypted_oid_list, total_price = encrypted_total_price_list, date_ordered = encrypted_date_ordered_list )
-    print(encrypted_dict)
-    return "True"
+    # print(category_list)
+    # encrypted_dict = dict(category=category_list, brand=brand_list, model=model_list, price=price_list, oid = oid_list, total_price = total_price_list, date_ordered = date_ordered_list )
+    # print(encrypted_dict)
+    return render_template("orders.html", dict=res)
+    # return "True"
 
     # return render_template("cart.html", items=res, numberOfelements=numberOfelements)

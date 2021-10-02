@@ -42,12 +42,15 @@
       $.ajax ({
         url:requrl,        
         type:"post",       
-         data:senddata,       
-          datatype:"json",        
-          success: function(response){
-            console.log("success");
-            window.location.href = "http://localhost:5000/seeAllProducts/";
-          }
+            data:senddata,       
+            datatype:"json",        
+            success: function(response){
+                console.log("success");
+                window.location.href = "http://localhost:5000/seeAllProducts/";
+            },
+            error: function (error) {
+                alert('Incorrect Email or Password');
+            }
         }
       );
     }
@@ -158,6 +161,8 @@
 
 
 <body>
+
+    
   <div class="login-form">
       
       <form action="/" method="post">

@@ -212,10 +212,10 @@
                 <div class="row text-right">
                     <div class="col-4">
                         <p class="mob-text">{{ items[i]['model'] }}</p>
-                        <form id="delete{{ items[i]['_id']['$oid'] }}" onsubmit="deleteItem(this)" method="post">
+                        <form method="post">
                             <input id="oiddelete{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid"
                                 value="{{ items[i]['_id']['$oid'] }}" />
-                            <button id="submitButton" type="submit" id="Delete"
+                            <button id="delete{{ items[i]['_id']['$oid'] }}" onclick=deleteItem(this) type="button" id="Delete"
                                 class="btn btn-danger btn-lg">Delete</button>
                         </form>
                     </div>
@@ -278,7 +278,7 @@
                             <!-- <p id="val" name="val">{{ items[i]['quantity'] }}</p> -->
 
                             <!-- {{ items[i]['_id']['$oid'] }} -->
-                            <form id="{{ items[i]['_id']['$oid'] }}" onsubmit="update(this)" method="post">
+                            <form id="{{ items[i]['_id']['$oid'] }}" method="post">
                                 <input id="token" type="hidden" name="token" value="{{ token }}" />
                                 <input id="oid_edit{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid_edit"
                                     value="{{ items[i]['_id']['$oid'] }}" />
@@ -292,48 +292,13 @@
                                 </select>
                                 <script>
                                     function load(i) {
-                                        // console.log("Kaushal")
-                                        // var xhttp = new XMLHttpRequest();
-                                        // var btnClickID = el.id;
-                                        // var update = btnClickID.split("updateButton")[1];
-                                        // // console.log("DOCU", update)
-                                        // // console.log("Kaushal Hrre");
-
-
-                                        // console.log("HEYYYYYYY");
-                                        // //xhttp.getElementById(update);
-                                        // var formId = update;
-                                        // var form = new FormData(document.getElementById(formId));
-                                        // var inputValue = form.get("quantity");
-
-                                        // console.log("DOC ID", inputValue);
-
-                                        // xhttp.open("POST","http://localhost:5000/cart",true);
-
-                                        // xhttp.onreadystatechange = function()
-                                        // {
-                                        //     console.log("SIUUUUUUUUUUUUUUUUUUUUUU")
-                                        //     console.log("State", this.readyState);
-                                        //     // console.log("ID", this.responseText);
-                                        //     if(this.readyState===4 && this.status===200){
-                                        //         console.log("HHHHHHHHHHHHHHHHHHHH");
-                                        //         console.log(this.responseText);
-
-                                        //        document.getElementById("cnt2").innerHTML = this.responseText;
-                                        //     }
-                                        // };
-
-
-                                        // xhttp.send(inputValue);
-                                        //window.location.reload();
-                                        //console.log(window.history);
-
+                                      
                                     }
 
 
                                 </script>
                                 <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
-                                <button id="updateButton{{ items[i]['_id']['$oid'] }}" type="submit"
+                                <button id="updateButton{{ items[i]['_id']['$oid'] }}" onclick="update(this)" type="button"
                                     class="btn btn-primary btn-lg">Update Quantity</button>
 
                                 <script>
@@ -441,37 +406,39 @@
         <script type="text/javascript">
 
             function encryptPayDetails(requrl, data) {
-                //publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
-                // publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
-                // var encrypt = new JSEncrypt();
-                // encrypt.setPublicKey(publickey);
-                // console.log(data);
+               
 
-                // // The data object sent by the ajax request
-                // var senddata = new Object();
-
-                // //Assign the data array to the ajax object
-                // for (var key in data) {
-                //     if (key == 'token') {
-                //         senddata[key] = data[key];
-                //     }
-                //     else {
-                //         senddata[key] = encrypt.encrypt(data[key]);
-                //     }
-                // }
-                // console.log(senddata);
-
-                $.ajax({
+                var response = $.ajax({
                     url: requrl,
                     type: "post",
                     data: data,
                     datatype: "json",
                     success: function (response) {
-                        console.log("success");
-                        // window.location.href = "http://localhost:5000/seeAllProducts/";
-                    }
+                        console.log(response)
+                        if(response == "Failure Date"){
+                            alert('Incorrect Card Date');
+                            return;
+                        }
+                        if(response == "Failure cvv"){
+                            alert('Incorrect length of cvv');
+                            return;
+                        }
+                        if(response == "Failure number"){
+                            alert('Incorrect card number');
+                            return;
+                        }
+
+                        
+                        window.location.href = "http://localhost:5000/seeAllProducts/";
+                    },
+                    // error: function (error) {
+                    //     alert('Missing or Incorrect Cart details');
+                    // }
                 }
                 );
+                // console.log(response['success'])
+                // var jsonResponse = JSON.parse(response);
+                // console.log(jsonResponse);
             }
 
             $(function () {
@@ -483,14 +450,7 @@
 
                     var dataVal = [];
 
-                    // console.log("Hello");
-                    // var header = {
-                    //     "alg": "HS256",
-                    //     "typ": "JWT"
-                    // };
-
-                    // var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
-                    // var encodedHeader = base64url(stringifiedHeader);
+                    
 
                     var data = {
                         "cnum": $('#cnum').val(),
@@ -498,72 +458,32 @@
                         "exp": $('#exp').val(),
                         "cvv": $('#cvv').val()
                     };
-                    console.log(data)
+                  
                     var encrypt = new JSEncrypt();
                     encrypt.setPublicKey(publickey);
                     var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
                     var encodedData = base64url(stringifiedData);
                     var getToken = document.getElementById('token').value;
+                   
                     var decrypt = new JSEncrypt();
                     decrypt.setPrivateKey(privatekey);
                     var tokenDecrypt = decrypt.decrypt(getToken);
                     var splitToken = tokenDecrypt.split('.')[0];
+                 
+                    var senddata=new Object ();
                     senddata['token'] = encrypt.encrypt(splitToken + '.' + encodedData);
-
+                    
                     var encryptToken = {
                         'token': senddata['token']
                     };
-
-                    console.log(encryptToken);
-
-                    // var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
-                    // var encodedData = base64url(stringifiedData);
-
-
-
-                    // var token = data;
-
-                    // document.getElementById('token').value = token;
-
-                    // dataVal["cnum"] = $("#cnum").val();
-                    // dataVal["cname"] = $("#cname").val();
-                    // dataVal["exp"] = $("#exp").val();
-                    // dataVal["cvv"] = $("#cvv").val();
-                    // dataVal["token"] = "token";
-
-
-
-                    // console.log(dataVal["cnum"]);
-
-
-
+                  
                     encryptPayDetails("/payment", encryptToken);
                 });
             });
 
         </script>
         <script>
-            console.log(document.getElementById("hello").value);
-            privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
-
-            publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
-
-            var dept = new JSEncrypt();
-            dept.setPrivateKey(privatekey);
-            var senddata = new Object();
-            var decrypted = dept.decrypt(document.getElementById("hello").value);
-            console.log(decrypted);
-
-
-
-            function check() {
-                console.log("hello");
-
-            }
-
-            let str = "updateButton634878";
-            const myArr = str.split("updateButton");
-            console.log(myArr);
+          
 
             function base64url(source) {
                 // Encode in classical base64
@@ -580,59 +500,65 @@
             }
 
             function encryptrequest(formId) {
-                console.log("Functrin")
+                privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
+                var getToken = document.getElementById('token').value;
+                
+                var decrypt = new JSEncrypt();
+                decrypt.setPrivateKey(privatekey);
+                var tokenDecrypt = decrypt.decrypt(getToken);
+                var splitToken = tokenDecrypt.split('.')[0];
+                
+                var data = {
+                    'oid': document.getElementById('oid' + formId).value
+                };
+              
+                var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+                var encodedData = base64url(stringifiedData);
+              
                 publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
-                var encrypt = new JSEncrypt();
-                encrypt.setPublicKey(publickey);
-                var form = new FormData(document.getElementById(formId));
-                var data = document.getElementById('oid' + formId).value;
-                console.log(data + "isdefined");
-
-                //The data object sent by the ajax request
-                var senddata = new Object();
-
-
-                //Assign the data array to the ajax object
-
-                senddata['OID'] = encrypt.encrypt(data);
-                document.getElementById('oid' + formId).value = senddata['OID'];
-
-                console.log(senddata['OID']);
+                var encrypt=new JSEncrypt ();
+                encrypt.setPublicKey (publickey);
+                var senddata=new Object ();
+                senddata['encrypted_token'] = encrypt.encrypt(splitToken + "." + encodedData);
+                
                 var ourData = {
-                    "oid": senddata['OID']
+                     
+                    "token":senddata['encrypted_token']
                 }
 
-                $.ajax({
-                    url: "http://localhost:5000/deleteCart/",
-                    cache: false,
-                    type: "post",
-                    data: ourData,
-                    datatype: "json",
-                    success: function (response) {
+                
+
+                $.ajax ({
+                    url:"http://localhost:5000/deleteCart",        
+                    cache : false,
+                    type:"post",       
+                    data:ourData,       
+                    datatype:"json",       
+                    success: function(response){
                         console.log("success");
                         // console.log(response['jwt_token']);
                         window.location.href = "http://localhost:5000/cart";
                     }
-                    //contenttype:"application/json;charset=utf-8",        success:function (data) {
-                }
-                );
+                     //contenttype:"application/json;charset=utf-8",        success:function (data) {
+                });
+
 
             }
 
             function encryptrequestForUpdate(data, formId) {
                 publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
                 privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
-
+                console.log(data, formId)
                 var encrypt = new JSEncrypt();
                 encrypt.setPublicKey(publickey);
-                console.log(data);
+               
 
                 //The data object sent by the ajax request
                 var senddata = new Object();
 
 
                 //Assign the data array to the ajax object
-                console.log(data);
+                console.log("here", data);
                 senddata['OID'] = encrypt.encrypt(data);
                 var quantity = document.getElementById('quantity' + formId).value;
                 //console.log(quantity);
@@ -662,7 +588,7 @@
                 console.log(encryptToken);
 
                 $.ajax({
-                    url: "http://localhost:5000/editCart/",
+                    url: "http://localhost:5000/editCart",
                     cache: false,
                     type: "post",
                     data: encryptToken,
@@ -675,15 +601,6 @@
                     }
                 }
                 );
-
-
-                // sessionStorage.setItem("quantity", senddata['quantity']);
-                //    this.$quantity= this.$element.find("#cnt2");
-
-                //    cosnole.log(this.$quantity);
-
-                //   this.$quantity.setItem(sendd)
-
             }
 
 
@@ -697,24 +614,24 @@
 
             function update(el) {
 
-                // var buttonId = el.id;
-                // const myArr = buttonId.split("updateButton");
+                
                 var formId = el.id;
                 console.log(formId);
-                var form = new FormData(document.getElementById(formId));
+                let str = formId;
+                const myArr = str.split("updateButton");
+                console.log(myArr)
+                var form = new FormData(document.getElementById(myArr[1]));
                 var inputValue = form.get("oid_edit");
                 console.log(inputValue);
-                encryptrequestForUpdate(inputValue, formId);
-                //window.location.reload();
+                encryptrequestForUpdate(inputValue, myArr[1]);
+               
             };
 
             function deleteItem(el) {
-                console.log("I was called");
+               
                 var formId = el.id;
-                console.log(formId);
-                var form = new FormData(document.getElementById(formId));
-                var inputValue = form.get("oid");
-                console.log(inputValue);
+               
+            
                 encryptrequest(formId);
             };
 
@@ -748,18 +665,18 @@
                             <div class="col-lg-5">
                                 <div class="row px-2">
                                     <div class="form-group col-md-6"> <label class="form-control-label">Name on
-                                            Card</label> <input type="text" id="cname" name="cname"
+                                            Card</label> <input type="text" id="cname" name="cname" required
                                             placeholder="Johnny Doe"> </div>
                                     <div class="form-group col-md-6"> <label class="form-control-label">Card
                                             Number</label> <input type="text" id="cnum" name="cnum"
-                                            placeholder="1111 2222 3333 4444"> </div>
+                                            placeholder="1111 2222 3333 4444" required> </div>
                                 </div>
                                 <div class="row px-2">
                                     <div class="form-group col-md-6"> <label class="form-control-label">Expiration
-                                            Date</label> <input type="text" id="exp" name="exp" placeholder="MM/YYYY">
+                                            Date</label> <input type="text" id="exp" name="exp" placeholder="MM/YYYY" required>
                                     </div>
                                     <div class="form-group col-md-6"> <label class="form-control-label">CVV</label>
-                                        <input type="text" id="cvv" name="cvv" placeholder="***"> </div>
+                                        <input type="password" id="cvv" name="cvv" placeholder="***" required> </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -779,9 +696,8 @@
                                 <div class="row d-flex justify-content-between px-4" id="tax">
                                     <p class="mb-1 text-left">Total (tax included)</p>
                                     <h6 class="mb-1 text-right">$26.48</h6>
-                                </div> <button type="button" class="btn-block btn-blue"><span
-                                        id="testme">Checkout</input> <span id="check-amt">$26.48</span> </span>
-                                </button>
+                                </div> 
+                                <button id="testme" type="button" class="btn-block btn-blue">Checkout </button>
                             </div>
 
                         </div>
