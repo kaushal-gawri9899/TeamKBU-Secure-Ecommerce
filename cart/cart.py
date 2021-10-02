@@ -241,6 +241,11 @@ def getCartDetails():
     numberOfelements = len(res)
     hello = "hello"
     hello = encrypt_data(hello)
+    total_price = 0
+    for i in range(numberOfelements):
+        if res[i]['price']:
+            total_price += int(res[i]['price'])
+    print(total_price)
     # print(str(decrypt_data(session['token']).decode()).split('.'), "HELLELELELELELEL")
     token = session['token']
 
