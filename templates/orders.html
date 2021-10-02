@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+
+
+<body>
+
+    <table>
+        <tr>
+            <td>oid</td>
+            <td>category</td>
+            <td>c</td>
+        </tr>
+    
+        
+        {% for values in dict %}
+      
+        <tr>
+            <td>{{values['_id']['$oid']}}</td>
+            {% for category in values['category'] %}
+                <td>{{category}}</td>
+            {% endfor %}
+        </tr>
+       
+        {% endfor %}
+    </table>
+
+</body>
+
+</html>

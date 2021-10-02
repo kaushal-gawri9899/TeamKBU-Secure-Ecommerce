@@ -2,21 +2,36 @@
 Importing the necessary Libraries
 """
 from flask import Flask
+import base64
 from flask import Blueprint
 import bcrypt
+import json
+
 import pymongo.errors
 from flask_pymongo import PyMongo
-
+from Crypto.PublicKey import RSA
+import rsa
+from Crypto.Hash import SHA
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto.Cipher import PKCS1_v1_5
+from Crypto import Random
+from base64 import b64decode
+import jwt
 from bson.json_util import dumps
-
+# import session
 from bson.objectid import ObjectId
-
-from flask import jsonify, request
+from flask import jsonify, request, render_template, redirect, url_for, session
 
 from pymongo import MongoClient
 
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 import config
+import os
+from flask import Flask, render_template, request, current_app
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP, PKCS1_v1_5
+import base64
+from urllib import parse
 
 import werkzeug.exceptions as ex
 
@@ -25,6 +40,26 @@ Creating a blueprint for all the user routes
 This blueprint would be registered in main application
 """
 user_bp = Blueprint('user_bp', __name__)
+curr_dir=os.path.dirname (os.path.realpath (__file__))
+
+def decrypt_data (inputdata, code="123456"):
+  #urldecode
+  data=parse.unquote (inputdata)
+  #base64decode
+  data=base64.b64decode (data)
+#   private_key=RSA.importKey (
+#     open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
+#   )
+  private_key=RSA.importKey (
+    open (curr_dir + "/rsa_private.bin"). read (),    passphrase=code
+  )
+  #Use pkcs1_v1_5 instead of pkcs1_oaep
+  #If pkcs1_oaep is used, the data encrypted by jsencrypt.js on the front end cannot be decrypted
+  cipher_rsa=PKCS1_v1_5.new (private_key)
+  #When decryption fails,Will return sentinel
+  #sentinel=none
+  ret=cipher_rsa.decrypt (data, "none")
+  return ret
 
 
 """
@@ -34,32 +69,34 @@ Returns an access token with a successfull registeration message
 Error handling for empty strings could be added using a simple if conditions but skipped for now
 As suggested in specification, details from form data acts as input.
 """
-@user_bp.route("/register", methods=["POST"])
+@user_bp.route("/register", methods=["POST","GET"])
 def register():
+    if request.method == 'POST':
+        try:
+            user_email = request.form["email"]
+        
+            is_inValid = config.zhiffy.find_one({"email": user_email})
 
-    try:
-        # request.args.gey
-        user_email = request.form["email"]
-    
-        is_inValid = config.zhiffy.find_one({"email": user_email})
-
-        if is_inValid:
-            return jsonify(message="Cannot Register User. Email Already Used", flag=False), 409
-        else:
-            user_name = request.form["name"]
-            user_password = request.form["password"]
-            if user_name and user_password and user_email:
-                password_new = bcrypt.hashpw(user_password.encode('utf-8'), bcrypt.gensalt())
-                user_data = dict(name=user_name, email=user_email, password=password_new)
-                config.zhiffy.insert_one(user_data)
-                user_access_token = create_access_token(identity=user_email)
-
-                return jsonify(message="Voila! User Registration Successful.", access_token=user_access_token, flag=True), 201
+            if is_inValid:
+                return jsonify(message="Cannot Register User. Email Already Used", flag=False), 409
             else:
-                return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
-    
-    except (ex.BadRequestKeyError):
-        return internal_error()
+                user_name = request.form["name"]
+                user_password = request.form["password"]
+                if user_name and user_password and user_email:
+                    password_new = bcrypt.hashpw(user_password.encode('utf-8'), bcrypt.gensalt())
+                    user_data = dict(name=user_name, email=user_email, password=password_new)
+                    config.zhiffy.insert_one(user_data)
+                    user_access_token = create_access_token(identity=user_email)
+
+                    # return jsonify(message="Voila! User Registration Successful.", access_token=user_access_token, flag=True), 201
+                    return render_template("login.html")
+                else:
+                    return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
+        
+        except (ex.BadRequestKeyError, KeyError):
+            return internal_error()
+    else:
+        return render_template("register.html")
 
 @user_bp.errorhandler(500)
 def internal_error(error=None):
@@ -81,28 +118,42 @@ Access Token is used for authorizatioton in other methods
 Error handling for empty strings could be added using a simple if conditions but skipped for now
 As suggested in specification, login details are taken as json string
 """
-@user_bp.route("/login", methods=["POST"])
+@user_bp.route("/", methods=["POST","GET"])
 def login():
+    session['token'] = None
+    if request.method == 'POST':
+        try:
 
-    try:
-        _json = request.json
-        user_email = _json["email"]
-        user_password = _json["password"]
 
-        current_user = config.zhiffy.find_one({'email': user_email})
-    
-        if user_email and user_password:
-            if current_user:
-                if bcrypt.hashpw(user_password.encode('utf-8'), current_user["password"]) == current_user["password"]:
-                    user_access_token = create_access_token(identity=user_email)
-                    return jsonify(message="Voila! User Successfully Logged In.", access_token=user_access_token, flag=True), 200
-        else:
+            user_email=request.values.get ("email")
+            user_password=request.values.get ("password")
+            token=request.values.get("token")
+            session['token'] = token
+            print(token)
+            token_ret=decrypt_data (token)
+            current_user = config.zhiffy.find_one({'email': user_email})
+            print(token_ret.decode())
+            if user_email and user_password:
+                if current_user:
+                    if bcrypt.hashpw(user_password.encode('utf-8'), current_user["password"]) == current_user["password"]:
+                        user_access_token = create_access_token(identity=user_email)
+                        print(user_access_token)
+                        ourTokens = {"jwt_token":user_access_token, "user_token":token_ret.decode()}
+                        return "success"
+            else:
+                return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
             return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
+            
+            message = "Invalid Credentials. Please Retry."
 
-        return jsonify(message="Invalid Credentials. Please Retry.", flag=False), 404
+            return render_template("loginUpdate.html", value=message)
+            # return jsonify(message="Invalid Credentials. Please Retry.", flag=False), 404
+        
+        except (ex.BadRequestKeyError, KeyError):
+            return internal_error()
     
-    except (ex.BadRequestKeyError, KeyError):
-        return internal_error()
+    else: 
+        return render_template("loginUpdate.html")
 
 
 """
