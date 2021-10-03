@@ -133,7 +133,7 @@ def getAllItems():
     print(res[0]['_id']['$oid'])
     numberOfelements = len(res)
 
-    return render_template("new.html", items=res, numberOfelements=numberOfelements )
+    return render_template("tt.html", items=res, numberOfelements=numberOfelements )
 
 """
 See Details of Given Product Route : Returns a json string containing details of given product based on product ID

@@ -161,11 +161,13 @@ def addCart():
         model = data["model"]
         price =  data["price"]
         quantity = "1"
+        product_image = data["product_image"]
+
 
         user_id = "kaushalgawri"
         user_name = user_email
 
-        item_data = dict(category=category, brand=brand, model=model, price=price, quantity=quantity, user_id=user_id, user_name=user_name)
+        item_data = dict(category=category, brand=brand, model=model, price=price, quantity=quantity, user_id=user_id, user_name=user_name, product_image=product_image)
         config.cart.insert_one(item_data)
         # a = {"success":"b"}
         # b = json.dumps(a)
@@ -326,12 +328,17 @@ def payOrder():
     # TODO: Error mesaage as date is bad
     print(validate_date)
     print(current_date)
+
+    if  not current_date or not cvv or not name or not number:
+        return "Empty Request"
+
     if validate_date < current_date:
         return "Failure Date"
     if len(cvv) != 3:
         return "Failure cvv"
     if len(number) != 16:
         return "Failure number"
+    
 
 
     for i in range(numberOfelements):
@@ -352,12 +359,18 @@ def payOrder():
 
     user_data = dict(category=category_list, brand=brand_list, model=model_list, price=price_list, quantity=quantity_list, cname = name, cnum = number, cexpiry = expiry, cvv = cvv, user_email = user_email, total_price = total_price, date_ordered = dt_string )
     # print(category_list, brand_list, model_list, price_list, quantity_list)
+    #Delete last order details
+    isExist = config.order.find_one({ "user_email": str(user_email)})
+
+    if isExist:
+        config.order.delete_one({"user_email": str(user_email)})
+    
     result = config.order.insert_one(user_data)
     if result:
         print(result)
         for i in range(numberOfelements):
             config.cart.delete_one({ "_id": ObjectId(oid_list[i])})
-    return "true"
+    return "success"
 
 
 @cart_bp.route("/orders", methods=["POST","GET"])
@@ -420,7 +433,8 @@ def getOrderDetails():
             des = "Category: "+res['category'][cat] + " Brand: "+res['brand'][cat] + " Model: "+ res['model'][cat]
             price = res['price'][cat]
             qt = res['quantity'][cat]
-            invoice.add_item(Item(count=qt, price=price, description=des))
+            priceShip = float(res['price'][cat]) + 2.99
+            invoice.add_item(Item(count=qt, price=priceShip, description=des))
 
 
 
@@ -529,6 +543,6 @@ def getOrderDetails():
     # encrypted_dict = dict(category=category_list, brand=brand_list, model=model_list, price=price_list, oid = oid_list, total_price = total_price_list, date_ordered = date_ordered_list )
     # print(encrypted_dict)
    # return render_template("orders.html", dict=res)
-    return "True"
+    return render_template("paymentSuccess.html")
 
     # return render_template("cart.html", items=res, numberOfelements=numberOfelements)

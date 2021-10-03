@@ -78,7 +78,9 @@ def register():
             is_inValid = config.zhiffy.find_one({"email": user_email})
 
             if is_inValid:
-                return jsonify(message="Cannot Register User. Email Already Used", flag=False), 409
+                message="Email Already In Use"
+                return render_template("register.html", message=message)
+                #return jsonify(message="Cannot Register User. Email Already Used", flag=False), 409
             else:
                 user_name = request.form["name"]
                 user_password = request.form["password"]
@@ -89,14 +91,17 @@ def register():
                     user_access_token = create_access_token(identity=user_email)
 
                     # return jsonify(message="Voila! User Registration Successful.", access_token=user_access_token, flag=True), 201
-                    return render_template("login.html")
+                    #return render_template("loginUpdate.html")
+                    return redirect(url_for('user_bp.login'))
                 else:
                     return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
         
         except (ex.BadRequestKeyError, KeyError):
-            return internal_error()
+           return internal_error()
+
+            
     else:
-        return render_template("register.html")
+        return render_template("register.html", message="")
 
 @user_bp.errorhandler(500)
 def internal_error(error=None):
@@ -104,7 +109,7 @@ def internal_error(error=None):
         'status': 404,
         'message': "Invalid Fields Provided. Please Retry!"
     }
-
+    
     resp = jsonify(message)
     return resp
 
