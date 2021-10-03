@@ -18,7 +18,7 @@
       <a class="active" href="#home">Home</a>
       <a href="/">Logout</a>
     </div>
-  </div>
+</div>
 <div class="container">
 <div class="row">
     {% for i in range(numberOfelements) %}
@@ -28,6 +28,7 @@
                 <div class="product-imitation">
                     <img src="{{url_for('static',filename='/img/'+items[i]['product_image'])}}" alt="">
                 </div>
+                
                 <div class="product-desc">
                     <span class="product-price">
                         ${{ items[i]['price'] }}
@@ -47,16 +48,20 @@
         </div>
     </div>
     {% endfor %}
+    </div>
 </div>
-</div>
+<!-- </div> -->
 
 <style type="text/css">
-body{margin-top:20px;
+body{
+  /* margin-top:20px; */
     background:#FAF9F6;
 }
 /* E-commerce */
 .product-box {
-  padding: 0;
+  /* padding: 0; */
+  /* margin-left: 10px;
+  margin-right: 10px; */
   border: 1px solid #e7eaec;
 }
 .product-box:hover,
@@ -69,8 +74,9 @@ body{margin-top:20px;
 .product-imitation {
   text-align: center;
   padding: 90px 0;
-  background-color: #f8f8f9;
-  color: #bebec3;
+ 
+  color: white;
+  /* color: #bebec3; */
   font-weight: 600;
 }
 .cart-product-imitation {
@@ -147,6 +153,8 @@ table.shoping-cart-table tr td:last-child {
 }
 .product-images {
   margin: 0 20px;
+  
+  
 }
 
 .ibox {
@@ -203,6 +211,7 @@ table.shoping-cart-table tr td:last-child {
 .header {
   overflow: hidden;
   background-color: #f1f1f1;
+  /* background-color: #FAF9F6; */
   padding: 20px 10px;
 }
 
