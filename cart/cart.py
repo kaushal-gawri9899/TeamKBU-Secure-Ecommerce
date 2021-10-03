@@ -304,6 +304,7 @@ def payOrder():
 
 
 
+
     session_token = session['token']
     user_email = returnEmail(session_token)
     data = config.cart.find({ "user_name": user_email})
@@ -357,7 +358,7 @@ def payOrder():
             quantity_list.append(res[i]['quantity'])
        
 
-    user_data = dict(category=category_list, brand=brand_list, model=model_list, price=price_list, quantity=quantity_list, cname = name, cnum = number, cexpiry = expiry, cvv = cvv, user_email = user_email, total_price = total_price, date_ordered = dt_string )
+    user_data = dict(category=category_list, brand=brand_list, model=model_list, price=price_list, quantity=quantity_list, cname = encrypt_name, cnum = encrypt_num, cexpiry = encrypt_exp, cvv = encrypt_cvv, user_email = user_email, total_price = total_price, date_ordered = dt_string )
     # print(category_list, brand_list, model_list, price_list, quantity_list)
     #Delete last order details
     isExist = config.order.find_one({ "user_email": str(user_email)})
@@ -393,7 +394,7 @@ def getOrderDetails():
 
     print(getEmail)
     
-    client_details = "Email : " + getEmail + " Name : " + res['cname']
+    client_details = "Email : " + getEmail + " Name : " + decrypt_data(res['cname']).decode()
     client = Client(client_details)
     provider = Provider('KPA', bank_account='2600420569', bank_code='2010')
     creator = Creator('KPA')
