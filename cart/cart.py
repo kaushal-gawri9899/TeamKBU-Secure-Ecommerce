@@ -258,7 +258,7 @@ def getCartDetails():
     total_price = 0
     for i in range(numberOfelements):
         if res[i]['price']:
-            total_price += int(res[i]['price'])
+            total_price += (int(res[i]['price'])*int(res[i]['quantity']))
     print(total_price)
     shipCost = 2.99
 
