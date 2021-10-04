@@ -145,14 +145,14 @@
                         
                                 // console.log(senddata['OID'] + "OID");
                                 $.ajax ({
-                                    url:"http://localhost:5000/addToCart",        
+                                    url:"http://secure-kpa.herokuapp.com/addToCart",        
                                     type:"post",       
                                     data:sendThisToken,       
                                     datatype:"json", 
                                     cache:false,       
                                     success: function(response){
                                         console.log("success");
-                                        window.location.href = "http://localhost:5000/cart";
+                                        window.location.href = "http://secure-kpa.herokuapp.com/cart";
                                     },
                                     error: function ( xhr, status, error) {
                                         alert("Something went wrong, Please try again later.")

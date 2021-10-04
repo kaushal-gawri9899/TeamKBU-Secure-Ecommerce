@@ -362,7 +362,7 @@ button:active {
                                     };
 
                                     updateLiveData = function () {
-                                        var url = 'http://localhost:5000/cart';
+                                        var url = 'http://secure-kpa.herokuapp.com/cart';
                                         xhr = getXmlHttpRequestObject();
 
                                         xhr.onreadystatechange = eventHandler;
@@ -505,7 +505,7 @@ button:active {
                                             datatype: "json",
                                             success: function (response) {
                                                 console.log("success");
-                                                window.location.href = "http://localhost:5000/cart";
+                                                window.location.href = "http://secure-kpa.herokuapp.com/cart";
                                             }
                                         }
                                         );
@@ -517,7 +517,7 @@ button:active {
                                             console.log("Data IS")
                                             console.log(data)
                                             console.log("Data End")
-                                            decryptData("http://localhost:5000/cart", data);
+                                            decryptData("http://secure-kpa.herokuapp.com/cart", data);
                                         });
                                     });
                                 </script>
@@ -568,7 +568,7 @@ button:active {
                             alert('Empty Fields Provided');
                             return;
                         }
-                        window.location.href = "http://localhost:5000/orders";
+                        window.location.href = "http://secure-kpa.herokuapp.com/orders";
 
                     },
                     error: function (error) {
@@ -674,7 +674,7 @@ button:active {
                 
 
                 $.ajax ({
-                    url:"http://localhost:5000/deleteCart",        
+                    url:"http://secure-kpa.herokuapp.com/deleteCart",        
                     cache : false,
                     type:"post",       
                     data:ourData,       
@@ -682,7 +682,7 @@ button:active {
                     success: function(response){
                         console.log("success");
                         // console.log(response['jwt_token']);
-                        window.location.href = "http://localhost:5000/cart";
+                        window.location.href = "http://secure-kpa.herokuapp.com/cart";
                     }
                      //contenttype:"application/json;charset=utf-8",        success:function (data) {
                 });
@@ -733,7 +733,7 @@ button:active {
                 console.log(encryptToken);
 
                 $.ajax({
-                    url: "http://localhost:5000/editCart",
+                    url: "http://secure-kpa.herokuapp.com/editCart",
                     cache: false,
                     type: "post",
                     data: encryptToken,
@@ -742,7 +742,7 @@ button:active {
 
                         // setTimeout(reload, 2000);
                         console.log("success");
-                        window.location.href = "http://localhost:5000/cart";
+                        window.location.href = "http://secure-kpa.herokuapp.com/cart";
                     }
                 }
                 );
