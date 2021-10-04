@@ -21,7 +21,7 @@ from flask_mongoengine import MongoEngine
 app = Flask(__name__)
 
 
-client = MongoClient('mongodb://localhost:27017/application_db')
+client = MongoClient('mongodb+srv://kaushal:rmituniversity@cluster0.zkw6e.mongodb.net/application_db?retryWrites=true&w=majority')
 
 db = client.get_default_database()
 
@@ -40,7 +40,7 @@ order.create_index(index_name, unique=False)
 
 app = Flask(__name__)
 jwt = JWTManager(app)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/application_db"
+app.config["MONGO_URI"] = "mongodb+srv://kaushal:rmituniversity@cluster0.zkw6e.mongodb.net/application_db?retryWrites=true&w=majority"
 app.config["JWT_SECRET_KEY"] = "ACCESS_KEY_999"
 mongo = PyMongo(app)
 
