@@ -129,8 +129,6 @@ def getAllItems():
     allItems = config.items.find()
     results = dumps(allItems)
     res = json.loads(results)
-
-    print(res[0]['_id']['$oid'])
     numberOfelements = len(res)
 
     return render_template("tt.html", items=res, numberOfelements=numberOfelements )
@@ -146,13 +144,11 @@ def getItemDetails(pid):
             return redirect(url_for('user_bp.login'))
 
         item = config.items.find_one({"_id": ObjectId(pid)})
-        print(session['token'])
         if not item:
             return jsonify(message="Invalid ID provided", flag=False), 404
 
         result = dumps(item)
         res = json.loads(result)
-        # print(res)
         return render_template("product_details.html", item=res, token=session['token'])
     
     except (ex.BadRequestKeyError, KeyError):

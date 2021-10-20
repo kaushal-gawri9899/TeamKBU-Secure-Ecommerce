@@ -1,959 +1,826 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
-        <!--  All snippets are MIT license http://bootdey.com/license -->
-        <title>Product Listing</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    </head>
-    <body>
+
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>Product Listing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+
+<body>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <div class="header">
         <a href="#default" class="logo">TEAM KBU</a>
         <div class="header-right">
-          <a class="activeRight1" href="/seeAllProducts">Home</a>
-          <a class="activeRight3" href="/cart">Cart</a>
-          <a class="activeRight2" href="/">Logout</a>
+            <a class="activeRight1" href="/seeAllProducts">Home</a>
+            <a class="activeRight3" href="/cart">Cart</a>
+            <a class="activeRight2" href="/">Logout</a>
         </div>
     </div>
-<head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>Snippet - BBBootstrap</title>
-    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
-    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    <!-- <script type="text/javascript" src="../static/js/autoUpdate.js"> </script> -->
-    <style>
-button:hover {
-  bottom: 0.1em;
-}
 
-button:focus {
-  outline: 0;
-}
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>Snippet - BBBootstrap</title>
+        <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
+        <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+        <style>
+            button:hover {
+                bottom: 0.1em;
+            }
 
-button:active {
-  bottom: 0;
-  background-color: #fdf;
+            button:focus {
+                outline: 0;
+            }
 
-  /* margin-left: 30rem; */
-}
+            button:active {
+                bottom: 0;
+                background-color: #fdf;
+            }
 
-.header {
-  overflow: hidden;
-  /* background-color: #f1f1f1; */
-  background-color: black;
-  /* background-color: #FAF9F6; */
-  padding: 20px 10px;
-}
+            .header {
+                overflow: hidden;
+                background-color: black;
+                padding: 20px 10px;
+            }
 
-/* Style the header links */
-.header a {
-  float: left;
-  color: black;
-  text-align: center;
-  padding: 12px;
-  text-decoration: none;
-  font-size: 18px;
-  line-height: 25px;
-  border-radius: 4px;
-}
+            /* Style the header links */
+            .header a {
+                float: left;
+                color: black;
+                text-align: center;
+                padding: 12px;
+                text-decoration: none;
+                font-size: 18px;
+                line-height: 25px;
+                border-radius: 4px;
+            }
 
-/* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
-.header a.logo {
-  font-size: 25px;
-  font-weight: bold;
-  color: white;
-}
+            /* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
+            .header a.logo {
+                font-size: 25px;
+                font-weight: bold;
+                color: white;
+            }
 
-/* Change the background color on mouse-over */
-.header a:hover {
-  background-color: #ddd;
-  color: black;
-}
+            /* Change the background color on mouse-over */
+            .header a:hover {
+                background-color: #ddd;
+                color: black;
+            }
 
-/* Style the active/current link*/
-.header a.active {
-  background-color: dodgerblue;
-  color: white;
-  margin-right: 2rem;
-}
+            /* Style the active/current link*/
+            .header a.active {
+                background-color: dodgerblue;
+                color: white;
+                margin-right: 2rem;
+            }
 
-/* Float the link section to the right */
-.header-right {
-  float: right;
-}
+            /* Float the link section to the right */
+            .header-right {
+                float: right;
+            }
 
-.header a.activeRight2:hover{
-    background-color: #ddd;
-    color: black;
-}
+            .header a.activeRight2:hover {
+                background-color: #ddd;
+                color: black;
+            }
 
-.header a.activeRight1:hover{
-    background-color: #ddd;
-    color: black;
-}
+            .header a.activeRight1:hover {
+                background-color: #ddd;
+                color: black;
+            }
 
-.header a.activeRight3:hover{
-    background-color: #ddd;
-    color: black;
-}
+            .header a.activeRight3:hover {
+                background-color: #ddd;
+                color: black;
+            }
 
 
-.header a.activeRight2{
-  bottom: 0;
-  background-color: dodgerblue;
-  color: white;
-  /* margin-left: 30rem; */
-}
-.header a.activeRight1{
-  bottom: 0;
-  background-color: dodgerblue;
-  color: white;
-  margin-right:  2rem;
-  /* margin-left: 30rem; */
-}
+            .header a.activeRight2 {
+                bottom: 0;
+                background-color: dodgerblue;
+                color: white;
+            }
 
-.header a.activeRight3{
-  bottom: 0;
-  background-color: dodgerblue;
-  color: white;
-  margin-right:  2rem;
-  /* margin-left: 30rem; */
-}
+            .header a.activeRight1 {
+                bottom: 0;
+                background-color: dodgerblue;
+                color: white;
+                margin-right: 2rem;
+            }
 
-        body {
-            color: #000;
-            overflow-x: hidden;
-            height: 100%;
-            background-color: #fff;
-            background-repeat: no-repeat
-        }
+            .header a.activeRight3 {
+                bottom: 0;
+                background-color: dodgerblue;
+                color: white;
+                margin-right: 2rem;
+            }
 
-        .plus-minus {
-            position: relative
-        }
+            body {
+                color: #000;
+                overflow-x: hidden;
+                height: 100%;
+                background-color: #fff;
+                background-repeat: no-repeat
+            }
 
-        .plus {
-            position: absolute;
-            top: -4px;
-            left: 2px;
-            cursor: pointer
-        }
+            .plus-minus {
+                position: relative
+            }
 
-        .minus {
-            position: absolute;
-            top: 8px;
-            left: 5px;
-            cursor: pointer
-        }
+            .plus {
+                position: absolute;
+                top: -4px;
+                left: 2px;
+                cursor: pointer
+            }
 
-        .vsm-text:hover {
-            color: #FF5252
-        }
+            .minus {
+                position: absolute;
+                top: 8px;
+                left: 5px;
+                cursor: pointer
+            }
 
-        .book,
-        .book-img {
-            width: 120px;
-            height: 180px;
-            border-radius: 5px
-        }
-
-        .book {
-            margin: 20px 15px 5px 15px
-        }
-
-        .border-top {
-            border-top: 1px solid #EEEEEE !important;
-            margin-top: 20px;
-            padding-top: 15px
-        }
-
-        .card {
-            margin: 40px 0px;
-            padding: 40px 50px;
-            border-radius: 20px;
-            border: none;
-            box-shadow: 1px 5px 10px 1px rgba(0, 0, 0, 0.2)
-        }
-
-        input,
-        textarea {
-            background-color: #F3E5F5;
-            padding: 8px 15px 8px 15px;
-            width: 100%;
-            border-radius: 5px !important;
-            box-sizing: border-box;
-            border: 1px solid #F3E5F5;
-            font-size: 15px !important;
-            color: #000 !important;
-            font-weight: 300
-        }
-
-        input:focus,
-        textarea:focus {
-            -moz-box-shadow: none !important;
-            -webkit-box-shadow: none !important;
-            box-shadow: none !important;
-            border: 1px solid #9FA8DA;
-            outline-width: 0;
-            font-weight: 400
-        }
-
-        button:focus {
-            -moz-box-shadow: none !important;
-            -webkit-box-shadow: none !important;
-            box-shadow: none !important;
-            outline-width: 0
-        }
-
-        .pay {
-            width: 80px;
-            height: 40px;
-            border-radius: 5px;
-            border: 1px solid #673AB7;
-            margin: 10px 20px 10px 0px;
-            cursor: pointer;
-            box-shadow: 1px 5px 10px 1px rgba(0, 0, 0, 0.2)
-        }
-
-        .gray {
-            -webkit-filter: grayscale(100%);
-            -moz-filter: grayscale(100%);
-            -o-filter: grayscale(100%);
-            -ms-filter: grayscale(100%);
-            filter: grayscale(100%);
-            color: #E0E0E0
-        }
-
-        .gray .pay {
-            box-shadow: none
-        }
-
-        #tax {
-            border-top: 1px lightgray solid;
-            margin-top: 10px;
-            padding-top: 10px
-        }
-
-        .btn-blue {
-            border: none;
-            border-radius: 10px;
-            background-color: #673AB7;
-            color: #fff;
-            padding: 8px 15px;
-            margin: 20px 0px;
-            cursor: pointer
-        }
-
-        .btn-blue:hover {
-            background-color: #311B92;
-            color: #fff
-        }
-
-        #checkout {
-            float: left
-        }
-
-        #check-amt {
-            float: right
-        }
-
-        @media screen and (max-width: 768px) {
+            .vsm-text:hover {
+                color: #FF5252
+            }
 
             .book,
             .book-img {
-                width: 100px;
-                height: 150px
+                width: 120px;
+                height: 180px;
+                border-radius: 5px
+            }
+
+            .book {
+                margin: 20px 15px 5px 15px
+            }
+
+            .border-top {
+                border-top: 1px solid #EEEEEE !important;
+                margin-top: 20px;
+                padding-top: 15px
             }
 
             .card {
-                padding-left: 15px;
-                padding-right: 15px
+                margin: 40px 0px;
+                padding: 40px 50px;
+                border-radius: 20px;
+                border: none;
+                box-shadow: 1px 5px 10px 1px rgba(0, 0, 0, 0.2)
             }
 
-            .mob-text {
-                font-size: 13px
+            input,
+            textarea {
+                background-color: #F3E5F5;
+                padding: 8px 15px 8px 15px;
+                width: 100%;
+                border-radius: 5px !important;
+                box-sizing: border-box;
+                border: 1px solid #F3E5F5;
+                font-size: 15px !important;
+                color: #000 !important;
+                font-weight: 300
             }
 
-            .pad-left {
-                padding-left: 20px
+            input:focus,
+            textarea:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: 1px solid #9FA8DA;
+                outline-width: 0;
+                font-weight: 400
             }
-        }
 
-    </style>
-    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
-    <script src="../static/js/rsa.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
+            button:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                outline-width: 0
+            }
 
+            .pay {
+                width: 80px;
+                height: 40px;
+                border-radius: 5px;
+                border: 1px solid #673AB7;
+                margin: 10px 20px 10px 0px;
+                cursor: pointer;
+                box-shadow: 1px 5px 10px 1px rgba(0, 0, 0, 0.2)
+            }
 
-<body oncontextmenu='return false' class='snippet-body'>
-    <div class="container px-4 py-5 mx-auto">
-        <div class="row d-flex justify-content-center">
-            <div class="col-5" style="margin-left:0rem;">
-                <h4 class="heading">Image</h4>
-                
-            </div>
-            <div class="col-7" >
-                <div class="row text-right">
-                    <div class="col-4" style="margin-left:-25rem;">
-                        <h4 class="mt-2">Brand</h4>
-                    </div>
-                    <div class="col-4">
-                        <h4 class="mt-2">Model</h4>
-                    </div>
-                    <div class="col-4">
-                        <h4 class="mt-2">Quantity</h4>
-                    </div>
-                    <div class="col-4">
-                        <h4 class="mt-2">Price</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <input id="hello" type="hidden" name="hello" value="{{ hello }}" />
+            .gray {
+                -webkit-filter: grayscale(100%);
+                -moz-filter: grayscale(100%);
+                -o-filter: grayscale(100%);
+                -ms-filter: grayscale(100%);
+                filter: grayscale(100%);
+                color: #E0E0E0
+            }
 
-        {% for i in range(numberOfelements) %}
-        <div class="row d-flex justify-content-center border-top">
-            <div class="col-5">
-                <div class="row d-flex">
+            .gray .pay {
+                box-shadow: none
+            }
 
-                    <div class="book"><img src="{{url_for('static',filename='/img/'+items[i]['product_image'])}}" class="book-img"></div>
-                    <div class="my-auto flex-column d-flex pad-left">
-                        <h6 class="mob-text" style="margin-left:25rem; margin-top: -6.6rem;">{{ items[i]['brand'] }}
+            #tax {
+                border-top: 1px lightgray solid;
+                margin-top: 10px;
+                padding-top: 10px
+            }
 
+            .btn-blue {
+                border: none;
+                border-radius: 10px;
+                background-color: #673AB7;
+                color: #fff;
+                padding: 8px 15px;
+                margin: 20px 0px;
+                cursor: pointer
+            }
 
-                    </div>
-                </div>
-            </div>
-            <div class="my-auto col-7">
-                <div class="row text-right">
-                    <div class="col-4">
-                        <p class="mob-text" style="margin-top: 0rem;">{{ items[i]['model'] }}</p>
-                        <!-- <form method="post">
-                            <input id="oiddelete{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid"
-                                value="{{ items[i]['_id']['$oid'] }}" />
-                            <button id="delete{{ items[i]['_id']['$oid'] }}" onclick=deleteItem(this) type="button" id="Delete"
-                                class="btn btn-danger btn-lg">Delete</button>
-                        </form> -->
-                       
+            .btn-blue:hover {
+                background-color: #311B92;
+                color: #fff
+            }
 
-                    </div>
+            #checkout {
+                float: left
+            }
 
-                    <div class="col-4">
-                        <div class="row d-flex justify-content-end px-3">
-                            <!-- <script type="text/javascript" src="../static/js/autoUpdate.js"> </script> -->
+            #check-amt {
+                float: right
+            }
 
-                            <script>
-                                window.addEventListener('load', function () {
-                                    var xhr = null;
+            @media screen and (max-width: 768px) {
 
-                                    getXmlHttpRequestObject = function () {
-                                        if (!xhr) {
-                                            xhr = new XMLHttpRequest();
-                                        }
-                                        return xhr;
-                                    };
+                .book,
+                .book-img {
+                    width: 100px;
+                    height: 150px
+                }
 
-                                    updateLiveData = function () {
-                                        var url = 'http://secure-kpa.herokuapp.com/cart';
-                                        xhr = getXmlHttpRequestObject();
+                .card {
+                    padding-left: 15px;
+                    padding-right: 15px
+                }
 
-                                        xhr.onreadystatechange = eventHandler;
+                .mob-text {
+                    font-size: 13px
+                }
 
-                                        xhr.open("POST", url, true);
-
-                                        xhr.send(null);
-                                    };
-
-
-                                    function eventHandler() {
-
-                                        console.log(xhr.readyState)
-                                        if ((xhr.readyState == 4 || xhr.readyState == 3 || xhr.readyState == 2 || xhr.readyState == 1) && xhr.status == 200) {
-
-                                            console.log("Here");
-                                            data = document.getElementById('cnt2');
-                                            //data.innerHTML = xhr.responseText;
-                                            data.value = "4";
-                                            // console.log(data);
-                                            //data.value = xhr.responseText;
-
-                                            setTimeout(updateLiveData(), 1);
-                                        }
-                                    }
-
-                                    //Uncomment
-                                    // updateLiveData();
-
-
-                                    // window.location.reload();
-                                });
-
-                            
-
-                            </script>
-
-                            <p class="mb-0" id="cnt2" name="cnt2">{{ items[i]['quantity'] }}</p>
-                            <!-- <p id="val" name="val">{{ items[i]['quantity'] }}</p> -->
-
-                            <!-- {{ items[i]['_id']['$oid'] }} -->
-                            <form id="{{ items[i]['_id']['$oid'] }}" method="post">
-                                <input id="token" type="hidden" name="token" value="{{ token }}" />
-                                <input id="oid_edit{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid_edit"
-                                    value="{{ items[i]['_id']['$oid'] }}" style="margin-left:25rem;  margin-top: 10px;"/>
-                                <label for="quantity" style="margin-top: 5rem;" >Quantity
-                                    <select name="quantity" style="margin-left:25rem;" id="quantity{{ items[i]['_id']['$oid'] }}">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </label>
-                                <script>
-                                    function load(i) {
-                                      
-                                    }
-
-
-                                </script>
-                                <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
-                                <button id="updateButton{{ items[i]['_id']['$oid'] }}" onclick="update(this)" type="button"
-                                    class="btn btn-primary btn-lg">Update Quantity</button>
-                                
-                                    <form method="post">
-                                        <input id="oiddelete{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid"
-                                            value="{{ items[i]['_id']['$oid'] }}" />
-                                    <button id="delete{{ items[i]['_id']['$oid'] }}" onclick="deleteItem(this)" type="button"
-                                                class="btn btn-danger btn-lg">Delete</button>
-                                            </form>
-
-                                <script>
-
-                                    function decryptData(requrl, data) {
-                                        console.log("Decrypt")
-                                        console.log("Data")
-                                        console.log(data)
-
-                                        // publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
-
-                                        // privatekey = "-----BEGIN RSA PRIVATE KEY-----Proc-Type: 4,ENCRYPTEDDEK-Info: DES-EDE3-CBC,64C145AECE31D323U8Jj11dYgdO2W6Ya4eQrxNPkjagyhc4P1EveP47gvb7EnBXYyJmMPCwz8jjHsQfmkTQA2k0exVToGgK4UiJdLSeBX/SvZ6NeNXnA/PMPz+t+SiOGMjggoz3ctA2MPwwTncPsP/CICQo8cr3byMoicQbMxWVDISy+RtKYmqp9ma6Oh/r78jUcEXePxoV5ANOBXk4geWHdJtT/cy6Xo+SXEHfeSQisvPX67uIFpN050EG5yKC3HIywVh6tv62k/t9RGakVx0BneaXaWpbwOGlu9PnFBCPQTFrxkSOC4cvDgQhSBLz2MOw2oOKPHhq3WQyZ+o0dVpcQpuaJ1FEgTZvgX/Cpem8Oy9qXudYCBmseGftDvWWWXGmQt8e5tdd6DQWvt/QQKs1d/bilB8Lwf7yxuc/UvItWN1AB1z+y/dv8qySSpirYzAkpOPrlC7c0s7DKAVFblOYWvivRA1t9dMqxSObVbayJnER+r+eXXwWBPsnpFAKAhOETiW55nG/qOjKp2YwZpLRS+Nb5iVM1K7SBXXvmjt1j5n6em6PwnUs0xAyBBp0z53OQIFOQIsvZv18a03baVhyO9cwnmR+B0hDeW/Kb1kbyu9mJRGWBN2mUKVfKQQTaU1UonJRhCwwbsJ1wsqY4OXtFmmc6eze7QmRN0DrjLsRf2LntHBqsC5LQCkyfrWLetZCzxzDw5eZS/+oR+x5+h9H5oZCk2MgW+ji91GespsbQ3az6CflJ6nZowzC1mCZvWWYXOyfRDnU+Fe0YwudzRVcE03PmeRqoaU3wGaojNWzlk/GiC6XdVk8qqpo3r6kZhp0ym5bwfykMRgKnNmNntkkd+NK2gzM4yWM/kJ0Od7Gifs38n1yk1iGlil70/Mk70UvJyDllTl1aD+KxWkqdurXETP5j+tlwFqLYzGkl7yk4uryNIwiwOjzzdXanffq0FYudrL0oot+17dfz6hajO/nBbP5EBwr1T1+LBjFVFRkjJegz5ilY6iIa7kfuCBNP+os9YMa6J4Mn1zdWZkdv6sZYeuR4XzopZnv6F4nV0dy3hhdSXBxKLb54ic6/WcmY5abuP4sKt+JndOE5xbMYbd1qqFXkMgVLjfqLqgWX0pLrhEFCAMiFZ7RTPOwd8YdBs5+OGiIZV1g4p1YsHqmrQmWvxxXvxBfwBJvC3ccPwgvYRdxt97VxZEIwxYDTU01fF5jAgKubkVfLgigp2KkOyLWwX8hTscx+QR41wSymbE/YafGMakWjvwJbDNApvAcmw5GQGhmBDqoOLzIrRUWfi0/Uj48DjB0T1fsKMTb12z9bJnvHiBnfAAXcKU/sPfKPGInQlFKcyMwB7LEmg+J3enaEHIJOeHhKBE2KVHasVhU4teM4KLCAUpIshQ5E+2OI9W1S92f165xHkKmZrpTgWJv25nPCIHy5SdM5NXiUiNb7ILnHKqS+oG3/YiFW7xmYQtn2hNNak2HG3YXE2Dlv8pLtfSt+McnuPACxdHy47+gRkdhD55+tuoYRzd1SscOIibHXX/vJkg4Sk2Ogv5loatKz5ZBcF1jrzv8dfr+X8hyIe6ywLkMzRsVAKka/l0rQ6UohmGco+nIWETM9-----END RSA PRIVATE KEY-----"
-
-
-                                        //const fs = require('fs');
-
-
-                                        //let privatekey = fs.readFileSync("my_private_rsa_key.bin", "utf-8").toString();
-
-                                        //publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzdxaei6bt/xIAhYsdFdW62CGTpRX+GXoZkzqvbf5oOxw4wKENjFX7LsqZXxdFfoRxEwH90zZHLHgsNFzXe3JqiRabIDcNZmKS2F0A7+Mwrx6K2fZ5b7E2fSLFbC7FsvL22mN0KNAp35tdADpl4lKqNFuF7NT22ZBp/X3ncod8cDvMb9tl0hiQ1hJv0H8My/31w+F+Cdat/9Ja5d1ztOOYIx1mZ2FD2m2M33/BgGY/BusUKqSk9W91Eh99+tHS5oTvE8CI8g7pvhQteqmVgBbJOa73eQhZfOQJ0aWQ5m2i0NUPcmwvGDzURXTKW+72UKDz671bE7YAch2H+U7UQeawwIDAQAB-----END PUBLIC KEY-----"
-                                        //privatekey = "-----BEGIN PRIVATE KEY-----MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDN3Fp6Lpu3/EgCFix0V1brYIZOlFf4ZehmTOq9t/mg7HDjAoQ2MVfsuyplfF0V+hHETAf3TNkcseCw0XNd7cmqJFpsgNw1mYpLYXQDv4zCvHorZ9nlvsTZ9IsVsLsWy8vbaY3Qo0Cnfm10AOmXiUqo0W4Xs1PbZkGn9fedyh3xwO8xv22XSGJDWEm/QfwzL/fXD4X4J1q3/0lrl3XO045gjHWZnYUPabYzff8GAZj8G6xQqpKT1b3USH3360dLmhO8TwIjyDum+FC16qZWAFsk5rvd5CFl85AnRpZDmbaLQ1Q9ybC8YPNRFdMpb7vZQoPPrvVsTtgByHYf5TtRB5rDAgMBAAECggEAUDPieCnCd1rtvwpehXElpwxzJxg6ccdaVMjwx7tuoRidHoRzeB2fUNbWvLVIGvDTjTPGAr5I9BoFHT5tARJMeGIzbISDxsosDBRKu88cCx6dRl3ukcjSLsxMh8XUDhyWLsSgAMIpxVfHUuOsHmLZ2I3Ho6o1KIxdVg/JSgtdwTqjz3w8jmGQ/NXgc7Ym/ys1fLG9L2nYdMzK/mRJf/BnXiCNE6/SYlZYO716oC688UJBWS3BqB9jaJyNpigX//ynJvU6xw8FhHt4fRStUmCCYAYhCQu3XgbtmxKisDGhdBVASG+DM+vVTh+sSvxkNrjJjF+m2tSg578A8C8Ls0r3uQKBgQDpO9e178NR0HHmvWbZR9+uPugf4UT9+U2/dEfJBHAOp2GRsIvXkFwbPHuSHkc0iEPwz+U8gPC8jInSslKOUDtaGtUaVzzWrxxh7DggWx4pYs3I0Ki8C+CRTTdOY9GAFa9jhIyRmf6v9QoAH/loGNV2qYFbb+HweD0PnxlWha1txQKBgQDh9IBBltW7T96foUmHOn+x6xlF5MNDHxLBY6bngxKvMTZoi5C6wmmCmasF45LWbkvUiMAsovYN5z4cJnKXWmRmCS8NXUucmUgdvsmCbiB62BmZvHaOffmnIdhcAjBebT/Bn5qMvKCNy3fQFSfuEw1eRRO2IofB4o7z7m794vo25wKBgEPowrQcrZhCwwdWGn4laUGI23l80+PHFRYru0MSYbZCkiwjZXRMeiUMBUbUPhNTocSaI7rsKCweF3sbpOH/BmkD6wySXgp8Th1M9EKnhS6zsAtKhfbK1oY4H2RZuAQ9TCYD0BIM7pU5GcJTjQD8ShsU269N8lFcERtdTbldjtOpAoGAF4YkADAa6lhjXg0loY2Gk9hdFji913QZuMaOLtYnkNO3zWSSWc85ut4Svxc1R1vOSz89eqgwo7vqbHXYQken4jOckXCgGZqftnERe6HJgeCTsby8PxOAdVUBuHqF3J7VH2xlY7eTo4+GVsSNFq0nHCRm6/RmW9ohdeXh6k7CLAsCgYBZe3RLWuffKxg+lZmv9tJDOO813QPLFeixrBYhKjGDcwjVYcCugGNDmyStM0/++uWddgMKavNALjpamu8KolDNivrjL1qaFHX9Bpi108T+dDn2WpX+vUP6hjA/U2wtTvUbJle1SsbZxRrV9gf5PAJqTrQY4u28ezjR3PCV+R4kdw==-----END PRIVATE KEY-----";
-
-                                        privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
-
-                                        publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
-
-                                        // var enc = new JSEncrypt();
-
-                                        // enc.setPublicKey(publickey);
-                                        // //enc.setPrivateKey(privatekey);
-                                        // var encrypted = enc.encrypt("This is a String");
-
-                                        // console.log("Encrypted Value", encrypted)
-
-                                        //enc = "b'VGhpcyB3aWxsIGJlIGVuY3J5cHRlZA=='"
-                                        var dept = new JSEncrypt();
-                                        //dept.setPublicKey(publickey);
-                                        dept.setPrivateKey(privatekey);
-                                        var senddata = new Object();
-
-
-                                        //senddata["value"] = dept.decrypt(encrypted)
-
-                                        // console.log("Data "+data+" End")
-                                        var decrypted = dept.decrypt("WVEzKOT6DyTpxsU%2F113KgMVtdBM4nd%2Fwk6Po3JRzWgGF5VMbd9fiAbzl71Wt2wuGDXyfcSnEHv3a447SfesfPNWcy3vWsR2q7VuJmcKRNf7BEiu9EPOCx93860K%2B%2F2mHhMBIynp0%2BA%2BC93N7LdcKUtRyh1RP3zurIRKLNnYAtaxSRs9bNL%2BfP6rRYxZwUW%2BmXG%2B5vpjPxriVINrcuwGRwWJCAxjuG2SImrnWypf0sPZfcuhqmZb1iszX7n3vQ%2FxrzCocI0wr7UhN59okRENDY0QP5yY14Q31Alm%2BVJrJZ%2Bi6PfNldri3v1%2B89%2FQsr7PZoia1QOwzb5EiGq9n%2F23obg%3D%3D")
-                                        //senddata["Value"] = dept.decrypt("00x\x11\xaf\xd6\xc3\x1e\x9e\xa7N\xdb\'\xeb\xdf\xd7\xe7RIN\xd8\nE\xf2\xc9Y\xbb\xd3\x15\xa2\x05\xa4*\x92\xcb\x1e\xfb\xb8\xd0&,\xc0\xb0\xa2\xeaw\xb9\x1d\xd4\xc2q\x82\x01\xde\x825\xd7R@\x03\x0c!\xfcww\x02e\xc1\x81\xfa\x98\xf4@\x02N\xa5\x003\xe8\xaf\xe4 \xad\xe3\x18g\x92\x0c\x05T3\xd5&(\x1b\xf8\xbd\t\t\x87\xe7\x92\xe0\x07\xc4"\\>\xf0\xff-\xb1r\x12\xf8\x06\x07\xbe6\xc5\xa6\xb7\\EB\x1f\x13\xea\x91:\x98A@q\xd6\xef\x02\x90hp%7\x0b\x04\xa3\x87\xa4\xcc\x84\x91\x87\'\xda\x00\xac\xe2\xc4\x7f~\xf2\x85\xcbF\x9d.\xf2#\xeeS\x15,\t\xc0\x12(:6\xb3{\xef7\xc4\x1e6\x0f\xc6\xd9\x8e\xad\x93\x0c\xd7\xcfK]\x903\x9e\x03K\x17\x94\x9b\xa2\xd2\x08\xfa\xb4\xc4K\r\x8fy@4v\xdc\xf2kd\xc1\xc2\x92\x01\x02\xe8>N\xf3,\xcf\xbe<F\xd9\x94\x90-L\xaf\x97Ay\xc7\x07/\x91<`f\x95A\xad\x96H+\x92Sc");
-                                        console.log(decrypted);
-                                        //   var encrypt=new JSEncrypt ();
-                                        //   encrypt.setPublicKey (publickey);
-                                        //   console.log(data);
-
-                                        //   //The data object sent by the ajax request
-                                        //   var senddata=new Object ();
-
-                                        //   //Assign the data array to the ajax object
-                                        //   for (var key in data) {
-                                        //     if(key=='token'){
-                                        //       senddata [key]=encrypt.encrypt(data [key]);
-                                        //     }
-                                        //     else{
-                                        //       senddata[key] = data[key];
-                                        //     }
-                                        //   }
-                                        //   console.log(senddata);
-
-                                        $.ajax({
-                                            url: requrl,
-                                            type: "post",
-                                            data: senddata,
-                                            datatype: "json",
-                                            success: function (response) {
-                                                console.log("success");
-                                                window.location.href = "http://secure-kpa.herokuapp.com/cart";
-                                            }
-                                        }
-                                        );
-                                    }
-                                    $(function () {
-                                        $("#encryptNow").click(function () {
-
-                                            var data = '{{data}}';
-                                            console.log("Data IS")
-                                            console.log(data)
-                                            console.log("Data End")
-                                            decryptData("http://secure-kpa.herokuapp.com/cart", data);
-                                        });
-                                    });
-                                </script>
-                                </script>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <h6 class="mob-text">${{ items[i]['price'] }}</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-
+                .pad-left {
+                    padding-left: 20px
+                }
+            }
+        </style>
         <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
         <script src="../static/js/rsa.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
-        <script type="text/javascript">
-
-            function encryptPayDetails(requrl, data) {
-               
-
-                var response = $.ajax({
-                    url: requrl,
-                    type: "post",
-                    data: data,
-                    datatype: "json",
-                    success: function (response) {
-                        console.log(response)
-                        //response="success";
-                        if(response == "Failure Date"){
-                            alert('Incorrect Card Date');
-                            return;
-                        }
-                        if(response == "Failure cvv"){
-                            alert('Incorrect length of cvv');
-                            return;
-                        }
-                        if(response == "Failure number"){
-                            alert('Incorrect card number');
-                            return;
-                        }
-
-                        if(response == "Empty Request")
-                        {
-                            alert('Empty Fields Provided');
-                            return;
-                        }
-                        window.location.href = "http://secure-kpa.herokuapp.com/orders";
-
-                    },
-                    error: function (error) {
-                        alert('Missing Card Details');
-                    }
-                }
-                );
-                // console.log(response['success'])
-                // var jsonResponse = JSON.parse(response);
-                // console.log(jsonResponse);
-            }
-
-            $(function () {
-                $("#testme").click(function () {
-                    
-                    privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
-
-                    publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
-
-                    var dataVal = [];
-
-                    
-
-                    var data = {
-                        "cnum": $('#cnum').val(),
-                        "cname": $('#cname').val(),
-                        "exp": $('#exp').val(),
-                        "cvv": $('#cvv').val()
-                    };
-                    
-                    var encrypt = new JSEncrypt();
-                    encrypt.setPublicKey(publickey);
-                    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
-                    var encodedData = base64url(stringifiedData);
-                    var getToken = document.getElementById('token').value;
-                   
-                    var decrypt = new JSEncrypt();
-                    decrypt.setPrivateKey(privatekey);
-                    var tokenDecrypt = decrypt.decrypt(getToken);
-                    if (tokenDecrypt == null){
-                        alert("Either Missing Payment Details or No Items In Cart!")
-                        return;
-                    }
-
-                    var splitToken = tokenDecrypt.split('.')[0];
-                 
-                    var senddata=new Object ();
-                    senddata['token'] = encrypt.encrypt(splitToken + '.' + encodedData);
-                    
-                    var encryptToken = {
-                        'token': senddata['token']
-                    };
-                  
-                    encryptPayDetails("/payment", encryptToken);
-                });
-            });
-
-        </script>
-        <script>
-          
-
-            function base64url(source) {
-                // Encode in classical base64
-                encodedSource = CryptoJS.enc.Base64.stringify(source);
-
-                // Remove padding equal characters
-                encodedSource = encodedSource.replace(/=+$/, '');
-
-                // Replace characters according to base64url specifications
-                encodedSource = encodedSource.replace(/\+/g, '-');
-                encodedSource = encodedSource.replace(/\//g, '_');
-
-                return encodedSource;
-            }
-
-            function encryptrequest(formId) {
-                privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
-                var getToken = document.getElementById('token').value;
-                
-                var decrypt = new JSEncrypt();
-                decrypt.setPrivateKey(privatekey);
-                var tokenDecrypt = decrypt.decrypt(getToken);
-                var splitToken = tokenDecrypt.split('.')[0];
-                
-                var data = {
-                    'oid': document.getElementById('oid' + formId).value
-                };
-              
-                var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
-                var encodedData = base64url(stringifiedData);
-              
-                publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
-                var encrypt=new JSEncrypt ();
-                encrypt.setPublicKey (publickey);
-                var senddata=new Object ();
-                senddata['encrypted_token'] = encrypt.encrypt(splitToken + "." + encodedData);
-                
-                var ourData = {
-                     
-                    "token":senddata['encrypted_token']
-                }
-
-                
-
-                $.ajax ({
-                    url:"http://secure-kpa.herokuapp.com/deleteCart",        
-                    cache : false,
-                    type:"post",       
-                    data:ourData,       
-                    datatype:"json",       
-                    success: function(response){
-                        console.log("success");
-                        // console.log(response['jwt_token']);
-                        window.location.href = "http://secure-kpa.herokuapp.com/cart";
-                    }
-                     //contenttype:"application/json;charset=utf-8",        success:function (data) {
-                });
 
 
-            }
+    <body oncontextmenu='return false' class='snippet-body'>
+        <div class="container px-4 py-5 mx-auto">
+            <div class="row d-flex justify-content-center">
+                <div class="col-5" style="margin-left:0rem;">
+                    <h4 class="heading">Image</h4>
 
-            function encryptrequestForUpdate(data, formId) {
-                publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
-                privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
-                console.log(data, formId)
-                var encrypt = new JSEncrypt();
-                encrypt.setPublicKey(publickey);
-               
-
-                //The data object sent by the ajax request
-                var senddata = new Object();
-
-
-                //Assign the data array to the ajax object
-                console.log("here", data);
-                senddata['OID'] = encrypt.encrypt(data);
-                var quantity = document.getElementById('quantity' + formId).value;
-                //console.log(quantity);
-                senddata['quantity'] = encrypt.encrypt(quantity);
-                console.log(senddata['quantity']);
-                //   document.getElementById('oid_edit' + formId).value = "hello";
-                //   document.getElementById('quantity' + formId).value = "hello";
-                var data = {
-                    "quantity": document.getElementById('quantity' + formId).value,
-                    "OID": document.getElementById('oid_edit' + formId).value
-                }
-
-                console.log(data);
-                var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
-                var encodedData = base64url(stringifiedData);
-                var getToken = document.getElementById('token').value;
-                var decrypt = new JSEncrypt();
-                decrypt.setPrivateKey(privatekey);
-                var tokenDecrypt = decrypt.decrypt(getToken);
-                var splitToken = tokenDecrypt.split('.')[0];
-                senddata['token'] = encrypt.encrypt(splitToken + '.' + encodedData);
-
-                var encryptToken = {
-                    'token': senddata['token']
-                };
-
-                console.log(encryptToken);
-
-                $.ajax({
-                    url: "http://secure-kpa.herokuapp.com/editCart",
-                    cache: false,
-                    type: "post",
-                    data: encryptToken,
-                    datatype: "json",
-                    success: function (response) {
-
-                        // setTimeout(reload, 2000);
-                        console.log("success");
-                        window.location.href = "http://secure-kpa.herokuapp.com/cart";
-                    }
-                }
-                );
-            }
-
-
-            $('#submitButton').on('click', function () {
-
-
-                encryptrequest($('#oid').val());
-
-
-            });
-
-            function update(el) {
-
-                
-                var formId = el.id;
-                console.log(formId);
-                let str = formId;
-                const myArr = str.split("updateButton");
-                console.log(myArr)
-                var form = new FormData(document.getElementById(myArr[1]));
-                var inputValue = form.get("oid_edit");
-                console.log(inputValue);
-                encryptrequestForUpdate(inputValue, myArr[1]);
-               
-            };
-
-            function deleteItem(el) {
-               
-                var formId = el.id;
-               
-            
-                encryptrequest(formId);
-            };
-
-        </script>
-
-
-
-
-
-
-        <form action="/payment" method="post">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="row">
-
-                            <div class="col-lg-3 radio-group">
-                                <div class="row d-flex px-3 radio"> <img class="pay"
-                                        src="https://i.imgur.com/WIAP9Ku.jpg">
-                                    <p class="my-auto">Credit Card</p>
-                                </div>
-                                <div class="row d-flex px-3 radio gray"> <img class="pay"
-                                        src="https://i.imgur.com/OdxcctP.jpg">
-                                    <p class="my-auto">Debit Card</p>
-                                </div>
-                                <div class="row d-flex px-3 radio gray mb-3"> <img class="pay"
-                                        src="https://i.imgur.com/cMk1MtK.jpg">
-                                    <p class="my-auto">PayPal</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                <div class="row px-2">
-                                    <div class="form-group col-md-6"> <label class="form-control-label">Name on
-                                            Card</label> <input type="text" id="cname" name="cname" required
-                                            placeholder="Johnny Doe"> </div>
-                                    <div class="form-group col-md-6"> <label class="form-control-label">Card
-                                            Number</label> <input type="text" id="cnum" name="cnum"
-                                            placeholder="1111 2222 3333 4444" required> </div>
-                                </div>
-                                <div class="row px-2">
-                                    <div class="form-group col-md-6"> <label class="form-control-label">Expiration
-                                            Date</label> <input type="text" id="exp" name="exp" placeholder="MM/YYYY" required>
-                                    </div>
-                                    <div class="form-group col-md-6"> <label class="form-control-label">CVV</label>
-                                        <input type="password" id="cvv" name="cvv" placeholder="***" required> </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <!-- <input id="token" type="hidden" name="token"> -->
-                                <input class="form-control" type="hidden" id="token" value="token" name="token"></input>
-                            </div>
-
-                            <div class="col-lg-4 mt-2">
-                                <div class="row d-flex justify-content-between px-4">
-                                    <p class="mb-1 text-left">Subtotal</p>
-                                    <h6 id="subTotal" class="mb-1 text-right"></h6>
-                                </div>
-                                <div class="row d-flex justify-content-between px-4">
-                                    <p class="mb-1 text-left">Shipping</p>
-                                    <h6 class="mb-1 text-right">$2.99</h6>
-                                </div>
-                                <div class="row d-flex justify-content-between px-4" id="tax">
-                                    <p class="mb-1 text-left">Total (tax included)</p>
-                                    <h6 id="totalCost" class="mb-1 text-right"></h6>
-                                </div> 
-                                <button id="testme" type="button" class="btn-block btn-blue">Checkout </button>
-                            </div>
-
-                            <script>
-                                function parseJwt (token) {
-                    var base64Url = token.split('.')[1];
-                    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                    }).join(''));
-                
-                    return JSON.parse(jsonPayload);
-                };  
-                                var decrypt = new JSEncrypt()
-                                publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
-                                privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
-                
-                                decrypt.setPrivateKey(privatekey)
-                
-                                var user_data = "{{encryptedToken}}"
-                
-                                decryptedToken = decrypt.decrypt(user_data)
-                
-                                var splitData = decryptedToken.split('.')[1];
-                
-                                var total = parseJwt(decryptedToken)
-                                var ship = 2.99
-                
-                                var subTotal = total['totalCost'] - ship
-                                document.getElementById("subTotal").innerHTML = "$"+subTotal
-                                document.getElementById("totalCost").innerHTML = "$"+total['totalCost']
-                
-                                
-                        </script>
-                        
-                            
+                </div>
+                <div class="col-7">
+                    <div class="row text-right">
+                        <div class="col-4" style="margin-left:-25rem;">
+                            <h4 class="mt-2">Brand</h4>
                         </div>
-                        
-                        <!-- <a id="dir" href="{{url_for('static',filename='/invoices/'+'615876f986ccdf079b4873c5.pdf')}}" >Download</a> -->
-
-                        <!-- <script>
-                            var decrypt = new JSEncrypt()
-                            publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
-                            privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
-                
-                            decrypt.setPrivateKey(privatekey)
-                            var invoice = "{{session.invoice}}"
-
-
-
-                            decrypted_invoice = decrypt.decrypt(invoice)
-                            
-                            //var splitData = decryptedToken.split('.')[1];
-
-                            // console.log("TOKENNNN", decrypted_invoice)
-                            //alert(decrypted_invoice)
-                            
-                            var directory = parseJwt(decrypted_invoice)
-
-
-                            // var elem = document.createElement('invoice')
-
-                            // elem.title = "Download";
-                            // elem.href = ""
-
-                            // document.body.appendChild(elem);
-                            
-                            console.log(directory)
-
-                            var directorySplit = directory['invoiceDict']
-                            console.log(directorySplit)
-                            var oid = directorySplit.split("/")[2];
-                            console.log(String(oid))
-
-                            //dir_url = "{{url_for('static',filename='/invoices/'+'" + String(oid) + "')}}"
-                           
-                            //console.log(dir_url)
-                            
-                            str = "../static/invoices/" + String(oid)+""
-                            console.log(str)
-                            // document.getElementById("dir").href = "../static/invoices/615876f986ccdf079b4873c5.pdf"
-                           // document.getElementById("dir").href = "{{url_for('static',filename='/invoices/'+'615876f986ccdf079b4873c5.pdf')}}"
-                            document.getElementById("dir").href = str
-
-
-                            </script> -->
+                        <div class="col-4">
+                            <h4 class="mt-2">Model</h4>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="mt-2">Quantity</h4>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="mt-2">Price</h4>
+                        </div>
                     </div>
                 </div>
             </div>
-        </form>
+            <input id="hello" type="hidden" name="hello" value="{{ hello }}" />
 
-    </div>
-    <script type='text/javascript'
-        src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
-    <script type='text/javascript'>$(document).ready(function () {
+            {% for i in range(numberOfelements) %}
+            <div class="row d-flex justify-content-center border-top">
+                <div class="col-5">
+                    <div class="row d-flex">
 
-            $('.radio-group .radio').click(function () {
-                $('.radio').addClass('gray');
-                $(this).removeClass('gray');
-            });
+                        <div class="book"><img src="{{url_for('static',filename='/img/'+items[i]['product_image'])}}"
+                                class="book-img"></div>
+                        <div class="my-auto flex-column d-flex pad-left">
+                            <h6 class="mob-text" style="margin-left:25rem; margin-top: -6.6rem;">{{ items[i]['brand'] }}
 
-            $('.plus-minus .plus').click(function () {
-                var count = $(this).parent().prev().text();
-                $(this).parent().prev().html(Number(count) + 1);
-            });
 
-            $('.plus-minus .minus').click(function () {
-                var count = $(this).parent().prev().text();
-                $(this).parent().prev().html(Number(count) - 1);
-            });
+                        </div>
+                    </div>
+                </div>
+                <div class="my-auto col-7">
+                    <div class="row text-right">
+                        <div class="col-4">
+                            <p class="mob-text" style="margin-top: 0rem;">{{ items[i]['model'] }}</p>
 
-        });</script>
-</body>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="row d-flex justify-content-end px-3">
+
+                                <script>
+                                    window.addEventListener('load', function () {
+                                        var xhr = null;
+
+                                        getXmlHttpRequestObject = function () {
+                                            if (!xhr) {
+                                                xhr = new XMLHttpRequest();
+                                            }
+                                            return xhr;
+                                        };
+
+                                        updateLiveData = function () {
+                                            var url = 'http://secure-kpa.herokuapp.com/cart';
+                                            xhr = getXmlHttpRequestObject();
+
+                                            xhr.onreadystatechange = eventHandler;
+
+                                            xhr.open("POST", url, true);
+
+                                            xhr.send(null);
+                                        };
+
+
+                                        function eventHandler() {
+
+                                            if ((xhr.readyState == 4 || xhr.readyState == 3 || xhr.readyState == 2 || xhr.readyState == 1) && xhr.status == 200) {
+
+                                                data = document.getElementById('cnt2');
+                                                data.value = "4";
+                                                setTimeout(updateLiveData(), 1);
+                                            }
+                                        }
+
+                                        //Uncomment
+                                        // updateLiveData();
+                                    });
+
+
+
+                                </script>
+
+                                <p class="mb-0" id="cnt2" name="cnt2">{{ items[i]['quantity'] }}</p>
+                                <form id="{{ items[i]['_id']['$oid'] }}" method="post">
+                                    <input id="token" type="hidden" name="token" value="{{ token }}" />
+                                    <input id="oid_edit{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid_edit"
+                                        value="{{ items[i]['_id']['$oid'] }}"
+                                        style="margin-left:25rem;  margin-top: 10px;" />
+                                    <label for="quantity" style="margin-top: 5rem;">Quantity
+                                        <select name="quantity" style="margin-left:25rem;"
+                                            id="quantity{{ items[i]['_id']['$oid'] }}">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </label>
+                                    <script>
+                                        function load(i) {
+
+                                        }
+
+
+                                    </script>
+                                    <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+                                    <button id="updateButton{{ items[i]['_id']['$oid'] }}" onclick="update(this)"
+                                        type="button" class="btn btn-primary btn-lg">Update Quantity</button>
+
+                                    <form method="post">
+                                        <input id="oiddelete{{ items[i]['_id']['$oid'] }}" type="hidden" name="oid"
+                                            value="{{ items[i]['_id']['$oid'] }}" />
+                                        <button id="delete{{ items[i]['_id']['$oid'] }}" onclick="deleteItem(this)"
+                                            type="button" class="btn btn-danger btn-lg">Delete</button>
+                                    </form>
+
+                                    <script>
+
+                                        function decryptData(requrl, data) {
+                                            privatekey = "YOUR_RSA_PRIVATE_KEY";
+                                            publickey = "YOUR_PUBLIC_KEY"
+
+                                            var dept = new JSEncrypt();
+
+                                            dept.setPrivateKey(privatekey);
+                                            var senddata = new Object();
+
+                                            var decrypted = dept.decrypt("WVEzKOT6DyTpxsU%2F113KgMVtdBM4nd%2Fwk6Po3JRzWgGF5VMbd9fiAbzl71Wt2wuGDXyfcSnEHv3a447SfesfPNWcy3vWsR2q7VuJmcKRNf7BEiu9EPOCx93860K%2B%2F2mHhMBIynp0%2BA%2BC93N7LdcKUtRyh1RP3zurIRKLNnYAtaxSRs9bNL%2BfP6rRYxZwUW%2BmXG%2B5vpjPxriVINrcuwGRwWJCAxjuG2SImrnWypf0sPZfcuhqmZb1iszX7n3vQ%2FxrzCocI0wr7UhN59okRENDY0QP5yY14Q31Alm%2BVJrJZ%2Bi6PfNldri3v1%2B89%2FQsr7PZoia1QOwzb5EiGq9n%2F23obg%3D%3D")
+
+
+                                            $.ajax({
+                                                url: requrl,
+                                                type: "post",
+                                                data: senddata,
+                                                datatype: "json",
+                                                success: function (response) {
+                                                    window.location.href = "http://secure-kpa.herokuapp.com/cart";
+                                                }
+                                            }
+                                            );
+                                        }
+                                        $(function () {
+                                            $("#encryptNow").click(function () {
+
+                                                var data = '{{data}}';
+
+                                                decryptData("http://secure-kpa.herokuapp.com/cart", data);
+                                            });
+                                        });
+                                    </script>
+                                    </script>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="mob-text">${{ items[i]['price'] }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+            <script src="http://passport.cnblogs.com/scripts/jsencrypt.min.js"></script>
+            <script src="../static/js/rsa.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
+            <script type="text/javascript">
+
+                function encryptPayDetails(requrl, data) {
+
+
+                    var response = $.ajax({
+                        url: requrl,
+                        type: "post",
+                        data: data,
+                        datatype: "json",
+                        success: function (response) {
+
+
+                            if (response == "Failure Date") {
+                                alert('Incorrect Card Date');
+                                return;
+                            }
+                            if (response == "Failure cvv") {
+                                alert('Incorrect length of cvv');
+                                return;
+                            }
+                            if (response == "Failure number") {
+                                alert('Incorrect card number');
+                                return;
+                            }
+
+                            if (response == "Empty Request") {
+                                alert('Empty Fields Provided');
+                                return;
+                            }
+                            window.location.href = "http://secure-kpa.herokuapp.com/orders";
+
+                        },
+                        error: function (error) {
+                            alert('Missing Card Details');
+                        }
+                    }
+                    );
+
+                }
+
+                $(function () {
+                    $("#testme").click(function () {
+
+                        privatekey = "YOUR_RSA_PRIVATE_KEY";
+                        publickey = "YOUR_PUBLIC_KEY";
+
+                        var dataVal = [];
+
+
+
+                        var data = {
+                            "cnum": $('#cnum').val(),
+                            "cname": $('#cname').val(),
+                            "exp": $('#exp').val(),
+                            "cvv": $('#cvv').val()
+                        };
+
+                        var encrypt = new JSEncrypt();
+                        encrypt.setPublicKey(publickey);
+                        var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+                        var encodedData = base64url(stringifiedData);
+                        var getToken = document.getElementById('token').value;
+
+                        var decrypt = new JSEncrypt();
+                        decrypt.setPrivateKey(privatekey);
+                        var tokenDecrypt = decrypt.decrypt(getToken);
+                        if (tokenDecrypt == null) {
+                            alert("Either Missing Payment Details or No Items In Cart!")
+                            return;
+                        }
+
+                        var splitToken = tokenDecrypt.split('.')[0];
+
+                        var senddata = new Object();
+                        senddata['token'] = encrypt.encrypt(splitToken + '.' + encodedData);
+
+                        var encryptToken = {
+                            'token': senddata['token']
+                        };
+
+                        encryptPayDetails("/payment", encryptToken);
+                    });
+                });
+
+            </script>
+            <script>
+
+
+                function base64url(source) {
+                    // Encode in classical base64
+                    encodedSource = CryptoJS.enc.Base64.stringify(source);
+
+                    // Remove padding equal characters
+                    encodedSource = encodedSource.replace(/=+$/, '');
+
+                    // Replace characters according to base64url specifications
+                    encodedSource = encodedSource.replace(/\+/g, '-');
+                    encodedSource = encodedSource.replace(/\//g, '_');
+
+                    return encodedSource;
+                }
+
+                function encryptrequest(formId) {
+
+
+                    privatekey = "YOUR_RSA_PRIVATE_KEY";
+                    var getToken = document.getElementById('token').value;
+
+                    var decrypt = new JSEncrypt();
+                    decrypt.setPrivateKey(privatekey);
+                    var tokenDecrypt = decrypt.decrypt(getToken);
+                    var splitToken = tokenDecrypt.split('.')[0];
+
+                    var data = {
+                        'oid': document.getElementById('oid' + formId).value
+                    };
+
+                    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+                    var encodedData = base64url(stringifiedData);
+
+                    publickey = "YOUR_PUBLIC_KEY";
+
+                    var encrypt = new JSEncrypt();
+                    encrypt.setPublicKey(publickey);
+                    var senddata = new Object();
+                    senddata['encrypted_token'] = encrypt.encrypt(splitToken + "." + encodedData);
+
+                    var ourData = {
+
+                        "token": senddata['encrypted_token']
+                    }
+
+
+
+                    $.ajax({
+                        url: "http://secure-kpa.herokuapp.com/deleteCart",
+                        cache: false,
+                        type: "post",
+                        data: ourData,
+                        datatype: "json",
+                        success: function (response) {
+                            window.location.href = "http://secure-kpa.herokuapp.com/cart";
+                        }
+                    });
+
+
+                }
+
+                function encryptrequestForUpdate(data, formId) {
+
+
+                    publickey = "YOUR_PUBLIC_KEY";
+
+                    privatekey = "YOUR_RSA_PRIVATE_KEY";
+
+                    var encrypt = new JSEncrypt();
+                    encrypt.setPublicKey(publickey);
+
+
+                    //The data object sent by the ajax request
+                    var senddata = new Object();
+
+
+                    //Assign the data array to the ajax object
+                    senddata['OID'] = encrypt.encrypt(data);
+                    var quantity = document.getElementById('quantity' + formId).value;
+
+                    senddata['quantity'] = encrypt.encrypt(quantity);
+                    var data = {
+                        "quantity": document.getElementById('quantity' + formId).value,
+                        "OID": document.getElementById('oid_edit' + formId).value
+                    }
+
+                    var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+                    var encodedData = base64url(stringifiedData);
+                    var getToken = document.getElementById('token').value;
+                    var decrypt = new JSEncrypt();
+                    decrypt.setPrivateKey(privatekey);
+                    var tokenDecrypt = decrypt.decrypt(getToken);
+                    var splitToken = tokenDecrypt.split('.')[0];
+                    senddata['token'] = encrypt.encrypt(splitToken + '.' + encodedData);
+
+                    var encryptToken = {
+                        'token': senddata['token']
+                    };
+
+                    $.ajax({
+                        url: "http://secure-kpa.herokuapp.com/editCart",
+                        cache: false,
+                        type: "post",
+                        data: encryptToken,
+                        datatype: "json",
+                        success: function (response) {
+                            window.location.href = "http://secure-kpa.herokuapp.com/cart";
+                        }
+                    }
+                    );
+                }
+
+
+                $('#submitButton').on('click', function () {
+
+
+                    encryptrequest($('#oid').val());
+
+
+                });
+
+                function update(el) {
+
+
+                    var formId = el.id;
+                    let str = formId;
+                    const myArr = str.split("updateButton");
+                    var form = new FormData(document.getElementById(myArr[1]));
+                    var inputValue = form.get("oid_edit");
+                    encryptrequestForUpdate(inputValue, myArr[1]);
+
+                };
+
+                function deleteItem(el) {
+
+                    var formId = el.id;
+
+
+                    encryptrequest(formId);
+                };
+
+            </script>
+
+
+
+
+
+
+            <form action="/payment" method="post">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="row">
+
+                                <div class="col-lg-3 radio-group">
+                                    <div class="row d-flex px-3 radio"> <img class="pay"
+                                            src="https://i.imgur.com/WIAP9Ku.jpg">
+                                        <p class="my-auto">Credit Card</p>
+                                    </div>
+                                    <div class="row d-flex px-3 radio gray"> <img class="pay"
+                                            src="https://i.imgur.com/OdxcctP.jpg">
+                                        <p class="my-auto">Debit Card</p>
+                                    </div>
+                                    <div class="row d-flex px-3 radio gray mb-3"> <img class="pay"
+                                            src="https://i.imgur.com/cMk1MtK.jpg">
+                                        <p class="my-auto">PayPal</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="row px-2">
+                                        <div class="form-group col-md-6"> <label class="form-control-label">Name on
+                                                Card</label> <input type="text" id="cname" name="cname" required
+                                                placeholder="Johnny Doe"> </div>
+                                        <div class="form-group col-md-6"> <label class="form-control-label">Card
+                                                Number</label> <input type="text" id="cnum" name="cnum"
+                                                placeholder="1111 2222 3333 4444" required> </div>
+                                    </div>
+                                    <div class="row px-2">
+                                        <div class="form-group col-md-6"> <label class="form-control-label">Expiration
+                                                Date</label> <input type="text" id="exp" name="exp"
+                                                placeholder="MM/YYYY" required>
+                                        </div>
+                                        <div class="form-group col-md-6"> <label class="form-control-label">CVV</label>
+                                            <input type="password" id="cvv" name="cvv" placeholder="***" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="hidden" id="token" value="token"
+                                        name="token"></input>
+                                </div>
+
+                                <div class="col-lg-4 mt-2">
+                                    <div class="row d-flex justify-content-between px-4">
+                                        <p class="mb-1 text-left">Subtotal</p>
+                                        <h6 id="subTotal" class="mb-1 text-right"></h6>
+                                    </div>
+                                    <div class="row d-flex justify-content-between px-4">
+                                        <p class="mb-1 text-left">Shipping</p>
+                                        <h6 class="mb-1 text-right">$2.99</h6>
+                                    </div>
+                                    <div class="row d-flex justify-content-between px-4" id="tax">
+                                        <p class="mb-1 text-left">Total (tax included)</p>
+                                        <h6 id="totalCost" class="mb-1 text-right"></h6>
+                                    </div>
+                                    <button id="testme" type="button" class="btn-block btn-blue">Checkout </button>
+                                </div>
+
+                                <script>
+                                    function parseJwt(token) {
+                                        var base64Url = token.split('.')[1];
+                                        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                                        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                                            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                                        }).join(''));
+
+                                        return JSON.parse(jsonPayload);
+                                    };
+                                    var decrypt = new JSEncrypt()
+                                    publickey = "YOUR_PUBLIC_KEY";
+                                    privatekey = "YOUR_RSA_PRIVATE_KEY";
+
+                                    decrypt.setPrivateKey(privatekey)
+
+                                    var user_data = "{{encryptedToken}}"
+
+                                    decryptedToken = decrypt.decrypt(user_data)
+
+                                    var splitData = decryptedToken.split('.')[1];
+
+                                    var total = parseJwt(decryptedToken)
+                                    var ship = 2.99
+
+                                    var subTotal = total['totalCost'] - ship
+                                    document.getElementById("subTotal").innerHTML = "$" + subTotal
+                                    document.getElementById("totalCost").innerHTML = "$" + total['totalCost']
+
+
+                                </script>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <script type='text/javascript'
+            src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+        <script type='text/javascript'>$(document).ready(function () {
+
+                $('.radio-group .radio').click(function () {
+                    $('.radio').addClass('gray');
+                    $(this).removeClass('gray');
+                });
+
+                $('.plus-minus .plus').click(function () {
+                    var count = $(this).parent().prev().text();
+                    $(this).parent().prev().html(Number(count) + 1);
+                });
+
+                $('.plus-minus .minus').click(function () {
+                    var count = $(this).parent().prev().text();
+                    $(this).parent().prev().html(Number(count) - 1);
+                });
+
+            });</script>
+    </body>
 
 </html>

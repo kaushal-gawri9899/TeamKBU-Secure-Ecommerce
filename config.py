@@ -15,9 +15,6 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 import werkzeug.exceptions
 from flask_mongoengine import MongoEngine
 
-# from flask_mongoengine import MongoEngine
-
-
 app = Flask(__name__)
 
 
@@ -29,14 +26,6 @@ items = db['Items']
 zhiffy = db['Zhiffy']
 cart = db['Cart']
 order = db['Order']
-
-index_name = 'my_index'
-# items.create_index(index_name, unique=False)
-# zhiffy.create_index(index_name, unique=False)
-# cart.create_index(index_name, unique=False)
-# order.create_index(index_name, unique=False)
-# mongo = PyMongo(app)
-# app.config["MONGO_URI"] = "mongodb://localhost:27017/application_db"
 
 app = Flask(__name__)
 jwt = JWTManager(app)

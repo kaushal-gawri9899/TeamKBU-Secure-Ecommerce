@@ -18,7 +18,6 @@ from Crypto import Random
 from base64 import b64decode
 import jwt
 from bson.json_util import dumps
-# import session
 from bson.objectid import ObjectId
 from flask import jsonify, request, render_template, redirect, url_for, session
 
@@ -47,12 +46,11 @@ def decrypt_data (inputdata, code="123456"):
   data=parse.unquote (inputdata)
   #base64decode
   data=base64.b64decode (data)
-#   private_key=RSA.importKey (
-#     open (curr_dir + "/my_private_rsa_key.bin"). read (),    passphrase=code
-#   )
+
   private_key=RSA.importKey (
     open (curr_dir + "/rsa_private.bin"). read (),    passphrase=code
   )
+
   #Use pkcs1_v1_5 instead of pkcs1_oaep
   #If pkcs1_oaep is used, the data encrypted by jsencrypt.js on the front end cannot be decrypted
   cipher_rsa=PKCS1_v1_5.new (private_key)
@@ -80,7 +78,6 @@ def register():
             if is_inValid:
                 message="Email Already In Use"
                 return render_template("register.html", message=message)
-                #return jsonify(message="Cannot Register User. Email Already Used", flag=False), 409
             else:
                 user_name = request.form["name"]
                 user_password = request.form["password"]
@@ -90,8 +87,6 @@ def register():
                     config.zhiffy.insert_one(user_data)
                     user_access_token = create_access_token(identity=user_email)
 
-                    # return jsonify(message="Voila! User Registration Successful.", access_token=user_access_token, flag=True), 201
-                    #return render_template("loginUpdate.html")
                     return redirect(url_for('user_bp.login'))
                 else:
                     return jsonify(message="Empty Fields Found. Please Fill all Details", flag=False), 404
@@ -134,15 +129,12 @@ def login():
             user_password=request.values.get ("password")
             token=request.values.get("token")
             session['token'] = token
-            print(token)
             token_ret=decrypt_data (token)
             current_user = config.zhiffy.find_one({'email': user_email})
-            print(token_ret.decode())
             if user_email and user_password:
                 if current_user:
                     if bcrypt.hashpw(user_password.encode('utf-8'), current_user["password"]) == current_user["password"]:
                         user_access_token = create_access_token(identity=user_email)
-                        print(user_access_token)
                         ourTokens = {"jwt_token":user_access_token, "user_token":token_ret.decode()}
                         return "success"
             else:
@@ -152,7 +144,7 @@ def login():
             message = "Invalid Credentials. Please Retry."
 
             return render_template("loginUpdate.html", value=message)
-            # return jsonify(message="Invalid Credentials. Please Retry.", flag=False), 404
+
         
         except (ex.BadRequestKeyError, KeyError):
             return internal_error()

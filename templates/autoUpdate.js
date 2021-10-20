@@ -1,18 +1,14 @@
-window.addEventListener('load', function()
-{
+window.addEventListener('load', function () {
     var xhr = null;
 
-    getXmlHttpRequestObject = function()
-    {
-        if(!xhr)
-        {
+    getXmlHttpRequestObject = function () {
+        if (!xhr) {
             xhr = new XMLHttpRequest();
         }
         return xhr;
     };
-   
-    updateLiveData = function()
-    {
+
+    updateLiveData = function () {
         var url = 'http://localhost:5000/cart';
         xhr = getXmlHttpRequestObject();
 
@@ -24,18 +20,16 @@ window.addEventListener('load', function()
     };
 
 
-    function eventHandler(){
+    function eventHandler() {
 
-        if(xhr.readyState == 4 && xhr.status == 200){
+        if (xhr.readyState == 4 && xhr.status == 200) {
 
             data = document.getElementById('cnt2');
             data.innerHTML = xhr.responseText;
-
-            // setTimeout(updateLiveData(), 1000);
         }
     }
 
-    
+
     updateLiveData();
 });
 

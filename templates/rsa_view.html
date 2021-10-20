@@ -1,5 +1,6 @@
 <!Doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head runat="server">
   <meta http-equiv="content-type" content="text/html;charset=utf-8" />
   <meta charset="utf-8">
@@ -13,181 +14,143 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
   <script type="text/javascript">
     //use jsencrypt class library to encrypt js method,    
-    function encryptrequest (requrl, data) {
-      console.log("Functrin")
-      publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
-      var encrypt=new JSEncrypt ();
-      encrypt.setPublicKey (publickey);
+    function encryptrequest(requrl, data) {
+      publickey = "YOUR_PUBLIC_KEY";
+      privatekey = "YOUR_RSA_PRIVATE_KEY";
+
+      var encrypt = new JSEncrypt();
+      encrypt.setPublicKey(publickey);
 
       //The data object sent by the ajax request
-      var senddata=new Object ();
-      
+      var senddata = new Object();
+
       //Assign the data array to the ajax object
       for (var key in data) {
-        senddata [key]=encrypt.encrypt (data [key]);
+        senddata[key] = encrypt.encrypt(data[key]);
       }
-      console.log(senddata);
-      
-      $.ajax ({
-        url:requrl,        
-        type:"post",       
-         data:senddata,       
-          datatype:"json"        
-          
-          //contenttype:"application/json;charset=utf-8",        success:function (data) {
-        }
+      $.ajax({
+        url: requrl,
+        type: "post",
+        data: senddata,
+        datatype: "json"
+
+      }
       );
     }
 
     function base64url(source) {
-          // Encode in classical base64
-          encodedSource = CryptoJS.enc.Base64.stringify(source);
-        
-          // Remove padding equal characters
-          encodedSource = encodedSource.replace(/=+$/, '');
-        
-          // Replace characters according to base64url specifications
-          encodedSource = encodedSource.replace(/\+/g, '-');
-          encodedSource = encodedSource.replace(/\//g, '_');
-        
-          return encodedSource;
-        }
-    
-    
+      // Encode in classical base64
+      encodedSource = CryptoJS.enc.Base64.stringify(source);
+
+      // Remove padding equal characters
+      encodedSource = encodedSource.replace(/=+$/, '');
+
+      // Replace characters according to base64url specifications
+      encodedSource = encodedSource.replace(/\+/g, '-');
+      encodedSource = encodedSource.replace(/\//g, '_');
+
+      return encodedSource;
+    }
+
+
     //call this code when the page is done loading.
     $(function () {
-      $("#testme"). click (function () {
-        // console.log("Hello")
-        // var data=[];
-        // data ["username"]=$("#username"). val ();
-        // data ["passwd"]=$("#passwd"). val ();
-        // var pkey=$("#pubkey"). val ();
-        // encryptrequest ("/", data);
-        console.log("Hello")
-        var data=[];
-        // data ["email"]=$("#email"). val ();
-        // data ["password"]=$("#password"). val ();
-
-        // var pkey=$("#pubkey"). val ();
-        
-        console.log("Hello");
+      $("#testme").click(function () {
+        var data = [];
         var header = {
-            "alg": "HS256",
-            "typ": "JWT"
+          "alg": "HS256",
+          "typ": "JWT"
         };
-            
+
         var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
         var encodedHeader = base64url(stringifiedHeader);
-        
+
         var data = {
-            "username": $('#username').val(),
-            "passwd": $('#passwd').val()
+          "username": $('#username').val(),
+          "passwd": $('#passwd').val()
         };
-            
+
         var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
         var encodedData = base64url(stringifiedData);
-        
-       
-        
+
+
+
         var token = encodedHeader + "." + encodedData;
-            
+
         document.getElementById('token').value = token;
 
-        data ["username"]=$("#username"). val ();
-        data ["passwd"]=$("#passwd"). val ();
-        data ["token"]=token;
-
-    
-        console.log(token);
+        data["username"] = $("#username").val();
+        data["passwd"] = $("#passwd").val();
+        data["token"] = token;
 
 
 
-        encryptrequest ("/", data);
+        encryptrequest("/", data);
       });
     });
   </script>
 
-<style>
-  .login-form {
+  <style>
+    .login-form {
       width: 340px;
       margin: 50px auto;
-  }
+    }
 
-  .login-form form {
+    .login-form form {
       margin-bottom: 15px;
       background: #f7f7f7;
       box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
       padding: 30px;
-  }
+    }
 
-  .login-form h2 {
+    .login-form h2 {
       margin: 0 0 15px;
-  }
+    }
 
-  .form-control,
-  .btn {
+    .form-control,
+    .btn {
       min-height: 38px;
       border-radius: 2px;
-  }
+    }
 
-  .btn {
+    .btn {
       font-size: 15px;
       font-weight: bold;
-  }
-</style>
+    }
+  </style>
 </head>
-<!-- <body>
-<form runat="server">
-  <div>
-    <label for="pubkey">public key</label><br />
-    <textarea rows="15" cols="65">
-        {{public_key}}
-      </textarea><br />
-    <label for="input">text to encrypt:</label><br />
-    name:<input id="username" name="username" type="text" value="user"></input><br />
-    password:<input id="passwd" name="passwd" type="password" value="123"></input><br />
-    <input type="hidden" id="token" name="token" ></input><br />
-    <input type="button" value="submit" id="testme" /><br />
-  </div>
-</form>
-</body> -->
 
 
 <body>
   <div class="login-form">
-      
-      <form action="/" method="post">
+
+    <form action="/" method="post">
 
 
-          <h2 class="text-center">Log in</h2>
-          <div class="form-group">
-              <!-- <input id="email" type="email" class="form-control" placeholder="Email" name="email"
-                  required="required"> -->
-                  <input class="form-control" id="username" name="username" type="text"></input>
-          </div>
-          <div class="form-group">
-              <!-- <input id="password" type="password" class="form-control" placeholder="Password" name="password"
-                  required="required"> -->
-                  <input class="form-control" id="passwd" name="passwd" type="password"></input>
-          </div>
+      <h2 class="text-center">Log in</h2>
+      <div class="form-group">
+        <input class="form-control" id="username" name="username" type="text"></input>
+      </div>
+      <div class="form-group">
+        <input class="form-control" id="passwd" name="passwd" type="password"></input>
+      </div>
 
-          <div class="form-group">
-              <!-- <input id="token" type="hidden" name="token"> -->
-              <input class="form-control" type="hidden" id="token" name="token" ></input>
-          </div>
-          <div class="form-group">
-              <!-- <button type="submit" class="btn btn-primary btn-block" onclick="CreateToken()">Log in</button> -->
-              <input class="btn btn-primary btn-block" type="button" value="submit" id="testme" />
-          </div>
+      <div class="form-group">
+        <input class="form-control" type="hidden" id="token" name="token"></input>
+      </div>
+      <div class="form-group">
+        <input class="btn btn-primary btn-block" type="button" value="submit" id="testme" />
+      </div>
 
-          <div class="clearfix">
-          </div>
+      <div class="clearfix">
+      </div>
 
-      </form>
+    </form>
 
-      <p class="text-center"><a href="register">Create an Account</a></p>
+    <p class="text-center"><a href="register">Create an Account</a></p>
 
   </div>
 
 </body>
+
 </html>

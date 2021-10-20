@@ -1,80 +1,80 @@
 <h1>All Products</h1>
 <style>
-.card:hover {
-    border-color: #999;
-    box-shadow: 1px 2px #999;
-}
+    .card:hover {
+        border-color: #999;
+        box-shadow: 1px 2px #999;
+    }
 
-.card {
-    margin-bottom: 1em;
-}
+    .card {
+        margin-bottom: 1em;
+    }
 
-.price {
-    color: seagreen;
-    font-weight: bold;    
-}
+    .price {
+        color: seagreen;
+        font-weight: bold;
+    }
 
-.price:before {
-    content: '$';
-}
+    .price:before {
+        content: '$';
+    }
 
-.shirt {
-    margin-bottom: 10px;
-    width: 200px;
-}
+    .shirt {
+        margin-bottom: 10px;
+        width: 200px;
+    }
 
-.stepper-input{
-    display: flex;
-    display: -webkit-flex;
-    color: #222;
-    max-width: 120px;
-    margin: 10px auto;
-    text-align: center;
-}
+    .stepper-input {
+        display: flex;
+        display: -webkit-flex;
+        color: #222;
+        max-width: 120px;
+        margin: 10px auto;
+        text-align: center;
+    }
 
-header {
-    margin-bottom: 50px;
-}
+    header {
+        margin-bottom: 50px;
+    }
 
-.shirtCart {
-    width: 25px;
-}
+    .shirtCart {
+        width: 25px;
+    }
 
-.add {
-    text-transform: uppercase;
-    font-size: 0.8em;
-    font-weight: bold;
-    color: white;
-}
+    .add {
+        text-transform: uppercase;
+        font-size: 0.8em;
+        font-weight: bold;
+        color: white;
+    }
 
-.checkout {
-    text-transform: uppercase;
-    font-size: 0.8em;
-    font-weight: bold;
-}
+    .checkout {
+        text-transform: uppercase;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
 
-.add:hover {
-    background-color: deepskyblue;
-    border-color: deepskyblue;
-}
+    .add:hover {
+        background-color: deepskyblue;
+        border-color: deepskyblue;
+    }
 
-tr {
-    text-align: center;
-}
+    tr {
+        text-align: center;
+    }
 
-.modal-header {
-    border-bottom: 0px;
-}
+    .modal-header {
+        border-bottom: 0px;
+    }
 
-.counter {
-    font-size: 0.6em;
-    margin-left: 1em;
-    font-weight: bold;
-}
+    .counter {
+        font-size: 0.6em;
+        margin-left: 1em;
+        font-weight: bold;
+    }
 
 
-.increment,
-.decrement{
+    .increment,
+    .decrement {
         height: 24px;
         width: 24px;
         border: 1px solid #222;
@@ -86,56 +86,52 @@ tr {
         font-size: 24px;
         line-height: 22px;
         display: inline-block;
-        cursor: pointer;             
+        cursor: pointer;
     }
 
-.decrement:hover, 
-.increment:hover {
-    color: green;  
-}
+    .decrement:hover,
+    .increment:hover {
+        color: green;
+    }
 
-.decrement:active, 
-.increment:active {    
-    background-color: green; 
-    color: white;  
-}
+    .decrement:active,
+    .increment:active {
+        background-color: green;
+        color: white;
+    }
 
 
-.quantity{
+    .quantity {
         height: 24px;
         width: 48px;
         text-align: center;
         margin: 0 12px;
         border-radius: 2px;
         border: 1px solid #222;
-        
-}
+
+    }
 </style>
 {% for i in range(numberOfelements) %}
 {% set testing = items[i]['product_image'] %}
 <div class="container pb-5 mt-n2 mt-md-n3">
     <div class="row">
         <div class="col-xl-9 col-md-8">
-            <!-- Item-->
-
             <div class="d-sm-flex justify-content-between my-4 pb-4 border-bottom">
                 <div class="media d-block d-sm-flex text-center text-sm-left">
-                    <a class="cart-item-thumb mx-auto mr-sm-4" href="/"><div class="image"><img src="{{url_for('static',filename='/img/'+items[i]['product_image'])}}" alt="Product"></div></a>
+                    <a class="cart-item-thumb mx-auto mr-sm-4" href="/">
+                        <div class="image"><img src="{{url_for('static',filename='/img/'+items[i]['product_image'])}}"
+                                alt="Product"></div>
+                    </a>
                     <div class="media-body pt-3">
-                        <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a href="#">{{ items[i]['model'] }}</a></h3>
-                        <div class="font-size-sm"><span class="text-muted mr-2">Model:</span>{{ items[i]['category'] }}</div>
+                        <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a href="#">{{
+                                items[i]['model'] }}</a></h3>
+                        <div class="font-size-sm"><span class="text-muted mr-2">Model:</span>{{ items[i]['category'] }}
+                        </div>
                         <div class="font-size-sm"><span class="text-muted mr-2">Color:</span>Black</div>
                         <div class="font-size-lg text-primary pt-2">Price: ${{ items[i]['price'] }}</div>
                     </div>
                 </div>
-                <!-- <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem;">
-                    <div class="form-group mb-2">
-                        <label for="quantity1">Quantity</label>
-                        <input class="form-control form-control-sm" type="number" id="quantity1" value="1">
-                    </div>
-                    
-            </div> -->
+            </div>
         </div>
     </div>
-</div>
-{% endfor %}
+    {% endfor %}

@@ -1,5 +1,6 @@
 <!Doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head runat="server">
   <meta http-equiv="content-type" content="text/html;charset=utf-8" />
   <meta charset="utf-8">
@@ -13,191 +14,151 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"> </script>
   <script type="text/javascript">
     //use jsencrypt class library to encrypt js method,    
-    function encryptrequest (requrl, data) {
-      console.log("Functrin")
-      privatekey = "-----BEGIN RSA PRIVATE KEY-----MIIEogIBAAKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAECggEAfdqow8q+k7SSjIj2Pk+hOcvNNZeHpWfF6ud1+UR2cFimXT7oUhJoKfFpOIVe0Hkpex/+wBj/WMX+JPk9LW47vVDC8hAnlvUpRkc0Rfwl7mWB3zaTsppOhQSqnTj1VEL5w48Yi/F1IlcK7WTgJtK+RJgO0p0kraIWPxyRRRjQClCp9m981TQUyYxOWE46B5td/nz9yjMWL7RROPKZOrdEbkafPb7Z+lyJ42DpyQIq0PEGD+lM88qy2qhqS6vNaPg2Qc5SWv94Og747ChUN5dqueT8xxELMAOiZyxbdb1BieynO3v/ke1ADh1S3Cvag1Re7rC0qwZnGIOOOBlyX5WG6QKBgQC0aeK4DcI3l9pyTauJCPUbVRNgm2WWzYoOL2zXnyaNOGF01PtFwVIspq3S0xR7e1Z+5Wq/lAKiFgYYN2wEUAgRd6EjC+FC9nBoR+ekRjbBX9W2q+EDBesyp6ai2WMIWJQk9x0aBBzeWmAsFbH+3Bheh/AhZ31fQLUG2g32KxT8UwKBgQCznCNTcExIXTG+DavPsufARta4dMskqnB1EaaknNiMtPFFkv+uu2ZMKs3jSsbuWEeBTRnyhuRIIMC/9r0DxeEa+N2qmPuwt5eJuFo8IBvwWbitzKALsRU+NHpVEqls3ZD8LogXOMb+Wpjb0+MfZCSoW5y7+lpdQhU5LGNpdROwIwKBgBEfa5EkXSaBlw36KSmcXAb4EBq/JOknIM8v2Rit1i7ZBwbbn+2C55WtTBoSRoNhtVfd1j/QgF95z6JEwE+4eMuPmw+EdSCx2wFKscV5lIDN466uqXBsA2KPXtVd5HRKU+UePvjVIxhHY5FLjdUudnGiXTwOYmvD7Gp2D5UpiZhZAoGBAIhwryE+aKR8L0JZ7k+sb4LQDWM4Te1/kEhObVIVWCejeLlKjvK0p2RrC9aDQpVi+IbQBEsJj7b/Mo1hKXsJQhSUQwfKiUBYZ0SWh+2u0qqF7dYRYO8gyatkgB3KPGxX8ECyNG23kus79WzhDGMXVwWR+oGOEEFR5v90qdw9tQQTAoGANKgWK4OcB2zXb+jnjtTo3GPSJfLaYzjF6pE115LMnsj7hyk8GTtC7v1eCK2YeINI4498U5wdlkJCX3yw/7G2CUgPLmv86YMyEu/T0Qg41IZwzn5di4RlZxUz6F23GI9NygGWOfqMcWDcCBhiHQuI9w3nnheU65i/ENR86q0IIO4=-----END RSA PRIVATE KEY-----"
-        
-      publickey = "-----BEGIN PUBLIC KEY-----MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB+lBLyIT7wZlvLNmQ9uApooeODx0JX28ZmhypYl92SgyJJ/V235WNbgUIAWxxxZaRyiM28qV7iZBUh1tH9c7Au8RR2uItCj/6ZZJN8qIokXI9+WwvsmamdHrqGY+iC54xNghgqV91xT7e62sktm4ZNi51imgRND1hMMiGeyA1mtiheIDT7XHndx0mW0M6DxE1V6tJmJS77hzO4JUJgyViKVyxq6VR2JWIuVCd9aPZyKXby8S10MwYMzMnRQ2m1Tah3texVBCAigU5INDzZTk+jkfxkganatW2wTbPoyGcQqI5PQzkqZapSuuIX02PpML0y9IIoTL2RQAbShzH6gI9ZAgMBAAE=-----END PUBLIC KEY-----"
+    function encryptrequest(requrl, data) {
+      publickey = "YOUR_PUBLIC_KEY";
+      privatekey = "YOUR_RSA_PRIVATE_KEY";
 
- 
-      // publickey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsq5DUg7UJCtIVZbonQab795ujmdnMMQXF1WtdzrATeQ9OL/6ACA0nHamPdYnYryaGNkHGriRfExMJ44j6ZBGa0RqAZlzcdMhysP3j3DB2/I+1aKviYKQE/Ck+74uutwt2sS212F5WNfqjql4QdttOqzCEcPqDMgZTl3vk4i2UwZoO1RL2aljrZXb3P+UDnLN7Oi5RC0TelqFPqz99QdZfxIIzJlErLdCE2H042eI2OYG+Jvyuk+gCTtbuc0YeuUwg/sXvivfFYClUtTNcxeA/a/Yt5r4MIXQHno7tljgXqdtd/qZqeNC6Uep4p1P7BPPc0+kvxdFnMY608V+8ZUX9QIDAQAB-----END PUBLIC KEY-----"
-      var encrypt=new JSEncrypt ();
-      encrypt.setPublicKey (publickey);
-      console.log(data);
-
+      var encrypt = new JSEncrypt();
+      encrypt.setPublicKey(publickey);
       //The data object sent by the ajax request
-      var senddata=new Object ();
-      
+      var senddata = new Object();
+
       //Assign the data array to the ajax object
       for (var key in data) {
-        if(key=='token'){
-          senddata [key]=encrypt.encrypt(data [key]);
+        if (key == 'token') {
+          senddata[key] = encrypt.encrypt(data[key]);
         }
-        else{
+        else {
           senddata[key] = data[key];
         }
       }
-      console.log(senddata);
-      
-      $.ajax ({
-        url:requrl,        
-        type:"post",       
-            data:senddata,       
-            datatype:"json",        
-            success: function(response){
-                console.log("success");
-                window.location.href = "http://secure-kpa.herokuapp.com/seeAllProducts/";
-            },
-            error: function (error) {
-                alert('Incorrect Email or Password');
-            }
+      $.ajax({
+        url: requrl,
+        type: "post",
+        data: senddata,
+        datatype: "json",
+        success: function (response) {
+          window.location.href = "http://secure-kpa.herokuapp.com/seeAllProducts/";
+        },
+        error: function (error) {
+          alert('Incorrect Email or Password');
         }
+      }
       );
     }
 
     function base64url(source) {
-          // Encode in classical base64
-          encodedSource = CryptoJS.enc.Base64.stringify(source);
-        
-          // Remove padding equal characters
-          encodedSource = encodedSource.replace(/=+$/, '');
-        
-          // Replace characters according to base64url specifications
-          encodedSource = encodedSource.replace(/\+/g, '-');
-          encodedSource = encodedSource.replace(/\//g, '_');
-        
-          return encodedSource;
-        }
-    
-    
+      // Encode in classical base64
+      encodedSource = CryptoJS.enc.Base64.stringify(source);
+
+      // Remove padding equal characters
+      encodedSource = encodedSource.replace(/=+$/, '');
+
+      // Replace characters according to base64url specifications
+      encodedSource = encodedSource.replace(/\+/g, '-');
+      encodedSource = encodedSource.replace(/\//g, '_');
+
+      return encodedSource;
+    }
+
+
     //call this code when the page is done loading.
     $(function () {
-      $("#testme"). click (function () {
-        console.log("Hello")
-        
-        var dataVal=[];
-
-        console.log("Hello");
+      $("#testme").click(function () {
+        var dataVal = [];
         var header = {
-            "alg": "HS256",
-            "typ": "JWT"
+          "alg": "HS256",
+          "typ": "JWT"
         };
-            
+
         var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
         var encodedHeader = base64url(stringifiedHeader);
-        
+
         var data = {
-            "email": $('#email').val(),
-            "password": $('#password').val()
+          "email": $('#email').val(),
+          "password": $('#password').val()
         };
-            
+
         var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
         var encodedData = base64url(stringifiedData);
-        
-       
-        
+
+
+
         var token = encodedHeader + "." + encodedData;
-        
+
         document.getElementById('token').value = token;
 
-        dataVal ["email"]=$("#email"). val ();
-        dataVal ["password"]=$("#password"). val ();
-        dataVal ["token"]=token;
-
-        
-        console.log(token);
-
-
-
+        dataVal["email"] = $("#email").val();
+        dataVal["password"] = $("#password").val();
+        dataVal["token"] = token;
         encryptrequest("/", dataVal);
       });
     });
   </script>
 
-<style>
-  .login-form {
+  <style>
+    .login-form {
       width: 340px;
       margin: 50px auto;
-  }
+    }
 
-  .login-form form {
+    .login-form form {
       margin-bottom: 15px;
       background: #f7f7f7;
       box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
       padding: 30px;
-  }
+    }
 
-  .login-form h2 {
+    .login-form h2 {
       margin: 0 0 15px;
-  }
+    }
 
-  .form-control,
-  .btn {
+    .form-control,
+    .btn {
       min-height: 38px;
       border-radius: 2px;
-  }
+    }
 
-  .btn {
+    .btn {
       font-size: 15px;
       font-weight: bold;
-  }
-</style>
+    }
+  </style>
 </head>
-<!-- <body>
-<form runat="server">
-  <div>
-    <label for="pubkey">public key</label><br />
-    <textarea rows="15" cols="65">
-        {{public_key}}
-      </textarea><br />
-    <label for="input">text to encrypt:</label><br />
-    name:<input id="username" name="username" type="text" value="user"></input><br />
-    password:<input id="passwd" name="passwd" type="password" value="123"></input><br />
-    <input type="hidden" id="token" name="token" ></input><br />
-    <input type="button" value="submit" id="testme" /><br />
-  </div>
-</form>
-</body> -->
-
 
 <body>
 
-    
+
   <div class="login-form">
-      
-      <form action="/" method="post">
+
+    <form action="/" method="post">
 
 
-          <h2 class="text-center">Log in</h2>
-          <div class="form-group">
-              <!-- <input id="email" type="email" class="form-control" placeholder="Email" name="email"
-                  required="required"> -->
-                  <input class="form-control" id="email" name="email" type="text" placeholder="Email"></input>
-          </div>
-          <div class="form-group">
-              <!-- <input id="password" type="password" class="form-control" placeholder="Password" name="password"
-                  required="required"> -->
-                  <input class="form-control" id="password" name="password" type="password" placeholder="Password"></input>
-          </div>
+      <h2 class="text-center">Log in</h2>
+      <div class="form-group">
+        <input class="form-control" id="email" name="email" type="text" placeholder="Email"></input>
+      </div>
+      <div class="form-group">
+        <input class="form-control" id="password" name="password" type="password" placeholder="Password"></input>
+      </div>
 
-          <div class="form-group">
-              <!-- <input id="token" type="hidden" name="token"> -->
-              <input class="form-control" type="hidden" id="token" name="token" ></input>
-          </div>
-          <div class="form-group">
-              <!-- <button type="submit" class="btn btn-primary btn-block" onclick="CreateToken()">Log in</button> -->
-              <input class="btn btn-primary btn-block" type="button" value="Log In" id="testme"></input>
-          </div>
-          
+      <div class="form-group">
+        <input class="form-control" type="hidden" id="token" name="token"></input>
+      </div>
+      <div class="form-group">
+        <input class="btn btn-primary btn-block" type="button" value="Log In" id="testme"></input>
+      </div>
 
-          <div class="clearfix">
-          </div>
 
-      </form>
+      <div class="clearfix">
+      </div>
 
-      <p class="text-center"><a href="register">Create an Account</a></p>
+    </form>
+
+    <p class="text-center"><a href="register">Create an Account</a></p>
 
   </div>
 
 </body>
+
 </html>
