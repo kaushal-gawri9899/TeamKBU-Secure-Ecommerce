@@ -2,5 +2,5 @@
 env
 secure
 test
-my_private_rsa_key.bin
-my_rsa_public.pem
+/my_private_rsa_key.bin
+/my_rsa_public.pem
